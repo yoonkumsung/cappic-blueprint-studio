@@ -1337,22 +1337,6 @@ function buildZiSidebar() {
   sb.innerHTML = html;
 }
 
-function buildZiDeviceBar() {
-  const bar = document.getElementById('ziDeviceBar');
-  if (bar.children.length > 0) return;
-  bar.innerHTML = devices.map(d =>
-    `<button class="device-tab ${d.id===currentDevice.id?'active':''}" data-zidev="${d.id}" onclick="switchZiDevice('${d.id}')">${d.name}<span class="dt-size">${d.w}×${d.h}</span></button>`
-  ).join('');
-}
-
-function switchZiDevice(deviceId) {
-  const d = devices.find(x => x.id === deviceId);
-  if (!d) return;
-  currentDevice = d;
-  document.querySelectorAll('[data-zidev]').forEach(t => t.classList.toggle('active', t.dataset.zidev === deviceId));
-  // Re-zoom to card with new device aspect ratio
-  if (ziScreen) zoomToCard(ziScreen.id);
-}
 
 function openZoomIn(screenId) {
   const s = screens.find(x => x.id === screenId);
@@ -1360,15 +1344,18 @@ function openZoomIn(screenId) {
   ziScreen = s;
   ziActive = true;
 
-  // Build panels
+  // Build sidebar
   buildZiSidebar();
-  buildZiDeviceBar();
 
   // Show panels
   document.getElementById('ziSidebar').classList.add('show');
   document.getElementById('ziDesc').classList.add('show');
-  document.getElementById('ziDeviceBar').classList.add('show');
   document.getElementById('ziClose').classList.add('show');
+
+  // Adjust viewport margins FIRST so zoom calculation uses correct viewport size
+  const vp = document.getElementById('viewport');
+  vp.style.marginLeft = '240px';
+  vp.style.marginRight = '360px';
 
   // Update sidebar active
   document.querySelectorAll('[data-zisid]').forEach(b => b.classList.toggle('active', b.dataset.zisid === screenId));
@@ -1378,27 +1365,23 @@ function openZoomIn(screenId) {
   // Highlight card
   document.querySelectorAll('.scard').forEach(c => c.classList.toggle('highlight', c.id === 'scard-' + screenId));
 
-  // Zoom canvas to card
-  zoomToCard(screenId);
-
   // Fill description
   fillZiDesc(screenId);
 
-  // Adjust viewport padding for panels
-  document.getElementById('viewport').style.marginLeft = '240px';
-  document.getElementById('viewport').style.marginRight = '360px';
-  document.getElementById('viewport').style.marginTop = '40px';
+  // Zoom canvas to card AFTER margins are applied (next frame)
+  requestAnimationFrame(() => zoomToCard(screenId));
 }
 
 function zoomToCard(screenId) {
   const pos = positions[screenId];
   if (!pos) return;
   const vp = document.getElementById('viewport');
-  const vpW = vp.clientWidth;
-  const vpH = vp.clientHeight;
+  // Force reflow to get correct dimensions after margin change
+  const vpW = vp.offsetWidth;
+  const vpH = vp.offsetHeight;
 
-  // Target: card centered, zoomed to ~0.8
-  const targetScale = 0.7;
+  // Zoom level that shows the card large enough to read
+  const targetScale = 0.8;
   const cardCenterX = pos.x + CW / 2;
   const cardCenterY = pos.y + CH / 2;
 
@@ -1406,10 +1389,10 @@ function zoomToCard(screenId) {
   panX = vpW / 2 - cardCenterX * scale;
   panY = vpH / 2 - cardCenterY * scale;
 
-  // Smooth transition
-  canvas.style.transition = 'transform 0.4s ease';
+  // Smooth animated transition
+  canvas.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
   updateTransform();
-  setTimeout(() => { canvas.style.transition = ''; }, 400);
+  setTimeout(() => { canvas.style.transition = ''; }, 500);
 }
 
 function fillZiDesc(screenId) {
@@ -1462,18 +1445,21 @@ function closeZoomIn() {
 
   document.getElementById('ziSidebar').classList.remove('show');
   document.getElementById('ziDesc').classList.remove('show');
-  document.getElementById('ziDeviceBar').classList.remove('show');
   document.getElementById('ziClose').classList.remove('show');
 
   document.querySelectorAll('.scard').forEach(c => c.classList.remove('highlight'));
 
   // Reset viewport margins
-  document.getElementById('viewport').style.marginLeft = '';
-  document.getElementById('viewport').style.marginRight = '';
-  document.getElementById('viewport').style.marginTop = '';
+  const vp = document.getElementById('viewport');
+  vp.style.marginLeft = '';
+  vp.style.marginRight = '';
 
-  // Zoom back to fit
-  zoomFit();
+  // Smooth zoom back to fit
+  canvas.style.transition = 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)';
+  requestAnimationFrame(() => {
+    zoomFit();
+    setTimeout(() => { canvas.style.transition = ''; }, 500);
+  });
 }
 
 // Close zoom-in when clicking empty canvas area
