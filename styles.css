@@ -514,8 +514,8 @@ body {
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(180deg, #3a3a3a 0%, #0a0a0a 45%, #000 60%, #2b2b2b 100%);
-  box-shadow: 0 2px 6px rgba(0,0,0,.35), inset 0 1px 1px rgba(255,255,255,.35);
+  background: linear-gradient(180deg, #2e2e2e 0%, #0a0a0a 50%, #222 100%);
+  box-shadow: 0 1px 4px rgba(0,0,0,.22), inset 0 1px 1px rgba(255,255,255,.22);
   border-radius: 9999px;
   position: relative;
   overflow: hidden;
@@ -525,18 +525,20 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.45) 48%, transparent 62%);
-  animation: cappic-shine 1.8s infinite;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%);
+  animation: cappic-shine 3.2s ease-in-out infinite;
 }
+/* A13: 은은하고 부드럽게 — 스윕 후 45% 휴지, 번쩍임 금지 */
 @keyframes cappic-shine {
-  from { transform: translateX(-100%); }
-  to { transform: translateX(100%); }
+  0% { transform: translateX(-100%); }
+  55% { transform: translateX(100%); }
+  100% { transform: translateX(100%); }
 }
 
 /* 모노 광택 완료 체크 원형 (A13) */
 .gloss-check {
-  background: radial-gradient(circle at 32% 26%, #4a4a4a, #000 70%);
-  box-shadow: 0 6px 14px rgba(0,0,0,.35), inset 0 2px 3px rgba(255,255,255,.3), inset 0 -3px 5px rgba(0,0,0,.6);
+  background: radial-gradient(circle at 32% 26%, #424242, #0a0a0a 70%);
+  box-shadow: 0 4px 10px rgba(0,0,0,.25), inset 0 2px 3px rgba(255,255,255,.2), inset 0 -3px 5px rgba(0,0,0,.45);
 }
 .gloss-check svg, .gloss-check > span {
   filter: drop-shadow(0 1px 1px rgba(0,0,0,.5));
@@ -544,8 +546,8 @@ body {
 
 /* 모노 광택 게이지 필 (밝은 배경 위 검정 필) */
 .gloss-fill {
-  background: linear-gradient(180deg, #3a3a3a 0%, #0a0a0a 45%, #000 60%, #2b2b2b 100%);
-  box-shadow: inset 0 1px 1px rgba(255,255,255,.35);
+  background: linear-gradient(180deg, #2e2e2e 0%, #0a0a0a 50%, #222 100%);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,.22);
   position: relative;
   overflow: hidden;
 }
@@ -553,8 +555,8 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.45) 48%, transparent 62%);
-  animation: cappic-shine 1.8s infinite;
+  background: linear-gradient(105deg, transparent 35%, rgba(255,255,255,.22) 50%, transparent 65%);
+  animation: cappic-shine 3.2s ease-in-out infinite;
 }
 
 /* 모노 광택 게이지 필 (다크 배경 위 흰색 필: 흰색 유지 + 스윕) */
@@ -566,8 +568,8 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,.55) 48%, transparent 62%);
-  animation: cappic-shine 1.8s infinite;
+  background: linear-gradient(105deg, transparent 35%, rgba(0,0,0,.08) 50%, transparent 65%);
+  animation: cappic-shine 3.2s ease-in-out infinite;
 }
 
 /* Toast */
