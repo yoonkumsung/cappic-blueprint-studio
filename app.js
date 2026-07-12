@@ -447,14 +447,15 @@ function btnShare(el, url) {
 }
 
 function btnSave(el) {
-  el.innerHTML = '찜 완료!';
+  var orig = el.textContent.trim();
+  el.innerHTML = '완료!';
   el.style.background = 'var(--color-accent)';
   el.style.color = '#fff';
   el.style.borderColor = 'var(--color-accent)';
   el.style.transition = 'all 0.2s';
   el.style.animation = 'savePulse 0.6s ease-out';
   setTimeout(function() {
-    el.innerHTML = '저장하기';
+    el.innerHTML = orig;
     el.style.background = '';
     el.style.color = '';
     el.style.borderColor = '';

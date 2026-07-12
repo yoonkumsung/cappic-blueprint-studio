@@ -147,6 +147,7 @@
 
     /* Modal / Popup */
     .modal-overlay { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 50; }
+    .modal-overlay.hidden { display: none; }
     .modal-box { background: #fff; border-radius: 16px; padding: 24px; width: 280px; text-align: center; }
     .modal-box .modal-title { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
     .modal-box .modal-desc { font-size: 13px; color: #757575; margin-bottom: 20px; line-height: 1.5; }
@@ -458,7 +459,7 @@
             <div class="empty-state-icon"><svg width="48" height="52" viewBox="0 0 40 50" fill="none" stroke="#BDBDBD" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="30" height="18" rx="9" fill="#fff"/><circle cx="15" cy="10" r="2.2" fill="#BDBDBD" stroke="none"/><circle cx="25" cy="10" r="2.2" fill="#BDBDBD" stroke="none"/><rect x="5" y="23" width="30" height="25" rx="10" fill="#fff"/><rect x="18.5" y="29" width="3" height="7" rx="1.5" fill="none"/><circle cx="20" cy="40" r="1.5" fill="none"/></svg></div>
             <div class="empty-state-title">연결된 캡픽이 없어요</div>
             <div class="empty-state-desc">캡픽을 찾아볼까요?</div>
-            <button class="btn btn-primary btn-full" style="margin-top:8px;" data-go="adm-04">디바이스 찾기</button>
+            <button class="btn btn-primary btn-full" style="margin-top:8px;" data-go="adm-04">캡픽 찾기</button>
           </div>
         </div>
         <div class="bottom-nav">
@@ -469,12 +470,12 @@
         </div>
       </div>
 
-      <!-- ===== ADM-04: 디바이스 찾기 ===== -->
+      <!-- ===== ADM-04: 캡픽 찾기 ===== -->
       <div class="screen-content" id="adm-04">
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <button class="top-bar-back" data-go="adm-01"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
-          <span class="top-bar-title">디바이스 찾기</span>
+          <span class="top-bar-title">캡픽 찾기</span>
           <div class="top-bar-spacer"></div>
         </div>
         <div class="screen-body" id="admScanBody">
@@ -708,7 +709,7 @@
           <div id="stitchConfirm" class="modal-overlay hidden">
             <div class="modal-box">
               <div class="modal-title">스티칭 개선하기</div>
-              <div class="modal-desc">3분 동안 AI가 스티칭 알고리즘을 개선 후 자동으로 적용합니다.<br><br>캡픽을 단단하게 고정해주세요 :)</div>
+              <div class="modal-desc">3분 동안 스티칭(화면 이어붙이기)을 더 정확하게 맞춰요. 끝나면 자동으로 적용돼요.<br><br>캡픽을 단단하게 고정해주세요.</div>
               <div class="flex gap-2">
                 <button class="btn btn-secondary flex-1" onclick="document.getElementById('stitchConfirm').style.display='none';">취소</button>
                 <button class="btn btn-primary flex-1" id="stitchStartBtn">확인</button>
@@ -720,11 +721,11 @@
           <div style="padding:0 16px; position:relative;">
             <!-- Stop confirmation popup (hidden) -->
             <div id="stopConfirm" style="display:none; position:absolute; bottom:70px; left:16px; right:16px; background:#fff; border-radius:16px; padding:20px; box-shadow:0 1px 3px rgba(0,0,0,0.06), 0 4px 12px rgba(0,0,0,0.06); z-index:20; text-align:center;">
-              <div style="font-size:16px; font-weight:700; margin-bottom:6px;">정말로 중지하실 건가요?</div>
-              <div style="font-size:13px; color:#757575; margin-bottom:16px; line-height:1.5;">현재까지 녹화된 내용을 자동으로 저장하고<br>녹화를 종료합니다.</div>
+              <div style="font-size:16px; font-weight:700; margin-bottom:6px;">정말 녹화를 끝낼까요?</div>
+              <div style="font-size:13px; color:#757575; margin-bottom:16px; line-height:1.5;">지금까지 찍은 영상은 저장돼요</div>
               <div class="flex gap-2">
-                <button class="btn btn-secondary flex-1" id="stopCancel">취소</button>
-                <button class="btn btn-danger flex-1" id="stopSaveBtn" data-go="adm-05">중지 및 저장</button>
+                <button class="btn btn-secondary flex-1" id="stopCancel">계속 찍기</button>
+                <button class="btn btn-primary flex-1" id="stopSaveBtn" data-go="adm-05">끝내기</button>
               </div>
             </div>
           </div>
@@ -741,7 +742,7 @@
               </div>
               <div id="reportDone" class="hidden">
                 <div style="width:48px; height:48px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
-                <div style="font-size:15px; font-weight:700; margin-bottom:6px;">전송을 완료했습니다 :)</div>
+                <div style="font-size:15px; font-weight:700; margin-bottom:6px;">전송을 완료했어요</div>
                 <div style="font-size:13px; color:#757575; line-height:1.5; margin-bottom:16px;">빠르게 확인 후<br>연락드리겠습니다</div>
                 <button class="btn btn-primary btn-full" onclick="document.getElementById('reportPopup').style.display='none'; document.getElementById('reportContent').style.display='block'; document.getElementById('reportDone').style.display='none';">확인</button>
               </div>
@@ -793,7 +794,18 @@
             </div>
             <!-- Bottom bar -->
             <div style="position:absolute; bottom:0; left:0; right:0; display:flex; align-items:center; justify-content:center; padding:12px 16px; background:linear-gradient(to top, rgba(0,0,0,0.6), transparent); pointer-events:auto;">
-              <button class="btn btn-danger" style="height:40px; font-size:14px; padding:0 24px; border-radius:20px;" data-go="adm-05" onclick="event.stopPropagation()">&#9724; 녹화 중지</button>
+              <button class="btn btn-danger" style="height:40px; font-size:14px; padding:0 24px; border-radius:20px;" onclick="event.stopPropagation(); document.getElementById('adm03StopConfirm').style.display='flex';">&#9724; 녹화 중지</button>
+            </div>
+          </div>
+          <!-- 녹화 종료 확인 (안전장치) -->
+          <div id="adm03StopConfirm" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; z-index:10; background:rgba(0,0,0,0.5); align-items:center; justify-content:center; pointer-events:auto;" onclick="event.stopPropagation()">
+            <div style="background:#fff; border-radius:16px; padding:20px 24px; width:300px; text-align:center;">
+              <div style="font-size:16px; font-weight:700; margin-bottom:6px;">정말 녹화를 끝낼까요?</div>
+              <div style="font-size:13px; color:#757575; margin-bottom:16px; line-height:1.5;">지금까지 찍은 영상은 저장돼요</div>
+              <div class="flex gap-2">
+                <button class="btn btn-secondary flex-1" onclick="document.getElementById('adm03StopConfirm').style.display='none'">계속 찍기</button>
+                <button class="btn btn-primary flex-1" onclick="document.getElementById('adm03StopConfirm').style.display='none'; go('adm-05')">끝내기</button>
+              </div>
             </div>
           </div>
           <!-- Metric Drawer (right side, hidden by default) -->
@@ -977,16 +989,13 @@
               </div>
               <div class="action-icon-col" data-toast="다운로드를 시작합니다">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-                <span class="micro-text">다운로드</span>
+                <span class="micro-text">내려받기</span>
               </div>
-              <div class="action-icon-col" data-go="adm-07">
-                <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg></div>
-                <span class="micro-text">아카이브</span>
-              </div>
-              <div class="action-icon-col" data-go="adm-01">
-                <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-                <span class="micro-text">홈으로</span>
-              </div>
+            </div>
+            <!-- 다음 행동 CTA -->
+            <div style="position:absolute; bottom:24px; left:24px; right:24px;">
+              <button class="btn btn-primary btn-full" data-go="adm-07">아카이브에서 보기</button>
+              <div style="text-align:center; margin-top:12px;"><span style="font-size:13px; color:var(--color-text-secondary); cursor:pointer;" data-go="adm-01">홈으로</span></div>
             </div>
           </div>
         </div>
@@ -1094,7 +1103,7 @@
             <div class="empty-state" style="padding:48px 16px; display:none;" id="admArchiveFavEmpty">
               <div class="empty-state-icon">&#x1F516;</div>
               <div class="empty-state-title">찜한 영상이 없어요</div>
-              <div class="empty-state-desc">영상 상세에서 저장하기를 눌러보세요</div>
+              <div class="empty-state-desc">영상 상세에서 보관하기를 눌러보세요</div>
             </div>
           </div>
         </div>
@@ -1114,7 +1123,7 @@
         </div>
         <div class="screen-body">
           <div class="empty-state flex-1">
-            <div class="empty-state-icon">&#x1F3AC;</div>
+            <div class="empty-state-icon"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#BDBDBD" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="15" height="16" rx="2"/><path d="M17 10l5-3v10l-5-3"/></svg></div>
             <div class="empty-state-title">아직 녹화된 영상이 없어요</div>
             <div class="empty-state-desc">경기를 녹화하면 여기에 표시돼요</div>
             <button class="btn btn-primary" style="margin-top:16px;" data-go="adm-02">촬영 시작하기</button>
@@ -1156,8 +1165,8 @@
           <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>8,456</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>45</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>312</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>89</span></div>
           <div class="link-group-sm">
             <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/v/1min')">공유하기</button>
-            <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-            <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality').style.display='flex';">다운로드</button>
+            <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+            <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality').style.display='flex';">내려받기</button>
           </div>
           </div>
 
@@ -1165,12 +1174,12 @@
           <div class="card card-mp">
           <div class="section-label">선수별 하이라이트</div>
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
-            <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#1</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#2</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#3</div></div>
-            <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#4</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#5</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#6</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#1</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#2</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#3</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#4</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#5</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;" data-go="adm-08p"><div class="thumb-overlay-badge">#6</div></div>
           </div>
           </div>
 
@@ -1187,8 +1196,8 @@
           <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>12,340</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>123</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>891</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>234</span></div>
           <div class="link-group-sm">
             <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/v/10min')">공유하기</button>
-            <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-            <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality').style.display='flex';">다운로드</button>
+            <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+            <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality').style.display='flex';">내려받기</button>
           </div>
           </div>
 
@@ -1205,8 +1214,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>9,870</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>89</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>567</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>156</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/v/full')">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -1303,7 +1312,7 @@
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <button class="top-bar-back" data-go="adm-08"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
-          <span class="top-bar-title">#1</span>
+          <span class="top-bar-title">김서준 &middot; #1</span>
           <div class="top-bar-spacer"></div>
         </div>
         <div class="screen-body">
@@ -1313,7 +1322,7 @@
               <div style="width:48px; height:48px; border-radius:50%; background:var(--color-gray-200); flex-shrink:0; display:flex; align-items:center; justify-content:center; overflow:hidden; border:2px solid var(--color-accent);">
                 <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9E9E9E" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0112 0v1"/></svg>
               </div>
-              <input class="input" style="flex:1; height:40px; font-size:13px; background:var(--color-background);" placeholder="이름을 입력하세요 (아카이브에 반영)">
+              <input class="input" style="flex:1; height:40px; font-size:13px; background:var(--color-background);" value="김서준" placeholder="이름을 입력하세요 (아카이브에 반영)">
               <button class="btn btn-outline" style="height:40px; font-size:13px; padding:0 12px; color:var(--color-accent);" data-toast="저장되었습니다">저장</button>
             </div>
           </div>
@@ -1330,8 +1339,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>3,210</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>23</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>156</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>45</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/p/1/1min')">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality2').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality2').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -1347,8 +1356,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>7,650</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>67</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>432</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>112</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/p/1/10min')">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality2').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality2').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -1365,8 +1374,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>1,890</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>12</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>89</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>28</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/p/1/full')">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality2').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQuality2').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -1380,31 +1389,31 @@
           </div>
 
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px; padding:8px 16px 12px;">
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
           </div>
@@ -1447,14 +1456,14 @@
 
           <div style="padding:0 16px 8px; font-size:12px; font-weight:600; color:var(--color-text-secondary);">쇼츠 클립</div>
           <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:4px; padding:0 16px 12px;">
-            <div style="aspect-ratio:9/16; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:08</div></div>
-            <div style="aspect-ratio:9/16; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:12</div></div>
-            <div style="aspect-ratio:9/16; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:06</div></div>
-            <div style="aspect-ratio:9/16; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:10</div></div>
-            <div style="aspect-ratio:9/16; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:09</div></div>
-            <div style="aspect-ratio:9/16; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:07</div></div>
-            <div style="aspect-ratio:9/16; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:11</div></div>
-            <div style="aspect-ratio:9/16; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:08</div></div>
+            <div style="aspect-ratio:9/16; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:08</div></div>
+            <div style="aspect-ratio:9/16; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:12</div></div>
+            <div style="aspect-ratio:9/16; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:06</div></div>
+            <div style="aspect-ratio:9/16; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:10</div></div>
+            <div style="aspect-ratio:9/16; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:09</div></div>
+            <div style="aspect-ratio:9/16; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:07</div></div>
+            <div style="aspect-ratio:9/16; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:11</div></div>
+            <div style="aspect-ratio:9/16; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div><div style="position:absolute; bottom:3px; left:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px;">0:08</div></div>
           </div>
 
           <div style="padding:0 16px 8px; font-size:12px; font-weight:600; color:var(--color-text-secondary);">경기 영상</div>
@@ -1478,9 +1487,9 @@
             <div style="width:64px; height:64px; border:4px solid var(--color-gray-200); border-top-color:var(--color-accent); border-radius:50%; animation:spin 1s linear infinite;"></div>
             <div class="heading-msg">영상을 만들고 있어요</div>
             <div class="desc-msg">조금만 기다려주세요</div>
-            <div style="width:80%; margin:16px auto 0;"><div class="progress"><div class="progress-fill" style="width:60%"></div></div><div style="text-align:center; margin-top:8px; font-size:12px; color:#757575;">영상 만들기 중... 60%</div></div>
+            <div style="width:80%; margin:16px auto 0;"><div class="progress"><div class="progress-fill" style="width:60%"></div></div><div style="text-align:center; margin-top:8px; font-size:12px; color:#757575;">영상 만들기 중... 60%</div><div style="text-align:center; margin-top:4px; font-size:11px; color:#BDBDBD;">보통 1~2분 정도 걸려요</div></div>
           </div>
-          <div style="position:absolute; bottom:24px; left:0; right:0; text-align:center;"><span style="font-size:12px; color:var(--color-text-secondary); cursor:pointer;" data-go="editor">돌아가기</span></div>
+          <div style="position:absolute; bottom:24px; left:0; right:0; text-align:center;"><span style="font-size:12px; color:var(--color-text-secondary); cursor:pointer;" data-go="con-04">홈으로 돌아가기</span></div>
         </div>
       </div>
 
@@ -1524,19 +1533,19 @@
           <div style="padding:0 16px 8px; font-size:11px; color:#757575;">길게 눌러서 순서를 바꿔보세요</div>
 
           <div style="display:flex; gap:6px; padding:0 16px 8px; overflow-x:auto;" id="clipTray">
-            <div style="min-width:70px; aspect-ratio:9/16; background:#c9d6df; border-radius:8px; position:relative; cursor:grab; border:2px solid var(--color-accent); flex-shrink:0;">
+            <div style="min-width:70px; aspect-ratio:9/16; background:#E2E2E2; border-radius:8px; position:relative; cursor:grab; border:2px solid var(--color-accent); flex-shrink:0;">
               <div style="position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:50%; background:var(--color-accent); color:#fff; font-size:9px; display:flex; align-items:center; justify-content:center; font-weight:700;">1</div>
               <div style="position:absolute; bottom:3px; left:3px; right:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px; text-align:center;">0:08</div>
             </div>
-            <div style="min-width:70px; aspect-ratio:9/16; background:#b8c9d9; border-radius:8px; position:relative; cursor:grab; border:2px solid transparent; flex-shrink:0;">
+            <div style="min-width:70px; aspect-ratio:9/16; background:#D2D2D2; border-radius:8px; position:relative; cursor:grab; border:2px solid transparent; flex-shrink:0;">
               <div style="position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:50%; background:var(--color-gray-400); color:#fff; font-size:9px; display:flex; align-items:center; justify-content:center; font-weight:700;">2</div>
               <div style="position:absolute; bottom:3px; left:3px; right:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px; text-align:center;">0:12</div>
             </div>
-            <div style="min-width:70px; aspect-ratio:9/16; background:#a7bcd0; border-radius:8px; position:relative; cursor:grab; border:2px solid transparent; flex-shrink:0;">
+            <div style="min-width:70px; aspect-ratio:9/16; background:#C2C2C2; border-radius:8px; position:relative; cursor:grab; border:2px solid transparent; flex-shrink:0;">
               <div style="position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:50%; background:var(--color-gray-400); color:#fff; font-size:9px; display:flex; align-items:center; justify-content:center; font-weight:700;">3</div>
               <div style="position:absolute; bottom:3px; left:3px; right:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px; text-align:center;">0:06</div>
             </div>
-            <div style="min-width:70px; aspect-ratio:9/16; background:#c9d6df; border-radius:8px; position:relative; cursor:grab; border:2px solid transparent; flex-shrink:0;">
+            <div style="min-width:70px; aspect-ratio:9/16; background:#E2E2E2; border-radius:8px; position:relative; cursor:grab; border:2px solid transparent; flex-shrink:0;">
               <div style="position:absolute; top:4px; left:4px; width:16px; height:16px; border-radius:50%; background:var(--color-gray-400); color:#fff; font-size:9px; display:flex; align-items:center; justify-content:center; font-weight:700;">4</div>
               <div style="position:absolute; bottom:3px; left:3px; right:3px; font-size:8px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 4px; border-radius:3px; text-align:center;">0:10</div>
             </div>
@@ -1547,12 +1556,11 @@
             </div>
           </div>
 
-          <!-- 총 시간 표시 + 완성 버튼 -->
-          <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 16px 8px;">
+          <!-- 총 시간 표시 -->
+          <div style="text-align:center; padding:8px 16px 8px;">
             <div style="font-size:12px; color:var(--color-text-secondary);">
               총 <span style="font-weight:700; color:var(--color-accent);">4개</span> 클립 &middot; <span style="font-weight:700;">0:36</span>
             </div>
-            <button class="btn btn-primary" style="height:44px; font-size:15px; padding:0 24px; border-radius:12px;" data-go="editor-loading">완성!</button>
           </div>
 
           <!-- 편집 도구 (심플하게) -->
@@ -1581,6 +1589,11 @@
             </div>
           </div>
 
+          <!-- 하단 완성 버튼 (전폭 Primary) -->
+          <div style="padding:8px 16px 16px;">
+            <button class="btn btn-primary btn-full" data-go="editor-loading">완성!</button>
+          </div>
+
           <!-- 영상 불러오기 바텀시트 -->
           <div id="editorLoadPopup" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:40; align-items:flex-end; justify-content:center;">
             <div style="background:#fff; border-radius:16px 16px 0 0; width:100%; max-height:70%; overflow-y:auto; padding:16px;">
@@ -1592,14 +1605,14 @@
 
               <div style="font-size:12px; font-weight:600; color:var(--color-text-secondary); margin-bottom:8px;">쇼츠 클립</div>
               <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:4px; margin-bottom:12px;">
-                <div style="aspect-ratio:9/16; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
-                <div style="aspect-ratio:9/16; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
-                <div style="aspect-ratio:9/16; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
-                <div style="aspect-ratio:9/16; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
-                <div style="aspect-ratio:9/16; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
-                <div style="aspect-ratio:9/16; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
-                <div style="aspect-ratio:9/16; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
-                <div style="aspect-ratio:9/16; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
+                <div style="aspect-ratio:9/16; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
+                <div style="aspect-ratio:9/16; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
+                <div style="aspect-ratio:9/16; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
+                <div style="aspect-ratio:9/16; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
+                <div style="aspect-ratio:9/16; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
+                <div style="aspect-ratio:9/16; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
+                <div style="aspect-ratio:9/16; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
+                <div style="aspect-ratio:9/16; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div style="position:absolute; top:3px; right:3px; width:18px; height:18px; border-radius:50%; border:2px solid rgba(255,255,255,0.8);"></div></div>
               </div>
 
               <div style="font-size:12px; font-weight:600; color:var(--color-text-secondary); margin-bottom:8px;">경기 영상</div>
@@ -1657,16 +1670,17 @@
               </div>
               <div class="action-icon-col" data-toast="다운로드를 시작합니다">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-                <span class="micro-text">다운로드</span>
+                <span class="micro-text">내려받기</span>
               </div>
               <div class="action-icon-col" data-go="con-publish">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></div>
                 <span class="micro-text">피드 올리기</span>
               </div>
-              <div class="action-icon-col" data-go="con-04">
-                <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
-                <span class="micro-text">홈으로</span>
-              </div>
+            </div>
+            <!-- 다음 행동 CTA -->
+            <div style="position:absolute; bottom:24px; left:24px; right:24px;">
+              <button class="btn btn-primary btn-full" data-go="con-archive">아카이브에서 보기</button>
+              <div style="text-align:center; margin-top:12px;"><span style="font-size:13px; color:var(--color-text-secondary); cursor:pointer;" data-go="con-04">홈으로</span></div>
             </div>
           </div>
         </div>
@@ -1723,10 +1737,10 @@
         <div class="screen-body">
           <div style="padding:12px 16px 4px; display:flex; align-items:flex-start; justify-content:center; gap:0;">
             <div style="display:flex; flex-direction:column; align-items:center; min-width:52px;">
-              <div style="width:28px; height:28px; border-radius:50%; background:var(--color-success); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px;">&#10003;</div>
-              <span style="font-size:10px; color:var(--color-success); font-weight:600; margin-top:4px;">영상 선택</span>
+              <div style="width:28px; height:28px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px;">&#10003;</div>
+              <span style="font-size:10px; color:var(--color-accent); font-weight:600; margin-top:4px;">영상 선택</span>
             </div>
-            <div style="width:28px; height:2px; background:var(--color-success); margin-top:13px;"></div>
+            <div style="width:28px; height:2px; background:var(--color-accent); margin-top:13px;"></div>
             <div style="display:flex; flex-direction:column; align-items:center; min-width:52px;">
               <div style="width:28px; height:28px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;">2</div>
               <span style="font-size:10px; color:var(--color-accent); font-weight:600; margin-top:4px;">선수 선택</span>
@@ -1767,15 +1781,15 @@
         <div class="screen-body">
           <div style="padding:12px 16px 4px; display:flex; align-items:flex-start; justify-content:center; gap:0;">
             <div style="display:flex; flex-direction:column; align-items:center; min-width:52px;">
-              <div style="width:28px; height:28px; border-radius:50%; background:var(--color-success); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px;">&#10003;</div>
-              <span style="font-size:10px; color:var(--color-success); font-weight:600; margin-top:4px;">영상 선택</span>
+              <div style="width:28px; height:28px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px;">&#10003;</div>
+              <span style="font-size:10px; color:var(--color-accent); font-weight:600; margin-top:4px;">영상 선택</span>
             </div>
-            <div style="width:28px; height:2px; background:var(--color-success); margin-top:13px;"></div>
+            <div style="width:28px; height:2px; background:var(--color-accent); margin-top:13px;"></div>
             <div style="display:flex; flex-direction:column; align-items:center; min-width:52px;">
-              <div style="width:28px; height:28px; border-radius:50%; background:var(--color-success); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px;">&#10003;</div>
-              <span style="font-size:10px; color:var(--color-success); font-weight:600; margin-top:4px;">선수 선택</span>
+              <div style="width:28px; height:28px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px;">&#10003;</div>
+              <span style="font-size:10px; color:var(--color-accent); font-weight:600; margin-top:4px;">선수 선택</span>
             </div>
-            <div style="width:28px; height:2px; background:var(--color-success); margin-top:13px;"></div>
+            <div style="width:28px; height:2px; background:var(--color-accent); margin-top:13px;"></div>
             <div style="display:flex; flex-direction:column; align-items:center; min-width:52px;">
               <div style="width:28px; height:28px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600;">3</div>
               <span style="font-size:10px; color:var(--color-accent); font-weight:600; margin-top:4px;">설정</span>
@@ -1850,7 +1864,7 @@
               </div>
               <div class="action-icon-col" data-toast="다운로드를 시작합니다">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-                <span class="micro-text">다운로드</span>
+                <span class="micro-text">내려받기</span>
               </div>
               <div class="action-icon-col" data-go="con-publish">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></div>
@@ -2106,15 +2120,15 @@
           <div class="card" style="margin:12px 16px 8px; padding:0; overflow:hidden;">
             <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-divider);">
               <div style="font-size:15px; font-weight:700;">캡틴FC 용인점</div>
-              <span style="font-size:13px; color:var(--color-accent); cursor:pointer; font-weight:600;" onclick="admRename('구장 이름 바꾸기','캡틴FC 용인점')">이름 수정</span>
+              <span style="font-size:13px; color:var(--color-accent); cursor:pointer; font-weight:600;" onclick="admRename('구장 이름 바꾸기','캡틴FC 용인점')" aria-label="이름 수정"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
             </div>
             <div style="display:flex; align-items:center; padding:12px 16px; gap:8px;">
               <div class="flex-1"><div class="label-text">A코트</div><div class="sub-text">캡픽 2대</div></div>
-              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','A코트')">이름 수정</span>
+              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','A코트')" aria-label="이름 수정"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
             </div>
             <div style="display:flex; align-items:center; padding:12px 16px; gap:8px; border-top:1px solid var(--color-divider);">
               <div class="flex-1"><div class="label-text">B코트</div><div class="sub-text">캡픽 1대</div></div>
-              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','B코트')">이름 수정</span>
+              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','B코트')" aria-label="이름 수정"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
             </div>
             <div style="padding:10px 16px 14px; border-top:1px solid var(--color-divider);">
               <button class="btn btn-outline btn-full" style="height:40px; font-size:13px;" onclick="btnCopyToast('새 코트를 추가했어요')">+ 코트 추가</button>
@@ -2124,11 +2138,11 @@
           <div class="card" style="margin:0 16px 8px; padding:0; overflow:hidden;">
             <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-divider);">
               <div style="font-size:15px; font-weight:700;">풋살파크 강남</div>
-              <span style="font-size:13px; color:var(--color-accent); cursor:pointer; font-weight:600;" onclick="admRename('구장 이름 바꾸기','풋살파크 강남')">이름 수정</span>
+              <span style="font-size:13px; color:var(--color-accent); cursor:pointer; font-weight:600;" onclick="admRename('구장 이름 바꾸기','풋살파크 강남')" aria-label="이름 수정"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
             </div>
             <div style="display:flex; align-items:center; padding:12px 16px; gap:8px;">
               <div class="flex-1"><div class="label-text">1코트</div><div class="sub-text">캡픽 1대</div></div>
-              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','1코트')">이름 수정</span>
+              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','1코트')" aria-label="이름 수정"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></span>
             </div>
             <div style="padding:10px 16px 14px; border-top:1px solid var(--color-divider);">
               <button class="btn btn-outline btn-full" style="height:40px; font-size:13px;" onclick="btnCopyToast('새 코트를 추가했어요')">+ 코트 추가</button>
@@ -2169,7 +2183,7 @@
         <div class="screen-body stagger">
           <!-- 하이라이트 완성 -->
           <div class="notification-item unread cursor-pointer" data-go="adm-08">
-            <div style="font-size:24px; flex-shrink:0;">&#x1F3AC;</div>
+            <div style="flex-shrink:0; color:var(--color-text-secondary);"><svg width="24" height="24"><use href="#icon-video"/></svg></div>
             <div class="noti-body">
               <div class="noti-title">하이라이트가 완성됐어요</div>
               <div class="noti-desc">A구장 7세반 수업 · 1분 하이라이트</div>
@@ -2178,7 +2192,7 @@
           </div>
           <!-- 기기 경고: 저장공간 -->
           <div class="notification-item unread cursor-pointer" data-go="adm-16">
-            <div style="font-size:24px; flex-shrink:0;">&#x26A0;&#xFE0F;</div>
+            <div style="flex-shrink:0; color:var(--color-text-secondary);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
             <div class="noti-body">
               <div class="noti-title">저장공간이 부족해요</div>
               <div class="noti-desc">B구장 1번 캡픽 · 1.3GB 남음</div>
@@ -2187,7 +2201,7 @@
           </div>
           <!-- 기기 경고: 오프라인 -->
           <div class="notification-item unread cursor-pointer" data-go="adm-16">
-            <div style="font-size:24px; flex-shrink:0;">&#x1F50C;</div>
+            <div style="flex-shrink:0; color:var(--color-text-secondary);"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="1" y1="1" x2="23" y2="23"/><path d="M16.72 11.06A10.94 10.94 0 0119 12.55"/><path d="M5 12.55a10.94 10.94 0 015.17-2.39"/><path d="M10.71 5.05A16 16 0 0122.58 9"/><path d="M1.42 9a15.91 15.91 0 014.7-2.88"/><path d="M8.53 16.11a6 6 0 016.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg></div>
             <div class="noti-body">
               <div class="noti-title">캡픽 연결이 끊어졌어요</div>
               <div class="noti-desc">B구장 2번 캡픽 · 전원과 Wi-Fi를 확인해주세요</div>
@@ -2196,7 +2210,7 @@
           </div>
           <!-- 일정 담당 배정 -->
           <div class="notification-item cursor-pointer" data-go="adm-15">
-            <div style="font-size:24px; flex-shrink:0;">&#x1F4C5;</div>
+            <div style="flex-shrink:0; color:var(--color-text-secondary);"><svg width="24" height="24"><use href="#icon-calendar"/></svg></div>
             <div class="noti-body">
               <div class="noti-title">촬영 담당으로 배정됐어요</div>
               <div class="noti-desc">오늘 17:00 · A구장 대관 경기</div>
@@ -2205,7 +2219,7 @@
           </div>
           <!-- 하이라이트 완성 2 -->
           <div class="notification-item cursor-pointer" data-go="adm-08">
-            <div style="font-size:24px; flex-shrink:0;">&#x2705;</div>
+            <div style="flex-shrink:0; color:var(--color-text-secondary);"><svg width="24" height="24"><use href="#icon-check"/></svg></div>
             <div class="noti-body">
               <div class="noti-title">하이라이트가 완성됐어요</div>
               <div class="noti-desc">A구장 대관 경기 · 10분 하이라이트</div>
@@ -2767,18 +2781,18 @@
           <!-- 지금 핫한 하이라이트에요 -->
           <div style="padding:8px 16px 4px; font-size:14px; font-weight:700;">지금 핫한 하이라이트에요 &#128293;</div>
           <div style="display:flex; gap:8px; padding:8px 16px 12px; overflow-x:auto;">
-            <div style="width:120px; aspect-ratio:9/16; background:#c9d6df; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
+            <div style="width:120px; aspect-ratio:9/16; background:#E2E2E2; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
               <div style="position:absolute; bottom:8px; left:8px; color:#fff; font-size:10px; font-weight:600; text-shadow:0 1px 2px rgba(0,0,0,0.5);">드리블 장인 &#9917;</div>
               <div style="position:absolute; top:8px; left:8px;"><span style="font-size:9px;color:#EF4444;font-weight:600;">🔥 뜨는 중</span></div>
             </div>
-            <div style="width:120px; aspect-ratio:9/16; background:#b8c9d9; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
+            <div style="width:120px; aspect-ratio:9/16; background:#D2D2D2; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
               <div style="position:absolute; bottom:8px; left:8px; color:#fff; font-size:10px; font-weight:600; text-shadow:0 1px 2px rgba(0,0,0,0.5);">오늘의 골 &#127881;</div>
               <div style="position:absolute; top:8px; left:8px;"><span style="font-size:9px;color:#EF4444;font-weight:600;">🔥 뜨는 중</span></div>
             </div>
-            <div style="width:120px; aspect-ratio:9/16; background:#a7bcd0; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
+            <div style="width:120px; aspect-ratio:9/16; background:#C2C2C2; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
               <div style="position:absolute; bottom:8px; left:8px; color:#fff; font-size:10px; font-weight:600; text-shadow:0 1px 2px rgba(0,0,0,0.5);">멋진 세이브 &#129340;</div>
             </div>
-            <div style="width:120px; aspect-ratio:9/16; background:#c9d6df; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
+            <div style="width:120px; aspect-ratio:9/16; background:#E2E2E2; border-radius:10px; flex-shrink:0; cursor:pointer; position:relative;" data-go="con-feed">
               <div style="position:absolute; bottom:8px; left:8px; color:#fff; font-size:10px; font-weight:600; text-shadow:0 1px 2px rgba(0,0,0,0.5);">패스의 정석 &#128588;</div>
             </div>
           </div>
@@ -3128,12 +3142,12 @@
           <div class="card card-mp">
             <div class="section-label">선수별 하이라이트</div>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
-              <div class="con07-player" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;" data-go="con-player"><div class="thumb-overlay-badge">#1 무료</div></div>
-              <div class="con07-player" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#2</div></div>
-              <div class="con07-player" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#3</div></div>
-              <div class="con07-player" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#4</div></div>
-              <div class="con07-player" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#5</div></div>
-              <div class="con07-player" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#6</div></div>
+              <div class="con07-player" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;" data-go="con-player"><div class="thumb-overlay-badge">#1 무료</div></div>
+              <div class="con07-player" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#2</div></div>
+              <div class="con07-player" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#3</div></div>
+              <div class="con07-player" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#4</div></div>
+              <div class="con07-player" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#5</div></div>
+              <div class="con07-player" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#6</div></div>
             </div>
           </div>
 
@@ -3183,12 +3197,12 @@
           <div class="card card-mp">
             <div class="section-label">선수별 하이라이트</div>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
-              <div class="con07b-player" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;" data-go="con-player"><div class="thumb-overlay-badge">#1 무료</div></div>
-              <div class="con07b-player" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#2</div></div>
-              <div class="con07b-player" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#3</div></div>
-              <div class="con07b-player" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#4</div></div>
-              <div class="con07b-player" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#5</div></div>
-              <div class="con07b-player" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#6</div></div>
+              <div class="con07b-player" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;" data-go="con-player"><div class="thumb-overlay-badge">#1 무료</div></div>
+              <div class="con07b-player" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#2</div></div>
+              <div class="con07b-player" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#3</div></div>
+              <div class="con07b-player" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#4</div></div>
+              <div class="con07b-player" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#5</div></div>
+              <div class="con07b-player" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#6</div></div>
             </div>
           </div>
 
@@ -3247,8 +3261,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>4,560</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>12</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>234</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>67</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" id="sharePlayerBtn">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQualityCon').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQualityCon').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -3264,8 +3278,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>5,780</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>34</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>178</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>89</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/p/7/10min')">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQualityCon').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQualityCon').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -3282,8 +3296,8 @@
             <div class="stat-icons"><span class="stat-icon-item"><svg><use href="#icon-view"/></svg>45,600</span><span class="stat-icon-item"><svg><use href="#icon-share"/></svg>567</span><span class="stat-icon-item"><svg><use href="#icon-save"/></svg>1,234</span><span class="stat-icon-item"><svg><use href="#icon-download"/></svg>890</span></div>
             <div class="link-group-sm">
               <button class="btn btn-outline btn-half" onclick="btnShare(this, 'https://cappic.co/p/7/full')">공유하기</button>
-              <button class="btn btn-outline btn-half" onclick="btnSave(this)">저장하기</button>
-              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQualityCon').style.display='flex';">다운로드</button>
+              <button class="btn btn-outline btn-half" onclick="btnSave(this)">보관하기</button>
+              <button class="btn btn-outline btn-half-accent" onclick="document.getElementById('dlQualityCon').style.display='flex';">내려받기</button>
             </div>
           </div>
 
@@ -3297,31 +3311,31 @@
           </div>
 
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px; padding:8px 16px 12px;">
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
-            <div class="shorts-clip" style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
+            <div class="shorts-clip" style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative; cursor:pointer; overflow:hidden;">
               <div class="clip-circle-abs clip-circle"></div>
             </div>
           </div>
@@ -3719,12 +3733,12 @@
               </div>
             </div>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:2px;">
-              <div style="aspect-ratio:4/5; background:#c9d6df; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; top:4px; right:4px; font-size:14px; color:#F59E0B;">&#9733;</div></div>
-              <div style="aspect-ratio:4/5; background:#b8c9d9; cursor:pointer;" data-go="con-feed"></div>
-              <div style="aspect-ratio:4/5; background:#a7bcd0; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; top:4px; right:4px; font-size:14px; color:#F59E0B;">&#9733;</div></div>
-              <div style="aspect-ratio:4/5; background:#c9d6df; cursor:pointer;" data-go="con-feed"></div>
-              <div style="aspect-ratio:4/5; background:#b8c9d9; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; top:4px; right:4px; font-size:14px; color:#F59E0B;">&#9733;</div></div>
-              <div style="aspect-ratio:4/5; background:#a7bcd0; cursor:pointer;" data-go="con-feed"></div>
+              <div style="aspect-ratio:4/5; background:#E2E2E2; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; top:4px; right:4px; font-size:14px; color:#F59E0B;">&#9733;</div></div>
+              <div style="aspect-ratio:4/5; background:#D2D2D2; cursor:pointer;" data-go="con-feed"></div>
+              <div style="aspect-ratio:4/5; background:#C2C2C2; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; top:4px; right:4px; font-size:14px; color:#F59E0B;">&#9733;</div></div>
+              <div style="aspect-ratio:4/5; background:#E2E2E2; cursor:pointer;" data-go="con-feed"></div>
+              <div style="aspect-ratio:4/5; background:#D2D2D2; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; top:4px; right:4px; font-size:14px; color:#F59E0B;">&#9733;</div></div>
+              <div style="aspect-ratio:4/5; background:#C2C2C2; cursor:pointer;" data-go="con-feed"></div>
             </div>
             <div style="padding:12px 16px; font-size:11px; color:#757575; text-align:center;">&#9733; 표시된 영상은 내 프로필 피드에 표시됩니다</div>
 
@@ -3761,7 +3775,7 @@
                 </div>
               </div>
             </div>
-            <div style="text-align:center; padding:16px; font-size:12px; color:#BDBDBD;">영상 상세에서 저장하기를 누르면 여기에 모여요</div>
+            <div style="text-align:center; padding:16px; font-size:12px; color:#BDBDBD;">영상 상세에서 보관하기를 누르면 여기에 모여요</div>
           </div>
         </div>
         <div class="bottom-nav">
@@ -3841,15 +3855,15 @@
             </button>
           </div>
           <div class="profile-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:2px;">
-            <div style="aspect-ratio:4/5; background:#c9d6df; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>234</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>1.8만</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>892</div></div>
-            <div style="aspect-ratio:4/5; background:#c9d6df; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>5,678</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>12.5만</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>3,412</div></div>
-            <div style="aspect-ratio:4/5; background:#c9d6df; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>456</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>2.1만</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>7,890</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>234</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>1.8만</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>892</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>5,678</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>12.5만</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>3,412</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>456</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>2.1만</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>7,890</div></div>
           </div>
         </div>
         <div class="bottom-nav">
@@ -3902,12 +3916,12 @@
             </button>
           </div>
           <div class="profile-grid" style="display:grid; grid-template-columns:repeat(3, 1fr); gap:2px;">
-            <div style="aspect-ratio:4/5; background:#c9d6df; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>1.2만</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>8,432</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>5,210</div></div>
-            <div style="aspect-ratio:4/5; background:#c9d6df; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>3,891</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>2,104</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>1,567</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>1.2만</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>8,432</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>5,210</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>3,891</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>2,104</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; cursor:pointer; position:relative;" data-go="con-feed"><div style="position:absolute;bottom:4px;left:4px;font-size:12px;color:#fff;background:rgba(0,0,0,0.5);padding:1px 4px;border-radius:3px;display:flex;align-items:center;gap:2px;"><svg width="10" height="10" style="color:#fff"><use href="#icon-view"/></svg>1,567</div></div>
           </div>
         </div>
         <!-- Profile Menu Bottom Sheet -->
@@ -4020,12 +4034,12 @@
             <span class="chip" style="font-size:11px;">세레모니</span>
           </div>
           <div style="display:grid; grid-template-columns:repeat(2, 1fr); gap:8px; padding:0 16px 12px;">
-            <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1.2만</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:45</div><div style="position:absolute; top:6px; right:6px; font-size:12px;">&#x1F525;</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">8,432</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1:00</div><div style="position:absolute; top:6px; right:6px; font-size:12px;">&#x1F525;</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">5,210</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:32</div><div style="position:absolute; top:6px; right:6px; font-size:12px;">&#x1F525;</div></div>
-            <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">3,891</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:58</div></div>
-            <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">2,104</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1:15</div></div>
-            <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1,567</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:40</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1.2만</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:45</div><div style="position:absolute; top:6px; right:6px; font-size:12px;">&#x1F525;</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">8,432</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1:00</div><div style="position:absolute; top:6px; right:6px; font-size:12px;">&#x1F525;</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">5,210</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:32</div><div style="position:absolute; top:6px; right:6px; font-size:12px;">&#x1F525;</div></div>
+            <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">3,891</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:58</div></div>
+            <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">2,104</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1:15</div></div>
+            <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:8px; position:relative; cursor:pointer;" data-go="con-feed"><div style="position:absolute; bottom:6px; left:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">1,567</div><div style="position:absolute; bottom:6px; right:6px; font-size:9px; color:#fff; background:rgba(0,0,0,0.5); padding:1px 5px; border-radius:3px;">0:40</div></div>
           </div>
           <div class="divider" style="margin:0;"></div>
           <div style="padding:12px 16px 8px; font-size:14px; font-weight:700;">인기 구장</div>
@@ -4218,7 +4232,7 @@
           <div style="padding:8px 16px; display:flex; flex-direction:column; gap:8px;">
             <button class="btn btn-danger btn-full" style="height:48px; font-size:15px;" onclick="document.getElementById('conStopConfirm').style.display='flex'">&#x23F9;&ensp;녹화 중지하기</button>
             <div class="flex gap-2">
-              <button class="btn btn-outline flex-1" data-toast="스티칭 개선을 시작합니다">스티칭 개선하기</button>
+              <button class="btn btn-outline flex-1" data-toast="스티칭 개선을 시작해요">스티칭 개선하기</button>
               <button class="btn btn-primary flex-1" data-go="con-upload">촬영 설정</button>
             </div>
             <button class="btn btn-outline btn-full" style="height:44px; font-size:13px;" data-go="con-08">&#x1F534;&ensp;실시간 중계</button>
@@ -4236,7 +4250,7 @@
               </div>
               <div id="conReportDone" class="hidden">
                 <div style="width:48px; height:48px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
-                <div style="font-size:15px; font-weight:700; margin-bottom:6px;">전송을 완료했습니다 :)</div>
+                <div style="font-size:15px; font-weight:700; margin-bottom:6px;">전송을 완료했어요</div>
                 <div style="font-size:13px; color:#757575; line-height:1.5; margin-bottom:16px;">빠르게 확인 후<br>연락드리겠습니다</div>
                 <button class="btn btn-primary btn-full" onclick="document.getElementById('conReportPopup').style.display='none'; document.getElementById('conReportContent').style.display='block'; document.getElementById('conReportDone').style.display='none';">확인</button>
               </div>
@@ -4391,7 +4405,7 @@
         </div>
         <div class="screen-body">
           <div style="margin:16px; border:2px dashed var(--color-gray-300); border-radius:16px; padding:40px 20px; display:flex; flex-direction:column; align-items:center; gap:12px; cursor:pointer;">
-            <div style="font-size:48px; color:var(--color-gray-300);">&#x1F4C1;</div>
+            <div style="color:var(--color-gray-300);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
             <div style="font-size:15px; font-weight:600;">영상 파일을 선택해주세요</div>
             <div class="detail-sub">MP4, MOV &middot; 최대 2GB</div>
             <button class="btn btn-primary" style="margin-top:8px;" data-go="comm-upload-loading">파일 선택하기</button>
@@ -4519,7 +4533,7 @@
               </div>
               <div class="action-icon-col" data-toast="다운로드를 시작합니다">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-                <span class="micro-text">다운로드</span>
+                <span class="micro-text">내려받기</span>
               </div>
               <div class="action-icon-col" data-go="con-publish">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></div>
@@ -4581,7 +4595,7 @@
               </div>
               <div class="action-icon-col" data-toast="다운로드를 시작합니다">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg></div>
-                <span class="micro-text">다운로드</span>
+                <span class="micro-text">내려받기</span>
               </div>
               <div class="action-icon-col" data-go="con-publish">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/></svg></div>
@@ -4628,9 +4642,9 @@
           <div class="card web-scroll-cta" style="margin:8px 16px; padding:12px; cursor:pointer; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
             <div class="section-label">우리 아이 하이라이트</div>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
-              <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">민준</div></div>
-              <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">서연</div></div>
-              <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">지호</div></div>
+              <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">민준</div></div>
+              <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">서연</div></div>
+              <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">지호</div></div>
             </div>
           </div>
 
@@ -4674,12 +4688,12 @@
           <div class="card web-scroll-cta" style="margin:8px 16px; padding:12px; cursor:pointer; border:none; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
             <div class="section-label">선수별 하이라이트</div>
             <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px;">
-              <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#1</div></div>
-              <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#2</div></div>
-              <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#3</div></div>
-              <div style="aspect-ratio:4/5; background:#c9d6df; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#4</div></div>
-              <div style="aspect-ratio:4/5; background:#b8c9d9; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#5</div></div>
-              <div style="aspect-ratio:4/5; background:#a7bcd0; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#6</div></div>
+              <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#1</div></div>
+              <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#2</div></div>
+              <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#3</div></div>
+              <div style="aspect-ratio:4/5; background:#E2E2E2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#4</div></div>
+              <div style="aspect-ratio:4/5; background:#D2D2D2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#5</div></div>
+              <div style="aspect-ratio:4/5; background:#C2C2C2; border-radius:6px; position:relative;"><div class="thumb-overlay-badge">#6</div></div>
             </div>
           </div>
 
@@ -5241,7 +5255,7 @@ const descriptions = {
     ['페이지 설명', '연결된 캡픽가 없을 때 보이는 홈 화면이에요'],
     ['WiFi 상태 배너', '상단에 WiFi 연결 상태가 표시돼요'],
     ['빈 상태 안내', '"연결된 캡픽이 없어요"와 "캡픽을 찾아볼까요?" 메시지가 나와요'],
-    ['디바이스 찾기 버튼', '탭하면 주변 캡픽을 검색하는 화면(ADM-03 캡픽 찾기)으로 이동해요'],
+    ['캡픽 찾기 버튼', '탭하면 주변 캡픽을 검색하는 화면(ADM-03 캡픽 찾기)으로 이동해요'],
     ['하단 네비게이션', '홈(활성) / 아카이브 / 일정 / 설정 4개 탭이에요'],
   ]},
   'adm-04': { title: 'ADM-03 캡픽 찾기 안내', items: [
@@ -5292,14 +5306,14 @@ const descriptions = {
     ['페이지 설명', '영상 저장이 완료된 화면이에요. 2단계 전환 애니메이션이 있어요'],
     ['1단계 (체크)', '"영상이 저장되었어요!" 메시지가 1.5초간 표시돼요'],
     ['2단계 (미리보기)', '"Its Your Highlights!" 타이틀과 16:9 미리보기가 나타나요'],
-    ['공유/다운로드', '영상 공유, 내려받기 가능해요'],
+    ['공유/내려받기', '영상 공유, 내려받기 가능해요'],
     ['아카이브', '탭하면 ADM-07 아카이브로 이동해요'],
     ['홈으로', '탭하면 ADM-02 홈으로 돌아가요'],
   ]},
   'adm-07': { title: 'ADM-07 아카이브 안내', items: [
     ['페이지 설명', '녹화된 모든 영상을 모아서 보는 화면이에요'],
     ['탭: 전체 영상', '모든 녹화 영상을 시간순으로 보여줘요'],
-    ['탭: 찜한 영상', '영상 상세에서 저장하기를 누른 영상만 모아서 보여줘요. 선수 썸네일, 이름, 경기명이 표시돼요'],
+    ['탭: 찜한 영상', '영상 상세에서 보관하기를 누른 영상만 모아서 보여줘요. 선수 썸네일, 이름, 경기명이 표시돼요'],
     ['영상 카드', '일정 이름, 날짜, 구장, 시간, 썸네일이 카드로 표시돼요'],
     ['REC/완료 배지', '녹화 중이면 빨간 REC, 완료되면 초록 완료에요'],
     ['공유하기', '탭하면 링크가 복사되고 토스트 알림이 나와요'],
@@ -5318,9 +5332,9 @@ const descriptions = {
     ['페이지 설명', '경기의 모든 영상을 확인하고 관리하는 화면이에요'],
     ['뒤로가기', '탭하면 ADM-07 아카이브로 돌아가요'],
     ['세션 정보 태그', '날짜, 구장, 시간 태그가 표시돼요'],
-    ['1분 하이라이트', '영상 + 전체화면 + 공유/저장/다운로드 버튼이에요'],
+    ['1분 하이라이트', '영상 + 전체화면 + 공유/보관/내려받기 버튼이에요'],
     ['선수별 하이라이트', '4:5 그리드에요. 탭하면 ADM-08a 선수 상세로 이동해요'],
-    ['10분/전체 경기', '각각 공유/저장/다운로드 가능해요'],
+    ['10분/전체 경기', '각각 공유/보관/내려받기 가능해요'],
     ['다운로드', '화질 선택 팝업(480p~4K)이 나와요'],
     ['전체 다운로드', '모든 영상 zip 파일 내려받기 확인 팝업이에요'],
   ]},
@@ -5328,11 +5342,11 @@ const descriptions = {
     ['페이지 설명', '특정 선수의 하이라이트를 모아 보는 화면이에요'],
     ['뒤로가기', '탭하면 ADM-08 영상 상세로 돌아가요'],
     ['이름 입력', '선수 이름을 입력하고 저장하면 아카이브에 반영돼요'],
-    ['1분/10분 하이라이트', '선수의 요약 영상이에요. 공유/저장/다운로드 가능해요'],
+    ['1분/10분 하이라이트', '선수의 요약 영상이에요. 공유/보관/내려받기 가능해요'],
     ['Its Your Play', '전체 경기에서 이 선수만 따라간 영상이에요'],
     ['Its Your Highlights', '주요 장면 쇼츠 클립 그리드에요'],
     ['전체 선택', '우측 상단 텍스트를 탭하면 모든 클립 선택/해제돼요'],
-    ['클립 짧게 탭', '9:16 팝업 플레이어가 열려요. 비율 변경, 저장/다운로드 가능해요'],
+    ['클립 짧게 탭', '9:16 팝업 플레이어가 열려요. 비율 변경, 보관/내려받기 가능해요'],
     ['클립 길게 누르기', '다중 선택 모드에요. 드래그로 연속 선택돼요'],
   ]},
   'adm-15': { title: 'ADM-09 일정 안내', items: [
@@ -5415,7 +5429,7 @@ const descriptions = {
     ['페이지 설명', '나만의 하이라이트가 완성된 화면이에요'],
     ['1단계 (체크)', '"영상이 완성되었어요!" 메시지가 1.5초간 표시돼요'],
     ['2단계 (미리보기)', '"Its Your Highlights!" 타이틀과 미리보기가 나타나요'],
-    ['공유/다운로드', '링크 공유, 영상 내려받기 가능해요'],
+    ['공유/내려받기', '링크 공유, 영상 내려받기 가능해요'],
     ['피드 올리기', '탭하면 CON-22 새 게시물로 이동해요'],
     ['홈으로', '탭하면 CON-05 홈으로 이동해요'],
   ]},
@@ -5449,7 +5463,7 @@ const descriptions = {
     ['페이지 설명', '간편 하이라이트가 완성된 화면이에요'],
     ['1단계 (체크)', '"간편 하이라이트가 완성되었어요!" 1.5초간 표시돼요'],
     ['2단계 (미리보기)', '"Its Your Highlights!" + 16:9 미리보기가 나타나요'],
-    ['공유/다운로드', '영상 공유, 내려받기 가능해요'],
+    ['공유/내려받기', '영상 공유, 내려받기 가능해요'],
     ['피드 올리기', '탭하면 CON-22 새 게시물로 이동해요'],
     ['홈으로', '탭하면 ADM-02 홈으로 이동해요'],
   ]},
@@ -5466,7 +5480,7 @@ const descriptions = {
   'comm-upload-done': { title: 'COMM-10b 영상 올리기 완료 안내', items: [
     ['페이지 설명', '영상 올리기가 완료된 화면이에요'],
     ['1단계 (체크)', '"완료되었어요!" 메시지가 1.5초간 표시돼요'],
-    ['2단계 (미리보기)', '미리보기와 공유/다운로드/피드 올리기/홈으로 버튼이 나타나요'],
+    ['2단계 (미리보기)', '미리보기와 공유/내려받기/피드 올리기/홈으로 버튼이 나타나요'],
     ['다운로드', '탭하면 영상 내려받기가 시작돼요'],
     ['피드 올리기', '탭하면 CON-22 새 게시물로 이동해요'],
   ]},
@@ -5484,7 +5498,7 @@ const descriptions = {
   'comm-merge-done': { title: 'COMM-11b 영상 합치기 완료 안내', items: [
     ['페이지 설명', '영상 합치기가 완료된 화면이에요'],
     ['1단계 (체크)', '"완료되었어요!" 메시지가 1.5초간 표시돼요'],
-    ['2단계 (미리보기)', '미리보기와 공유/다운로드/피드 올리기/홈 버튼이 나타나요'],
+    ['2단계 (미리보기)', '미리보기와 공유/내려받기/피드 올리기/홈 버튼이 나타나요'],
     ['피드 올리기', '탭하면 CON-22 새 게시물로 이동해요'],
   ]},
   'con-01': { title: 'CON-02 온보딩 안내', items: [
@@ -5525,7 +5539,7 @@ const descriptions = {
   'con-ob-register': { title: 'CON-04b 캡픽 설정: 등록 안내', items: [
     ['페이지 설명', '찾은 캡픽을 내 계정에 등록하는 세 번째 단계에요 (3/6)'],
     ['안내 문구', '"캡픽을 등록해주세요"와 설명이 표시돼요'],
-    ['디바이스 카드', 'CAPPIC #1, CAPPIC #2가 "등록하기" 뱃지와 함께 표시돼요'],
+    ['캡픽 카드', 'CAPPIC #1, CAPPIC #2가 "등록하기" 뱃지와 함께 표시돼요'],
     ['다음', '탭하면 CON-04c 캡픽 설정: 설치로 이동해요'],
     ['건너뛰기', '탭하면 CON-05 홈으로 이동해요'],
   ]},
@@ -5617,7 +5631,7 @@ const descriptions = {
     ['페이지 설명', '특정 선수의 하이라이트를 보는 소비자용 화면이에요'],
     ['뒤로가기', '탭하면 CON-08 영상 상세 (학부모)로 돌아가요'],
     ['이름 입력', '선수 이름을 입력하고 저장해요'],
-    ['1분/10분 하이라이트', '공유/저장/다운로드 가능해요'],
+    ['1분/10분 하이라이트', '공유/보관/내려받기 가능해요'],
     ['Its Your Play', '전체 경기에서 이 선수만 따라간 영상이에요'],
     ['Its Your Highlights', '주요 장면 쇼츠 그리드에요'],
     ['공유하기', '카카오톡/인스타/틱톡/링크복사 + 비율 선택 + QR 팝업이에요'],
@@ -5651,7 +5665,7 @@ const descriptions = {
     ['페이지 설명', '내 경기 영상과 하이라이트를 모아 봐요'],
     ['탭: 경기 영상', '영상 카드 + 공유/전체보기 버튼이에요'],
     ['탭: 하이라이트', '에디터/간편 하이라이트 만들기 + 쇼츠 그리드에요'],
-    ['탭: 찜한 영상', '영상 상세에서 저장하기를 누른 영상만 모아서 보여줘요. 선수 썸네일, 이름, 경기명이 표시돼요'],
+    ['탭: 찜한 영상', '영상 상세에서 보관하기를 누른 영상만 모아서 보여줘요. 선수 썸네일, 이름, 경기명이 표시돼요'],
     ['영상 올리기/합치기', '각각 COMM-10 영상 올리기, COMM-11 영상 합치기로 이동해요'],
     ['하단 네비게이션', '홈/탐색/피드/아카이브(활성)/마이 5개 탭'],
   ]},
