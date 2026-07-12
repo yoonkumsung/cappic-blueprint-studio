@@ -1,6 +1,9 @@
 const screens = [
   {id:'adm-login',code:'ADM-01',name:'로그인',cat:'adm'},
+  {id:'adm-pw-reset',code:'ADM-01a',name:'비밀번호 찾기',cat:'adm'},
+  {id:'adm-wait',code:'ADM-01b',name:'권한 대기',cat:'adm'},
   {id:'adm-01',code:'ADM-02',name:'홈',cat:'adm'},
+  {id:'adm-noti',code:'ADM-02a',name:'알림',cat:'adm'},
   {id:'adm-01-empty',code:'ADM-02e',name:'홈 (빈 상태)',cat:'adm'},
   {id:'adm-04',code:'ADM-03',name:'캡픽 찾기',cat:'adm'},
   {id:'adm-02',code:'ADM-04',name:'촬영 관리',cat:'adm'},
@@ -19,6 +22,7 @@ const screens = [
   {id:'adm-users',code:'ADM-10a',name:'운영자 관리',cat:'adm'},
   {id:'adm-users-add',code:'ADM-10b',name:'운영자 추가',cat:'adm'},
   {id:'adm-16',code:'ADM-10c',name:'네트워크 상태',cat:'adm'},
+  {id:'adm-venue-manage',code:'ADM-10d',name:'구장 관리',cat:'adm'},
   {id:'editor-1',code:'COMM-01',name:'편집: 구간 선택',cat:'comm'},
   {id:'editor',code:'COMM-02',name:'편집: 상세 조정',cat:'comm'},
   {id:'editor-loading',code:'COMM-03',name:'편집: 만들기 중',cat:'comm'},
@@ -84,8 +88,8 @@ const screens = [
 
 // Navigation connections [from, to]
 const connections = [
-  ['adm-login','adm-01'],
-  ['adm-01','adm-04'],['adm-01','adm-02'],['adm-01','adm-07'],['adm-01','adm-15'],['adm-01','adm-settings'],
+  ['adm-login','adm-01'],['adm-login','adm-pw-reset'],['adm-login','adm-wait'],
+  ['adm-01','adm-04'],['adm-01','adm-02'],['adm-01','adm-07'],['adm-01','adm-15'],['adm-01','adm-settings'],['adm-01','adm-noti'],
   ['adm-01-empty','adm-04'],
   ['adm-02','adm-03'],['adm-02','adm-05'],
   ['adm-05','adm-06'],
@@ -93,7 +97,7 @@ const connections = [
   ['adm-07','adm-08'],['adm-07','comm-upload-vid'],['adm-07','comm-merge'],
   ['adm-08','adm-08p'],['adm-08','adm-10l'],
   ['adm-15','adm-15a'],
-  ['adm-settings','adm-users'],['adm-settings','adm-16'],['adm-settings','adm-09'],['adm-settings','editor-1'],
+  ['adm-settings','adm-users'],['adm-settings','adm-16'],['adm-settings','adm-09'],['adm-settings','editor-1'],['adm-settings','adm-venue-manage'],
   ['adm-users','adm-users-add'],
   ['editor-1','editor'],['editor','editor-loading'],['editor-loading','editor-3'],
   ['editor-3','con-publish'],
@@ -136,17 +140,41 @@ const descriptions = {
     ['사용자 시나리오', '풋살장 운영자가 아침에 출근해서 관리자 앱을 열면 로그인 화면이 나와요. 이메일과 비밀번호를 넣고 "로그인" 버튼을 누르면 홈 화면으로 들어가요. 비밀번호를 잊어버렸으면 "비밀번호를 잊으셨나요?"를 눌러서 다시 받을 수 있고, 앱 사용이 처음이라 도움이 필요하면 "문의하기"를 눌러 전화번호나 이메일을 확인할 수 있어요.'],
     ['레이아웃', '상단: StatusBar / 중앙: 로고 + 로그인 폼 (수직 중앙 정렬) / 하단: 문의하기 영역'],
     ['주요 컴포넌트', 'TextInput(email), TextInput(password), Button(Primary, full-width), Button(Outline, full-width), ContactRow(phone), ContactRow(email)'],
-    ['인터랙션', '로그인 Button(Primary) 탭 시 adm-01(ADM-02 홈)로 push 이동 / "비밀번호를 잊으셨나요?" 탭 시 con-pw-reset으로 이동 / 문의하기 Button(Outline) 탭 시 contactInfo 토글 표시 / 전화번호·이메일 탭 시 클립보드 복사'],
+    ['인터랙션', '로그인 Button(Primary) 탭 시 adm-01(ADM-02 홈)로 push 이동 / "비밀번호를 잊으셨나요?" 탭 시 adm-pw-reset으로 이동 / 문의하기 Button(Outline) 탭 시 contactInfo 토글 표시 / 전화번호·이메일 탭 시 클립보드 복사'],
     ['상태', '기본 상태만 존재 (에러·로딩 상태 없음)'],
-    ['연결 화면', '→ adm-01(로그인 성공) / → con-pw-reset(비밀번호 찾기)'],
+    ['연결 화면', '→ adm-01(로그인 성공) / → adm-pw-reset(비밀번호 찾기) / → adm-wait(권한 대기)'],
+  ]},
+  'adm-pw-reset': { title: 'ADM-01a 비밀번호 찾기', items: [
+    ['사용자 시나리오', '관리자가 비밀번호를 잊었을 때 쓰는 화면이에요. 가입한 이메일을 넣고 "재설정 메일 보내기"를 누르면 재설정 링크가 담긴 메일을 보내주고, 다시 로그인 화면으로 돌아가요.'],
+    ['레이아웃', '상단: StatusBar + TopBar(뒤로가기, "비밀번호 찾기") / 중앙: 자물쇠 아이콘 + 안내 문구 + 이메일 입력 + 버튼'],
+    ['주요 컴포넌트', 'TopBar(back → adm-login), 자물쇠 아이콘, TextInput(email), Button(Primary: 재설정 메일 보내기)'],
+    ['인터랙션', '"재설정 메일 보내기" 탭 시 toast 표시 후 adm-login으로 이동 / 뒤로가기 탭 시 adm-login으로 이동'],
+    ['상태', '기본 상태만 존재'],
+    ['연결 화면', '→ adm-login(뒤로가기 / 전송 후)'],
+  ]},
+  'adm-wait': { title: 'ADM-01b 권한 대기', items: [
+    ['사용자 시나리오', '로그인은 했지만 아직 관리자 권한이 없는 사람에게 보이는 화면이에요. "아직 권한이 없어요"라는 안내와 함께, 캡픽 본사 승인 후 사용할 수 있다는 설명이 나와요. "새로고침"으로 승인 여부를 다시 확인하거나, "로그아웃"으로 나갈 수 있어요.'],
+    ['레이아웃', '중앙 정렬: 시계 아이콘 + 제목 + 안내 문구 + 새로고침 버튼 + 로그아웃 링크'],
+    ['주요 컴포넌트', '시계 아이콘, Heading("아직 권한이 없어요"), Description, Button(Primary: 새로고침), TextLink(로그아웃 → adm-login)'],
+    ['인터랙션', '"새로고침" 탭 시 "확인 중..." 표시 후 아직 승인 전 toast / "로그아웃" 탭 시 adm-login으로 이동'],
+    ['상태', '권한 대기 전용 화면'],
+    ['연결 화면', '→ adm-login(로그아웃)'],
+  ]},
+  'adm-noti': { title: 'ADM-02a 알림', items: [
+    ['사용자 시나리오', '홈 화면의 알림 벨을 누르면 나오는 관리자 전용 알림 화면이에요. 하이라이트 완성, 저장공간 부족·연결 끊김 같은 기기 경고, 촬영 담당 배정 소식만 모아서 보여줘요. 각 알림을 누르면 관련 화면(영상 상세·네트워크 상태·일정)으로 이동해요.'],
+    ['레이아웃', '상단: StatusBar + TopBar(뒤로가기, "알림") + 모두 읽음 / 중앙: 알림 리스트 / 하단: BottomNav(4탭)'],
+    ['주요 컴포넌트', 'TopBar(back → adm-01), "모두 읽음" 버튼, NotificationItem(하이라이트 완성·기기 경고·일정 배정), BottomNav'],
+    ['인터랙션', '알림 탭 시 관련 화면으로 이동(adm-08·adm-16·adm-15) / "모두 읽음" 탭 시 안읽음 표시 제거'],
+    ['상태', '기본: 안읽음 3건 + 읽음 2건'],
+    ['연결 화면', '→ adm-08(하이라이트) / → adm-16(기기 경고) / → adm-15(일정 배정)'],
   ]},
   'adm-01': { title: 'ADM-02 홈', items: [
     ['사용자 시나리오', '축구교실 코치가 로그인하면 제일 먼저 보는 홈 화면이에요. 우리 구장에 설치된 캡픽(카메라)이 지금 어떤 상태인지 한눈에 볼 수 있어요. A구장 1번 캡픽은 녹화 중이고, B구장 1번은 저장공간이 부족하다는 경고가 떠 있고, B구장 2번은 꺼져 있네요. 각 캡픽 카드를 누르면 자세한 촬영 화면으로 이동하고, "업데이트 하기" 버튼을 누르면 캡픽 정보를 새로 불러와요.'],
     ['레이아웃', '상단: StatusBar + TopBar(시설명 좌측, 알림 아이콘 우측) / 중앙: WiFi 배너 + 캡픽 Card 리스트 + Button(Primary) / 하단: BottomNav(4탭)'],
     ['주요 컴포넌트', 'TopBar(title: 캡틴FC 용인점), IconButton(bell, badge-dot-error), WiFiBanner(status-dot-ok), Card(camera-card) x4, Badge(error: REC / success: 대기 / warning: 경고 / muted: 꺼짐), Button(Primary, full-width: 업데이트 하기), BottomNav(홈·아카이브·일정·설정)'],
-    ['인터랙션', '알림 아이콘 탭 시 con-09로 push 이동 / 캡픽 Card 탭 시 adm-02(ADM-04 촬영 관리)로 push 이동 / "업데이트 하기" 탭 시 텍스트 "업데이트 완료!"로 변경 후 1.5s 후 복원 / BottomNav: adm-07(아카이브), adm-15(일정), adm-settings(설정)로 전환'],
+    ['인터랙션', '알림 아이콘 탭 시 adm-noti로 push 이동 / 캡픽 Card 탭 시 adm-02(ADM-04 촬영 관리)로 push 이동 / "업데이트 하기" 탭 시 텍스트 "업데이트 완료!"로 변경 후 1.5s 후 복원 / BottomNav: adm-07(아카이브), adm-15(일정), adm-settings(설정)로 전환'],
     ['상태', '기본 상태: 캡픽 4대 표시 (REC 1, 대기 1, 경고 1, 꺼짐 1) / 경고 상태: Card 하단에 에러 메시지 노출'],
-    ['연결 화면', '→ adm-02(캡픽 카드 탭) / → adm-07(아카이브 탭) / → adm-15(일정 탭) / → adm-settings(설정 탭) / → con-09(알림)'],
+    ['연결 화면', '→ adm-02(캡픽 카드 탭) / → adm-07(아카이브 탭) / → adm-15(일정 탭) / → adm-settings(설정 탭) / → adm-noti(알림)'],
   ]},
   'adm-01-empty': { title: 'ADM-02e 홈 (빈 상태)', items: [
     ['사용자 시나리오', '풋살장 운영자가 캡픽을 처음 설치하기 전에 앱을 열면 이 화면이 보여요. "연결된 캡픽이 없어요"라는 안내와 함께 "디바이스 찾기" 버튼이 나와요. 이 버튼을 누르면 주변에 있는 캡픽을 자동으로 찾아주는 화면으로 이동해요.'],
@@ -157,11 +185,11 @@ const descriptions = {
     ['연결 화면', '→ adm-04(디바이스 찾기) / → adm-07(아카이브) / → adm-15(일정) / → adm-settings(설정)'],
   ]},
   'adm-04': { title: 'ADM-03 캡픽 찾기', items: [
-    ['사용자 시나리오', '풋살장 운영자가 새 캡픽을 설치한 후 연결하려고 할 때 사용하는 화면이에요. 화면을 열면 주변에 있는 캡픽을 자동으로 찾아서 목록으로 보여줘요. "캡픽 #1" 옆의 "연결하기" 버튼을 누르면 바로 연결되고, 이미 연결된 캡픽은 "이미 연결됨"이라고 표시돼요. 다 연결했으면 "완료" 버튼을 눌러서 홈 화면으로 돌아가요.'],
-    ['레이아웃', '상단: StatusBar + TopBar(뒤로가기, "디바이스 찾기") / 중앙: pulse 애니메이션 + 발견된 캡픽 Card 리스트 + Button(Primary) / 하단: 없음'],
-    ['주요 컴포넌트', 'TopBar(back → adm-01), Spinner(pulse 2s ease-in-out infinite + 캡픽 SVG), Card(camera-card) x3, Badge(success: 연결하기), Badge(accent: 이미 연결됨), Button(Primary, full-width: 완료)'],
-    ['인터랙션', '뒤로가기 탭 시 adm-01로 pop 이동 / "연결하기" Badge 탭 시 텍스트 "연결됨 ✓"로 변경 + 스타일 전환 / "완료" Button 탭 시 adm-01로 push 이동'],
-    ['상태', '기본: 검색 중 (spin 애니메이션 활성) + 발견 목록 표시'],
+    ['사용자 시나리오', '풋살장 운영자가 새 캡픽을 설치한 후 연결할 때 쓰는 화면이에요. 3단계로 진행돼요. ①QR 스캔: 캡픽 뒷면의 QR을 찍어 어떤 캡픽인지 확인해요(QR 없이 직접 찾기도 가능). ②찾기/연결: 주변 캡픽을 자동으로 찾아 목록으로 보여주고 "연결하기"로 연결해요. ③Wi-Fi 연결: 구장 Wi-Fi를 고르고 비밀번호를 넣으면 캡픽이 그 Wi-Fi로 영상을 보내요. "연결하고 완료"를 누르면 홈으로 돌아가요.'],
+    ['레이아웃', '상단: StatusBar + TopBar(뒤로가기, "디바이스 찾기") + 스텝 인디케이터(점 3개) / 중앙: 단계별 패널(1 QR 카메라 프레임 / 2 pulse + 발견 캡픽 리스트 / 3 Wi-Fi 선택 + 비밀번호) / 하단: 없음'],
+    ['주요 컴포넌트', 'TopBar(back → adm-01), StepDots x3, [1] QR 스캔 프레임(코너 브래킷 + QR 아이콘) + Button(Primary: QR 찍었어요) + TextLink(QR 없이 직접 찾기), [2] Spinner(pulse) + Card(camera-card) x3 + Badge(연결하기/이미 연결됨) + Button(다음), [3] Wi-Fi 리스트(단일 선택 + 체크) + TextInput(비밀번호) + Button(연결하고 완료)'],
+    ['인터랙션', '뒤로가기 탭 시 adm-01로 이동 / "QR 찍었어요"·"QR 없이 직접 찾기" 탭 시 2단계로 / "연결하기" Badge 탭 시 "연결됨 ✓"로 전환 / "다음" 탭 시 3단계로 / Wi-Fi 항목 탭 시 단일 선택 / "연결하고 완료" 탭 시 toast 후 adm-01로 이동 / adm-04 재진입 시 항상 1단계부터 시작'],
+    ['상태', '1단계(QR) → 2단계(검색/연결) → 3단계(Wi-Fi)'],
     ['연결 화면', '→ adm-01(완료 또는 뒤로가기)'],
   ]},
   'adm-02': { title: 'ADM-04 촬영 관리', items: [
@@ -261,12 +289,12 @@ const descriptions = {
     ['연결 화면', '→ adm-15(저장 또는 뒤로가기)'],
   ]},
   'adm-settings': { title: 'ADM-10 설정', items: [
-    ['사용자 시나리오', '코치가 하단 메뉴에서 "설정"을 눌러 들어오는 화면이에요. "운영자 관리"에서 코치와 스태프 계정을 관리하고, "네트워크 상태"에서 캡픽 연결 문제를 확인할 수 있어요. 시설 정보(시설명, 캡픽 수, 구장 수)와 내 계정 정보(이메일, 역할)도 볼 수 있고, "AI 하이라이트 만들기"나 "나만의 하이라이트 만들기" 같은 고급 기능도 여기서 들어가요. 맨 아래 "로그아웃" 버튼으로 로그인 화면으로 돌아갈 수 있어요.'],
-    ['레이아웃', '상단: StatusBar + TopBar("설정") / 중앙: SectionHeader(관리) + Card(운영자 관리·네트워크 상태) + SectionHeader(시설 정보) + Card(InfoRow x3) + SectionHeader(계정) + Card(InfoRow x2) + SectionHeader(고급 기능) + Card(AI 하이라이트·나만의 하이라이트) + Button(Danger outline: 로그아웃) / 하단: BottomNav(4탭, 설정 활성)'],
-    ['주요 컴포넌트', 'TopBar, ListItem(icon + title + sub + chevron: 운영자 관리 → adm-users, 네트워크 상태 → adm-16), InfoRow(시설명·캡픽 수·구장 수), InfoRow(이메일·역할 Badge(accent: admin)), ListItem(AI 하이라이트 → adm-09, 나만의 하이라이트 → editor-1), Button(Danger outline, full-width: 로그아웃 → adm-login), BottomNav'],
-    ['인터랙션', '"운영자 관리" 탭 시 adm-users로 push 이동 / "네트워크 상태" 탭 시 adm-16으로 push 이동 / "AI 하이라이트 만들기" 탭 시 adm-09로 push 이동 / "나만의 하이라이트 만들기" 탭 시 editor-1로 push 이동 / "로그아웃" 탭 시 adm-login으로 이동'],
+    ['사용자 시나리오', '코치가 하단 메뉴에서 "설정"을 눌러 들어오는 화면이에요. "운영자 관리"에서 코치와 스태프 계정을 관리하고, "네트워크 상태"에서 캡픽 연결 문제를 확인할 수 있어요. 시설 정보(시설명, 캡픽 수, 구장 수)와 내 계정 정보(이메일, 역할)도 볼 수 있고, "간편 하이라이트 만들기"나 "나만의 하이라이트 만들기" 같은 고급 기능도 여기서 들어가요. 맨 아래 "로그아웃" 버튼으로 로그인 화면으로 돌아갈 수 있어요.'],
+    ['레이아웃', '상단: StatusBar + TopBar("설정") / 중앙: SectionHeader(관리) + Card(운영자 관리·네트워크 상태) + SectionHeader(시설 정보) + Card(InfoRow x3) + SectionHeader(계정) + Card(InfoRow x2) + SectionHeader(고급 기능) + Card(간편 하이라이트·나만의 하이라이트) + Button(Danger outline: 로그아웃) / 하단: BottomNav(4탭, 설정 활성)'],
+    ['주요 컴포넌트', 'TopBar, ListItem(icon + title + sub + chevron: 운영자 관리 → adm-users, 네트워크 상태 → adm-16), InfoRow(시설명·캡픽 수·구장 수), InfoRow(이메일·역할 Badge(accent: admin)), ListItem(간편 하이라이트 → adm-09, 나만의 하이라이트 → editor-1), Button(Danger outline, full-width: 로그아웃 → adm-login), BottomNav'],
+    ['인터랙션', '"운영자 관리" 탭 시 adm-users로 push 이동 / "네트워크 상태" 탭 시 adm-16으로 push 이동 / "간편 하이라이트 만들기" 탭 시 adm-09로 push 이동 / "나만의 하이라이트 만들기" 탭 시 editor-1로 push 이동 / "로그아웃" 탭 시 adm-login으로 이동'],
     ['상태', '기본 상태만 존재'],
-    ['연결 화면', '→ adm-users(운영자 관리) / → adm-16(네트워크) / → adm-09(AI 하이라이트) / → editor-1(나만의 하이라이트) / → adm-login(로그아웃)'],
+    ['연결 화면', '→ adm-users(운영자 관리) / → adm-16(네트워크) / → adm-09(간편 하이라이트) / → editor-1(나만의 하이라이트) / → adm-login(로그아웃)'],
   ]},
   'adm-16': { title: 'ADM-10c 네트워크 상태', items: [
     ['사용자 시나리오', '코치가 캡픽이 연결이 안 될 때 설정에서 "네트워크 상태"를 눌러 들어오는 화면이에요. 현재 네트워크 연결 상태(Wi-Fi, 유선)와 IP 주소, 서브넷 정보가 보여요. "클립보드에 복사" 버튼을 누르면 이 정보를 복사할 수 있고, "문의하기" 버튼을 누르면 고객센터에 오류 정보를 바로 보낼 수 있어요.'],
@@ -276,19 +304,27 @@ const descriptions = {
     ['상태', '기본 상태만 존재'],
     ['연결 화면', '→ adm-settings(뒤로가기)'],
   ]},
+  'adm-venue-manage': { title: 'ADM-10d 구장 관리', items: [
+    ['사용자 시나리오', '운영자가 설정에서 "구장 관리"를 눌러 들어오는 화면이에요. 우리가 운영하는 구장 목록과 각 구장 안의 코트가 보여요. 구장이나 코트 이름 옆의 "이름 수정"으로 이름을 바꾸고, "코트 추가"로 새 코트를, "구장 추가하기"로 새 구장을 넣을 수 있어요.'],
+    ['레이아웃', '상단: StatusBar + TopBar(back, "구장 관리") / 중앙: 구장 Card(구장명 + 이름 수정 / 코트 리스트 + 이름 수정 / 코트 추가 버튼) x2 + 구장 추가하기 버튼'],
+    ['주요 컴포넌트', 'TopBar(back → adm-settings), Card(구장명 + "이름 수정" 링크 + 코트 리스트 + "+ 코트 추가" 버튼), Button(Primary: 구장 추가하기), Modal(이름 수정: 입력 + 저장)'],
+    ['인터랙션', '"이름 수정" 탭 시 이름 수정 Modal 표시(현재 이름 미리 채움) → 저장 시 toast / "+ 코트 추가" 탭 시 toast / "구장 추가하기" 탭 시 toast'],
+    ['상태', '기본: 구장 2개(캡틴FC 용인점·풋살파크 강남) 표시'],
+    ['연결 화면', '→ adm-settings(뒤로가기)'],
+  ]},
   'adm-users': { title: 'ADM-10a 운영자 관리', items: [
     ['사용자 시나리오', '풋살장 운영자(김대표)가 설정에서 "운영자 관리"를 눌러 들어온 화면이에요. 현재 등록된 운영자 목록이 카드로 보여요. 김대표는 admin, 박코치는 coach, 이스탭은 staff 역할이고, 각 카드에서 전화번호나 이메일을 바로 복사할 수 있어요. 새로운 코치나 스태프를 추가하려면 아래의 "운영자 추가하기" 버튼을 눌러요.'],
     ['레이아웃', '상단: StatusBar + TopBar(back, "운영자 관리") / 중앙: Card(운영자 정보) x3 + Button(Primary: 운영자 추가하기) / 하단: 없음'],
-    ['주요 컴포넌트', 'TopBar(back → adm-settings), Card(Avatar(이니셜) + 이름 + Badge(accent: admin / success: coach / muted: staff) + ContactRow(phone, 복사) + ContactRow(email, 복사)) x3, Button(Primary, full-width: 운영자 추가하기)'],
-    ['인터랙션', '뒤로가기 탭 시 adm-settings로 pop 이동 / ContactRow 탭 시 전화번호·이메일 클립보드 복사 + toast / 운영자 Card 탭 시 toast("운영자 상세 정보에요") / "운영자 추가하기" 탭 시 adm-users-add로 push 이동'],
+    ['주요 컴포넌트', 'TopBar(back → adm-settings), Card(Avatar(이니셜) + 이름 + Badge(accent: 대표 / success: 운영자 / muted: 직원) + ContactRow(phone, 복사) + ContactRow(email, 복사)) x3, Button(Primary, full-width: 운영자 추가하기)'],
+    ['인터랙션', '뒤로가기 탭 시 adm-settings로 pop 이동 / ContactRow 탭 시 전화번호·이메일 클립보드 복사 + toast / 대표 Card 탭 시 toast("내 계정이에요") / 운영자·직원 Card 탭 시 액션 시트(역할 바꾸기 / 내보내기) 표시 → "역할 바꾸기"는 역할 선택 Modal, "내보내기"는 확인 Modal / "운영자 추가하기" 탭 시 adm-users-add로 push 이동'],
     ['상태', '기본 상태: 운영자 3명 표시 (김대표·박코치·이스탭)'],
     ['연결 화면', '→ adm-settings(뒤로가기) / → adm-users-add(운영자 추가)'],
   ]},
   'adm-users-add': { title: 'ADM-10b 운영자 추가', items: [
-    ['사용자 시나리오', '풋살장 운영자가 새로운 코치를 팀에 추가할 때 사용하는 화면이에요. 이름, 이메일, 전화번호를 입력하고, 역할(admin/coach/staff)을 선택한 뒤 "초대하기" 버튼을 누르면 초대 링크가 만들어져요. 이 링크를 복사해서 카카오톡이나 문자로 보내면, 새 코치가 링크를 통해 바로 가입할 수 있어요.'],
+    ['사용자 시나리오', '풋살장 운영자가 새로운 운영자나 직원을 팀에 추가할 때 사용하는 화면이에요. 이름, 이메일, 전화번호를 입력하고, 역할(운영자/직원)을 하나 고른 뒤 "초대하기" 버튼을 누르면 초대 링크가 만들어져요. 이 링크를 복사해서 카카오톡이나 문자로 보내면, 새 팀원이 링크를 통해 바로 가입할 수 있어요.'],
     ['레이아웃', '상단: StatusBar + TopBar(back, "운영자 추가") / 중앙: FormGroup(이름·이메일·전화번호·역할) + Button(Primary: 초대하기) / 하단: 없음'],
-    ['주요 컴포넌트', 'TopBar(back → adm-users), TextInput(이름), TextInput(email), TextInput(tel), Chip(admin·coach·staff, 토글, coach 기본 선택), Button(Primary, full-width: 초대하기), Modal(invitePopup: CheckIcon bounceIn 0.6s + "초대 링크가 생성되었어요" + Button(Outline: 링크 복사) + Button(Secondary: 닫기))'],
-    ['인터랙션', '뒤로가기 탭 시 adm-users로 pop 이동 / Chip 탭 시 active 토글 / "초대하기" 탭 시 invitePopup Modal 표시 / "링크 복사" 탭 시 클립보드 복사 + toast + Modal 닫힘'],
+    ['주요 컴포넌트', 'TopBar(back → adm-users), TextInput(이름), TextInput(email), TextInput(tel), Chip(운영자·직원, 단일 선택, 운영자 기본 선택), Button(Primary, full-width: 초대하기), Modal(invitePopup: CheckIcon bounceIn 0.6s + "초대 링크가 생성되었어요" + Button(Outline: 링크 복사) + Button(Secondary: 닫기))'],
+    ['인터랙션', '뒤로가기 탭 시 adm-users로 pop 이동 / Chip 탭 시 단일 선택(하나 고르면 다른 하나 해제) / "초대하기" 탭 시 invitePopup Modal 표시 / "링크 복사" 탭 시 클립보드 복사 + toast + Modal 닫힘'],
     ['상태', '기본: 폼 입력 상태 / 초대 완료: Modal 표시'],
     ['연결 화면', '→ adm-users(뒤로가기)'],
   ]},
@@ -325,8 +361,8 @@ const descriptions = {
     ['연결 화면', '→ con-publish(피드 올리기) / → con-04(홈으로)'],
   ]},
   'adm-09': { title: 'COMM-05 하이라이트: 영상 선택', items: [
-    ['사용자 시나리오', '코치(관리자)가 AI 하이라이트를 만들기 위해 원본 영상을 선택하는 1단계 화면이에요. "아카이브에서 선택"(기존 녹화 영상)과 "기기에서 선택"(내 폰/PC 영상) 두 가지 방법 중 하나를 골라 탭하면 2단계(선수 선택)로 넘어가요.'],
-    ['레이아웃', '상단: StatusBar + TopBar(back → adm-settings, "AI 하이라이트 만들기") / 중앙: StepIndicator(3단계, 1 활성) + Card(아카이브에서 선택) + Card(기기에서 선택) / 하단: 없음'],
+    ['사용자 시나리오', '코치(관리자)가 간편 하이라이트를 만들기 위해 원본 영상을 선택하는 1단계 화면이에요. "아카이브에서 선택"(기존 녹화 영상)과 "기기에서 선택"(내 폰/PC 영상) 두 가지 방법 중 하나를 골라 탭하면 2단계(선수 선택)로 넘어가요.'],
+    ['레이아웃', '상단: StatusBar + TopBar(back → adm-settings, "간편 하이라이트 만들기") / 중앙: StepIndicator(3단계, 1 활성) + Card(아카이브에서 선택) + Card(기기에서 선택) / 하단: 없음'],
     ['주요 컴포넌트', 'TopBar(back → adm-settings), StepIndicator(circle 1·2·3, 1=accent 활성, 2·3=gray), Card(icon + "아카이브에서 선택" + sub → adm-10), Card(icon + "기기에서 선택" + sub → adm-10)'],
     ['인터랙션', '뒤로가기 탭 시 adm-settings로 pop 이동 / "아카이브에서 선택" Card 탭 시 adm-10(COMM-06)으로 push 이동 / "기기에서 선택" Card 탭 시 adm-10으로 push 이동'],
     ['상태', '기본 상태만 존재'],
@@ -334,32 +370,32 @@ const descriptions = {
   ]},
   'adm-10': { title: 'COMM-06 하이라이트: 선수 선택', items: [
     ['사용자 시나리오', '코치(관리자)가 선택한 영상에서 AI가 자동으로 감지한 인물(선수) 목록을 보고, 하이라이트를 만들 선수를 선택하는 2단계 화면이에요. 영상 프레임 위에 색깔 테두리로 감지된 인물이 표시되고, 아래쪽 6명의 인물 썸네일 중 원하는 선수를 체크한 뒤 "다음"을 누르면 3단계(설정)로 넘어가요.'],
-    ['레이아웃', '상단: StatusBar + TopBar(back → adm-09, "AI 하이라이트 만들기") / 중앙: StepIndicator(3단계, 1 완료 체크, 2 활성) + FrameCanvas(16:9, 인물 바운딩 박스) + Grid(감지된 인물 3열 4:5) + Button(Primary: 다음) / 하단: 없음'],
+    ['레이아웃', '상단: StatusBar + TopBar(back → adm-09, "간편 하이라이트 만들기") / 중앙: StepIndicator(3단계, 1 완료 체크, 2 활성) + FrameCanvas(16:9, 인물 바운딩 박스) + Grid(감지된 인물 3열 4:5) + Button(Primary: 다음) / 하단: 없음'],
     ['주요 컴포넌트', 'TopBar(back → adm-09), StepIndicator(1=success 체크, 2=accent, 3=gray), FrameCanvas(16:9 dark, BoundingBox(accent·warning·error border) x3), SectionLabel("감지된 인물"), Grid(3열, 4:5 썸네일 + #번호 Badge + clip-circle 체크 토글) x6, Button(Primary, full-width: 다음)'],
     ['인터랙션', '뒤로가기 탭 시 adm-09로 pop 이동 / clip-circle 탭 시 선택·해제 토글(accent fill + check SVG ↔ border only) / "다음" Button 탭 시 adm-11(COMM-07)로 push 이동'],
     ['상태', '기본: #1, #2 선택됨 / #3~#6 미선택'],
     ['연결 화면', '→ adm-09(뒤로가기) / → adm-11(다음)'],
   ]},
   'adm-11': { title: 'COMM-07 하이라이트: 설정', items: [
-    ['사용자 시나리오', '코치(관리자)가 AI 하이라이트의 세부 설정을 조정하는 3단계 화면이에요. 점수 정확도, 매칭 정확도 슬라이더와 출력 FPS, 비트레이트 입력, 디버그 모드 토글, 영상 비율(16:9, 4:3, 1:1, 9:16, 3:4) 선택이 있으며, "영상 만들기" 버튼을 누르면 AI 처리가 시작돼요.'],
-    ['레이아웃', '상단: StatusBar + TopBar(back → adm-10, "AI 하이라이트 만들기") / 중앙: StepIndicator(1·2 완료 체크, 3 활성) + FormGroup(점수 정확도 Slider, 매칭 정확도 Slider, FPS TextInput, 비트레이트 TextInput, 디버그 모드 Toggle, 영상 비율 Chip 행) + Button(Primary: 영상 만들기) / 하단: 없음'],
+    ['사용자 시나리오', '코치(관리자)가 간편 하이라이트의 세부 설정을 조정하는 3단계 화면이에요. 점수 정확도, 매칭 정확도 슬라이더와 출력 FPS, 비트레이트 입력, 디버그 모드 토글, 영상 비율(16:9, 4:3, 1:1, 9:16, 3:4) 선택이 있으며, "영상 만들기" 버튼을 누르면 하이라이트 만들기가 시작돼요.'],
+    ['레이아웃', '상단: StatusBar + TopBar(back → adm-10, "간편 하이라이트 만들기") / 중앙: StepIndicator(1·2 완료 체크, 3 활성) + FormGroup(점수 정확도 Slider, 매칭 정확도 Slider, FPS TextInput, 비트레이트 TextInput, 디버그 모드 Toggle, 영상 비율 Chip 행) + Button(Primary: 영상 만들기) / 하단: 없음'],
     ['주요 컴포넌트', 'TopBar(back → adm-10), StepIndicator(1·2=success, 3=accent), Slider(점수 정확도: 0.6), Slider(매칭 정확도: 0.5), TextInput(number, FPS: 30), TextInput(number, 비트레이트: 4000), Toggle(디버그 모드), Chip(16:9·4:3·1:1·9:16·3:4, single-select, 16:9 기본 활성), Button(Primary, full-width: 영상 만들기)'],
     ['인터랙션', '뒤로가기 탭 시 adm-10으로 pop 이동 / Slider 드래그로 값 조정 / Chip 탭 시 single-select 전환(기존 active 해제) / Toggle 탭 시 상태 전환 / "영상 만들기" Button 탭 시 adm-13(COMM-08)으로 push 이동'],
     ['상태', '기본: 폼 입력 상태 (16:9 기본 선택)'],
     ['연결 화면', '→ adm-10(뒤로가기) / → adm-13(영상 만들기)'],
   ]},
   'adm-13': { title: 'COMM-08 하이라이트: 만들기 중', items: [
-    ['사용자 시나리오', 'AI가 하이라이트 영상을 만들고 있는 동안 코치(관리자)가 기다리는 로딩 화면이에요. "AI 하이라이트를 만들고 있어요"라는 메시지와 함께 "1단계: 선수 찾는 중..." 같은 현재 처리 단계, 진행률 바(30%)가 표시돼요. 완료되면 자동으로 완성 화면으로 넘어가요.'],
+    ['사용자 시나리오', '하이라이트 영상을 만들고 있는 동안 코치(관리자)가 기다리는 로딩 화면이에요. "간편 하이라이트를 만들고 있어요"라는 메시지와 함께 "1단계: 선수 찾는 중..." 같은 현재 처리 단계, 진행률 바(30%)가 표시돼요. 완료되면 자동으로 완성 화면으로 넘어가요.'],
     ['레이아웃', '상단: StatusBar / 중앙: Spinner + 메시지 + 단계 텍스트 + ProgressBar / 하단: TextLink(홈으로 돌아가기)'],
-    ['주요 컴포넌트', 'Spinner(border-top spin 1s linear infinite), Heading("AI 하이라이트를 만들고 있어요"), Description("조금만 기다려주세요"), StepText("1단계: 선수 찾는 중..."), ProgressBar(30%), TextLink("홈으로 돌아가기" → adm-01)'],
+    ['주요 컴포넌트', 'Spinner(border-top spin 1s linear infinite), Heading("간편 하이라이트를 만들고 있어요"), Description("조금만 기다려주세요"), StepText("1단계: 선수 찾는 중..."), ProgressBar(30%), TextLink("홈으로 돌아가기" → adm-01)'],
     ['인터랙션', '"홈으로 돌아가기" 탭 시 adm-01로 이동 / 생성 완료 시 adm-14(COMM-09)로 자동 전환'],
     ['상태', '로딩 상태 전용 화면'],
     ['연결 화면', '→ adm-14(자동 전환) / → adm-01(홈으로 돌아가기)'],
   ]},
   'adm-14': { title: 'COMM-09 하이라이트: 완성', items: [
-    ['사용자 시나리오', 'AI 하이라이트 생성이 완료된 화면이에요. 체크 아이콘과 "AI 하이라이트가 완성되었어요!"가 먼저 뜨고, 잠시 후 16:9 비율의 미리보기 영상(2:34)과 4개 버튼(공유/다운로드/피드 올리기/홈으로)이 나타나요. 코치(관리자)는 여기서 결과물을 확인하고 바로 공유하거나 피드에 게시할 수 있어요.'],
+    ['사용자 시나리오', '간편 하이라이트 생성이 완료된 화면이에요. 체크 아이콘과 "간편 하이라이트가 완성되었어요!"가 먼저 뜨고, 잠시 후 16:9 비율의 미리보기 영상(2:34)과 4개 버튼(공유/다운로드/피드 올리기/홈으로)이 나타나요. 코치(관리자)는 여기서 결과물을 확인하고 바로 공유하거나 피드에 게시할 수 있어요.'],
     ['레이아웃', 'Phase1: 중앙 CheckIcon + 완료 메시지 / Phase2: Title("It\'s Your Highlights!") + VideoPreview(16:9) + ActionIcon 4개 가로 배치'],
-    ['주요 컴포넌트', 'Phase1: CheckIcon(bounceIn 0.6s), Heading("AI 하이라이트가 완성되었어요!"), Description("2명 · 16:9") / Phase2: Title, VideoPreview(16:9, 비율·타임코드 badge), ActionIcon(공유 → 링크 복사, 다운로드 → toast, 피드 올리기 → con-publish, 홈으로 → adm-01) x4'],
+    ['주요 컴포넌트', 'Phase1: CheckIcon(bounceIn 0.6s), Heading("간편 하이라이트가 완성되었어요!"), Description("2명 · 16:9") / Phase2: Title, VideoPreview(16:9, 비율·타임코드 badge), ActionIcon(공유 → 링크 복사, 다운로드 → toast, 피드 올리기 → con-publish, 홈으로 → adm-01) x4'],
     ['인터랙션', 'Phase1 → 1.5s 후 fade-out → Phase2 opacity 0.5s ease-out 전환 / 공유 탭 시 링크 클립보드 복사 + toast / 다운로드 탭 시 toast / "피드 올리기" 탭 시 con-publish(CON-22)로 push 이동 / "홈으로" 탭 시 adm-01로 push 이동'],
     ['상태', 'Phase1(체크 표시, 1.5s) → Phase2(미리보기 + 액션)'],
     ['연결 화면', '→ con-publish(피드 올리기) / → adm-01(홈으로)'],
@@ -485,10 +521,10 @@ const descriptions = {
     ['연결 화면', '→ con-04(시작하기)'],
   ]},
   'con-04': { title: 'CON-05 홈', items: [
-    ['사용자 시나리오', '앱에 들어오면 맨 처음 보이는 홈 화면이에요. 내가 등록한 구장(강남 풋살 아레나, 송파 스포츠센터)과 내 캡픽 상태가 보여요. 지금 뜨는 하이라이트 영상도 가로로 넘기면서 구경할 수 있고, "나만의 하이라이트 만들기"나 "AI 하이라이트 만들기"를 눌러서 영상을 편집할 수도 있어요.'],
+    ['사용자 시나리오', '앱에 들어오면 맨 처음 보이는 홈 화면이에요. 내가 등록한 구장(강남 풋살 아레나, 송파 스포츠센터)과 내 캡픽 상태가 보여요. 지금 뜨는 하이라이트 영상도 가로로 넘기면서 구경할 수 있고, "나만의 하이라이트 만들기"나 "간편 하이라이트 만들기"를 눌러서 영상을 편집할 수도 있어요.'],
     ['레이아웃', '상단 TopBar(CAPP!C 로고 + 알림 아이콘) / 중앙 스크롤 영역(내 구장 Card 목록, 구장 추가 버튼, 내 캡픽 Card, 핫한 하이라이트 가로 스크롤, 하이라이트 만들기 Card 2종) / 하단 BottomNav(5탭: 홈/탐색/피드/아카이브/마이)'],
-    ['주요 컴포넌트', 'Card x2 구장, Button(Outline) "구장 추가", Card(캡픽 상태) Badge(연결됨), Card(쇼츠 썸네일) x4 가로 스크롤, Card "나만의 하이라이트 만들기", Card "AI 하이라이트 만들기", BottomNav(5탭: 홈/탐색/피드/아카이브/마이)'],
-    ['인터랙션', '알림 아이콘 탭 시 CON-13으로 push 이동 / 구장 Card 탭 시 CON-07로 push 이동 / 구장 추가 버튼 탭 시 CON-06으로 push 이동 / 캡픽 Card 탭 시 CON-16으로 push 이동 / 쇼츠 썸네일 탭 시 CON-11로 push 이동 / 하이라이트 만들기 탭 시 COMM-01로 push 이동 / AI 하이라이트 탭 시 COMM-05로 push 이동'],
+    ['주요 컴포넌트', 'Card x2 구장, Button(Outline) "구장 추가", Card(캡픽 상태) Badge(연결됨), Card(쇼츠 썸네일) x4 가로 스크롤, Card "나만의 하이라이트 만들기", Card "간편 하이라이트 만들기", BottomNav(5탭: 홈/탐색/피드/아카이브/마이)'],
+    ['인터랙션', '알림 아이콘 탭 시 CON-13으로 push 이동 / 구장 Card 탭 시 CON-07로 push 이동 / 구장 추가 버튼 탭 시 CON-06으로 push 이동 / 캡픽 Card 탭 시 CON-16으로 push 이동 / 쇼츠 썸네일 탭 시 CON-11로 push 이동 / 하이라이트 만들기 탭 시 COMM-01로 push 이동 / 간편 하이라이트 탭 시 COMM-05로 push 이동'],
     ['상태', '기본 상태 (구장·캡픽 등록 완료)'],
     ['연결 화면', '→ CON-13 알림 / → CON-07 경기 목록 / → CON-06 구장 추가 / → CON-16 캡픽 관리 / → CON-11 피드 / → COMM-01 편집 / → COMM-05 하이라이트'],
   ]},
@@ -573,12 +609,12 @@ const descriptions = {
     ['연결 화면', '→ editor-3(뒤로가기) / → con-feed(게시 완료)'],
   ]},
   'con-archive': { title: 'CON-12 내 아카이브', items: [
-    ['사용자 시나리오', '내가 촬영하거나 저장한 영상을 모아 보는 아카이브 화면이에요. "경기 영상", "하이라이트", "찜한 영상" 세 탭으로 나뉘어 있어서, 원하는 영상을 찾아서 보거나 공유할 수 있어요. 하이라이트 탭에서는 "나만의 하이라이트 만들기"나 "AI 하이라이트 만들기"를 시작할 수도 있어요.'],
+    ['사용자 시나리오', '내가 촬영하거나 저장한 영상을 모아 보는 아카이브 화면이에요. "경기 영상", "하이라이트", "찜한 영상" 세 탭으로 나뉘어 있어서, 원하는 영상을 찾아서 보거나 공유할 수 있어요. 하이라이트 탭에서는 "나만의 하이라이트 만들기"나 "간편 하이라이트 만들기"를 시작할 수도 있어요.'],
     ['레이아웃', '상단: StatusBar + TopBar("내 아카이브", 알림 아이콘 → con-09) + TabBar(경기 영상 / 하이라이트 / 찜한 영상) / 중앙: 탭별 콘텐츠 영역 / 하단: BottomNav(5탭, 아카이브 활성)'],
-    ['주요 컴포넌트', 'TopBar(title: 내 아카이브), IconButton(bell → con-09), TabBar(경기 영상·하이라이트·찜한 영상), Card(영상 제목 + 날짜·구장·시간 메타 + VideoCard 16:9 + Badge(error: REC / success: 완료) + 조회수·좋아요·공유 + Button(Outline: 공유하기·전체보기)), Button(Outline: 영상 올리기 → comm-upload-vid, 영상 합치기 → comm-merge), ListItem(나만의 하이라이트 만들기 → editor-1, AI 하이라이트 만들기 → adm-09), Grid(3열 4:5 쇼츠), Card(찜한 영상: Avatar + 영상명 + bookmark 토글), BottomNav'],
+    ['주요 컴포넌트', 'TopBar(title: 내 아카이브), IconButton(bell → con-09), TabBar(경기 영상·하이라이트·찜한 영상), Card(영상 제목 + 날짜·구장·시간 메타 + VideoCard 16:9 + Badge(error: REC / success: 완료) + 조회수·좋아요·공유 + Button(Outline: 공유하기·전체보기)), Button(Outline: 영상 올리기 → comm-upload-vid, 영상 합치기 → comm-merge), ListItem(나만의 하이라이트 만들기 → editor-1, 간편 하이라이트 만들기 → adm-09), Grid(3열 4:5 쇼츠), Card(찜한 영상: Avatar + 영상명 + bookmark 토글), BottomNav'],
     ['인터랙션', '탭 전환: 경기 영상 ↔ 하이라이트 ↔ 찜한 영상 / "공유하기" 탭 시 링크 클립보드 복사 + toast / "전체보기" 탭 시 con-07 또는 con-07b로 push 이동 / "영상 올리기" 탭 시 comm-upload-vid로 push 이동 / "영상 합치기" 탭 시 comm-merge로 push 이동 / 쇼츠 그리드 탭 시 con-feed로 push 이동 / 찜한 영상 bookmark 탭 시 accent/gray 토글'],
     ['상태', '기본: 경기 영상 탭 활성 (2건 표시) / 하이라이트 탭: 에디터 진입점 + 쇼츠 그리드 / 찜한 영상 탭: 북마크된 영상 리스트'],
-    ['연결 화면', '→ con-07(학부모 전체보기) / → con-07b(일반 전체보기) / → comm-upload-vid(영상 올리기) / → comm-merge(영상 합치기) / → editor-1(나만의 하이라이트) / → adm-09(AI 하이라이트) / → con-feed(쇼츠) / → con-09(알림)'],
+    ['연결 화면', '→ con-07(학부모 전체보기) / → con-07b(일반 전체보기) / → comm-upload-vid(영상 올리기) / → comm-merge(영상 합치기) / → editor-1(나만의 하이라이트) / → adm-09(간편 하이라이트) / → con-feed(쇼츠) / → con-09(알림)'],
   ]},
   'con-archive-empty': { title: 'CON-12e 내 아카이브 (빈 상태)', items: [
     ['사용자 시나리오', '아카이브에 아직 영상이 하나도 없을 때 보이는 화면이에요. "저장된 영상이 없어요"라는 안내가 나오고, "영상 올리기" 버튼을 눌러서 직접 영상을 올릴 수 있어요.'],
@@ -594,7 +630,7 @@ const descriptions = {
     ['주요 컴포넌트', 'TopBar(back → con-04), FilterBar(전체·소셜·시스템, active 탭 하단 accent border), Button(text: 모두 읽음), NotificationItem(icon + noti-title + noti-desc + noti-time, unread 시 accent-light 배경) x11, BottomNav'],
     ['인터랙션', '필터 탭 전환: 전체 ↔ 소셜 ↔ 시스템(active 스타일 전환) / "모두 읽음" 탭 시 모든 unread 클래스 제거 후 텍스트 "완료!" 변경 / 시스템 알림 탭: con-07(하이라이트), adm-07(녹화 시작), con-07b(하이라이트 완성), con-archive(녹화 완료), con-18(연결 끊김)로 각각 push 이동 / 소셜 알림 탭: con-feed(좋아요·조회·댓글), con-profile-other(팔로우), con-my(공유·MVP)로 각각 push 이동'],
     ['상태', '기본: 전체 탭 활성, 읽지 않은 알림 5건(unread 배경)'],
-    ['연결 화면', '→ con-04(뒤로가기·홈) / → con-07(하이라이트) / → con-07b(AI 하이라이트) / → con-archive(녹화 완료) / → con-18(캡픽 연결) / → con-feed(좋아요·조회·댓글) / → con-profile-other(팔로우) / → con-my(공유·MVP)'],
+    ['연결 화면', '→ con-04(뒤로가기·홈) / → con-07(하이라이트) / → con-07b(간편 하이라이트) / → con-archive(녹화 완료) / → con-18(캡픽 연결) / → con-feed(좋아요·조회·댓글) / → con-profile-other(팔로우) / → con-my(공유·MVP)'],
   ]},
   'con-my': { title: 'CON-14 마이페이지', items: [
     ['사용자 시나리오', '내 프로필을 보는 마이페이지예요. 내 사진, 이름, 경기 수, 하이라이트 수, 팔로워/팔로잉 수가 보여요. 내가 올린 하이라이트 영상이 격자 모양으로 나열되고, 프로필 공유나 프로필 수정 버튼을 누를 수 있어요. 활동 배지도 확인할 수 있어요.'],
@@ -749,9 +785,9 @@ const descriptions = {
     ['연결 화면', '→ con-my(뒤로가기)'],
   ]},
   'con-purchase': { title: 'CON-32 캡픽 구매', items: [
-    ['사용자 시나리오', '캡픽 스마트 캠을 구매하는 화면이에요. 가격(490,000원)과 주요 기능(AI 자동 하이라이트, 4K 고화질, WiFi 연결, 방수/방진)이 나와 있어요. "구매하기"를 누르면 결제 페이지로 가고, "문의하기"를 누르면 전화나 이메일로 물어볼 수 있어요.'],
+    ['사용자 시나리오', '캡픽 스마트 캠을 구매하는 화면이에요. 가격(490,000원)과 주요 기능(간편 하이라이트, 4K 고화질, WiFi 연결, 방수/방진)이 나와 있어요. "구매하기"를 누르면 결제 페이지로 가고, "문의하기"를 누르면 전화나 이메일로 물어볼 수 있어요.'],
     ['레이아웃', '상단: StatusBar + TopBar(back → con-04, "캡픽 구매") / 중앙: ProductImage(16:9, 캡픽 SVG) + 제품명·가격 + FeatureList(체크 아이콘 x4) + Button(Primary: 구매하기) + Button(Outline: 문의하기) / 하단: 없음'],
-    ['주요 컴포넌트', 'TopBar(back → con-04), ProductImage(캡픽 SVG, gray-100 배경, 16:9), Heading("CAPP!C 스마트 캠"), Price(490,000원, accent), FeatureItem(check SVG + "AI 자동 하이라이트 생성") x1, FeatureItem(check SVG + "4K 고화질 녹화") x1, FeatureItem(check SVG + "무선 WiFi 연결") x1, FeatureItem(check SVG + "방수/방진 설계") x1, Button(Primary, full-width: 구매하기 → toast), Button(Outline, full-width: 문의하기 → toast)'],
+    ['주요 컴포넌트', 'TopBar(back → con-04), ProductImage(캡픽 SVG, gray-100 배경, 16:9), Heading("CAPP!C 스마트 캠"), Price(490,000원, accent), FeatureItem(check SVG + "간편 하이라이트 만들기") x1, FeatureItem(check SVG + "4K 고화질 녹화") x1, FeatureItem(check SVG + "무선 WiFi 연결") x1, FeatureItem(check SVG + "방수/방진 설계") x1, Button(Primary, full-width: 구매하기 → toast), Button(Outline, full-width: 문의하기 → toast)'],
     ['인터랙션', '뒤로가기 탭 시 con-04로 pop 이동 / "구매하기" 탭 시 toast("구매 페이지로 이동합니다") / "문의하기" 탭 시 toast(전화·이메일 정보)'],
     ['상태', '기본 상태만 존재'],
     ['연결 화면', '→ con-04(뒤로가기)'],
@@ -792,9 +828,9 @@ const catNames = {adm:'관리자 앱',comm:'공통 기능',con:'소비자 앱',w
 const layout = {
   // ======== LEFT: 관리자 앱 (col 0~5) ========
   // 허브: adm-01 (7개 연결) → col 3 중심 배치
-  'adm-login':[1,0],
+  'adm-login':[1,0],'adm-pw-reset':[0,0],'adm-wait':[2,0],
   'adm-04':[4,0],
-  'adm-01-empty':[2,1.5],'adm-01':[3,1.5],
+  'adm-01-empty':[2,1.5],'adm-01':[3,1.5],'adm-noti':[1,1.5],
   'adm-02':[4,1.5],'adm-03':[5,1.5],
   'adm-15':[1,3],'adm-15-empty':[0,3],
   'adm-05':[4,3],'adm-06':[5,3],
@@ -803,7 +839,7 @@ const layout = {
   'adm-07':[3,4.5],'adm-07-empty':[2,4.5],'adm-10l':[5,4.5],
   'adm-08':[4,6],'adm-08p':[5,6],
   // 2차 허브: adm-settings (5개 연결) → 하단 중심
-  'adm-settings':[3,7.5],'adm-16':[2,8.7],'adm-users':[4,8.7],'adm-users-add':[5,8.7],
+  'adm-settings':[3,7.5],'adm-16':[2,8.7],'adm-users':[4,8.7],'adm-users-add':[5,8.7],'adm-venue-manage':[3,8.7],
 
   // ======== CENTER: 공통 기능 (col 7~12) ========
   // 허브: con-publish (4개 수신) → 우측 중심, 4개 흐름이 수렴
@@ -865,7 +901,7 @@ screens.forEach(s => {
 });
 
 // Card heights based on actual content length
-const cardHeights = {"adm-01-empty":346,"adm-01":346,"adm-02":346,"adm-03":346,"adm-04":350,"adm-05":346,"adm-06":370,"adm-07-empty":346,"adm-07":359,"adm-08":661,"adm-08p":756,"adm-09":350,"adm-10":350,"adm-10l":346,"adm-11":350,"adm-13":346,"adm-14":370,"adm-15-empty":346,"adm-15":346,"adm-15a":403,"adm-16":350,"adm-login":346,"adm-settings":377,"adm-users-add":350,"adm-users":350,"comm-merge-done":370,"comm-merge-loading":346,"comm-merge":350,"comm-upload-done":370,"comm-upload-loading":346,"comm-upload-vid":350,"con-01":346,"con-02":346,"con-03":350,"con-04-empty":346,"con-04":346,"con-05":350,"con-06-empty":346,"con-06":346,"con-07":645,"con-07b":645,"con-08":350,"con-09":444,"con-10l":346,"con-18-empty":350,"con-18-register":350,"con-18":350,"con-archive-empty":346,"con-archive":378,"con-badges":350,"con-explore":603,"con-feed":346,"con-followers":346,"con-my":393,"con-ob-register":346,"con-ob-test":346,"con-ob1":346,"con-ob2":346,"con-ob3":346,"con-ob4":346,"con-player":756,"con-privacy":350,"con-profile-edit":350,"con-profile-other":346,"con-publish":357,"con-purchase":350,"con-pw-change":350,"con-pw-reset":350,"con-settings":532,"con-signup":350,"con-subscribe":350,"con-terms":350,"con-upload":350,"con-venue-manage":350,"editor-1":350,"editor-3":370,"editor-loading":346,"editor":350,"web-01":359,"web-02":608,"web-02a":665};
+const cardHeights = {"adm-login":346,"adm-pw-reset":350,"adm-wait":346,"adm-01":346,"adm-noti":346,"adm-01-empty":346,"adm-04":350,"adm-02":346,"adm-03":280,"adm-05":346,"adm-06":370,"adm-07":346,"adm-07-empty":346,"adm-08":691,"adm-08p":731,"adm-10l":280,"adm-15":346,"adm-15-empty":346,"adm-15a":403,"adm-settings":409,"adm-users":350,"adm-users-add":350,"adm-16":350,"adm-venue-manage":350,"editor-1":350,"editor":350,"editor-loading":346,"editor-3":370,"adm-09":350,"adm-10":350,"adm-11":350,"adm-13":346,"adm-14":370,"comm-upload-vid":350,"comm-upload-loading":346,"comm-upload-done":370,"comm-merge":350,"comm-merge-loading":346,"comm-merge-done":370,"con-02":346,"con-01":346,"con-03":350,"con-ob1":346,"con-ob2":346,"con-ob-register":346,"con-ob3":346,"con-ob-test":346,"con-ob4":346,"con-04":346,"con-04-empty":346,"con-05":350,"con-06":346,"con-06-empty":346,"con-07":620,"con-07b":620,"con-player":731,"con-10l":280,"con-feed":346,"con-publish":357,"con-archive":362,"con-archive-empty":346,"con-09":444,"con-my":393,"con-settings":532,"con-18":350,"con-18-empty":350,"con-18-register":350,"con-08":350,"con-upload":350,"con-explore":603,"con-profile-other":346,"con-followers":346,"con-pw-reset":350,"con-signup":350,"con-profile-edit":350,"con-pw-change":350,"con-subscribe":350,"con-venue-manage":350,"con-terms":350,"con-privacy":350,"con-badges":350,"con-purchase":350,"web-01":359,"web-02":584,"web-02a":641};
 
 // Node.js compatibility
 if (typeof module !== "undefined" && module.exports) {

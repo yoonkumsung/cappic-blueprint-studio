@@ -1,6 +1,6 @@
 /* ============================================================
    Cappic Design System - styles.css
-   Colors: Black & White + Baemin Neon Green (#2AC1BC)
+   Colors: Black & White 모노크롬 (accent = Black #000000, 2026-07-12 틸 제거)
    Font: Pretendard
    Base: Galaxy S24 (360 x 780px viewport)
    ============================================================ */
@@ -13,9 +13,9 @@
   /* Colors - Core */
   --color-white: #FFFFFF;
   --color-black: #000000;
-  --color-accent: #2AC1BC;        /* Baemin Neon Green/Mint */
-  --color-accent-light: #E8F8F7;  /* accent 10% opacity */
-  --color-accent-dark: #1E9A96;   /* accent pressed state */
+  --color-accent: #000000;        /* Black (구 Baemin Mint #2AC1BC — 틸 제거) */
+  --color-accent-light: #F0F0F0;  /* accent light tint (선택 상태 배경) */
+  --color-accent-dark: #333333;   /* accent pressed state */
 
   /* Colors - Grayscale */
   --color-gray-50: #FAFAFA;

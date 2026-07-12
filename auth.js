@@ -44,13 +44,13 @@
   // --- 암호 입력 화면 HTML ---
   function buildAuthHTML() {
     return '<div style="text-align:center;width:300px;padding:0 24px;">'
-      + '<div style="font-size:36px;font-weight:800;color:#2AC1BC;margin-bottom:4px;letter-spacing:-1px;">CAPP!C</div>'
+      + '<div style="font-size:36px;font-weight:800;color:#000000;margin-bottom:4px;letter-spacing:-1px;">CAPP!C</div>'
       + '<div style="font-size:12px;font-weight:400;color:#888;margin-bottom:6px;">Blueprint Studio</div>'
       + '<div style="font-size:13px;color:#9E9E9E;margin-bottom:32px;">비밀번호를 입력하세요</div>'
       + '<input id="auth-pw" type="password" placeholder="비밀번호" autocomplete="off" '
       + 'style="width:100%;height:48px;padding:0 16px;border:1px solid #E0E0E0;border-radius:12px;font-size:15px;outline:none;box-sizing:border-box;font-family:inherit;transition:border-color 0.15s;">'
       + '<div id="auth-error" style="color:#EF4444;font-size:12px;margin-top:8px;height:18px;"></div>'
-      + '<button id="auth-submit" style="width:100%;height:48px;background:#2AC1BC;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;font-family:inherit;transition:background 0.15s;">'
+      + '<button id="auth-submit" style="width:100%;height:48px;background:#000000;color:#fff;border:none;border-radius:12px;font-size:15px;font-weight:600;cursor:pointer;margin-top:8px;font-family:inherit;transition:background 0.15s;">'
       + '확인</button>'
       + '</div>';
   }
@@ -58,9 +58,9 @@
   // --- 로딩 화면 HTML ---
   function buildLoadingHTML() {
     return '<div style="text-align:center;">'
-      + '<div style="font-size:36px;font-weight:800;color:#2AC1BC;margin-bottom:4px;letter-spacing:-1px;">CAPP!C</div>'
+      + '<div style="font-size:36px;font-weight:800;color:#000000;margin-bottom:4px;letter-spacing:-1px;">CAPP!C</div>'
       + '<div style="font-size:12px;font-weight:400;color:#888;margin-bottom:24px;">Blueprint Studio</div>'
-      + '<div style="width:40px;height:40px;border:3px solid #E0E0E0;border-top-color:#2AC1BC;border-radius:50%;animation:auth-spin 0.8s linear infinite;margin:0 auto;"></div>'
+      + '<div style="width:40px;height:40px;border:3px solid #E0E0E0;border-top-color:#000000;border-radius:50%;animation:auth-spin 0.8s linear infinite;margin:0 auto;"></div>'
       + '<div style="font-size:13px;color:#9E9E9E;margin-top:16px;">화면을 준비하고 있어요...</div>'
       + '<style>@keyframes auth-spin{to{transform:rotate(360deg)}}</style>'
       + '</div>';
@@ -87,7 +87,7 @@
       if (!input || !btn) return;
 
       input.addEventListener('focus', function() {
-        input.style.borderColor = '#2AC1BC';
+        input.style.borderColor = '#000000';
       });
       input.addEventListener('blur', function() {
         input.style.borderColor = '#E0E0E0';

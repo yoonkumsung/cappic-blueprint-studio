@@ -4,6 +4,8 @@ function go(screenId) {
   document.querySelectorAll('.screen-content').forEach(s => s.classList.remove('active'));
   const target = document.getElementById(screenId);
   if (target) { target.classList.add('active'); const body = target.querySelector('.screen-body'); if (body) body.scrollTop = 0; }
+  // adm-04(캡픽 찾기)는 항상 1단계(QR)부터 시작
+  if (screenId === 'adm-04' && typeof admScanStep === 'function') admScanStep(1);
   // Landscape mode
   const phone = document.getElementById('phoneFrame');
   if (phone) {
@@ -471,6 +473,64 @@ function btnCopyToast(msg) {
   t.textContent = msg;
   t.style.opacity = '1';
   setTimeout(function() { t.style.opacity = '0'; }, TOAST_SHOW);
+}
+
+// 구장 관리(adm-venue-manage): 이름 수정 모달 열기
+function admRename(title, current) {
+  var t = document.getElementById('admRenameTitle');
+  if (t) t.textContent = title;
+  var inp = document.getElementById('admRenameInput');
+  if (inp) inp.value = current || '';
+  var m = document.getElementById('admRenameModal');
+  if (m) m.style.display = 'flex';
+}
+
+// 기기 관리(adm-16): 액션 시트 열기
+function admOpenDeviceSheet(name) {
+  var nameEl = document.getElementById('admDeviceSheetName');
+  if (nameEl) nameEl.textContent = name;
+  var sheet = document.getElementById('admDeviceSheet');
+  if (sheet) sheet.style.display = 'block';
+}
+
+// 캡픽 찾기(adm-04): 스텝 전환 (1 QR → 2 검색/연결 → 3 Wi-Fi)
+function admScanStep(n) {
+  for (var i = 1; i <= 3; i++) {
+    var p = document.getElementById('admScan' + i);
+    if (p) p.style.display = (i === n) ? 'block' : 'none';
+  }
+  var dots = document.querySelectorAll('#admScanBody .admscan-dot');
+  dots.forEach(function(d, idx) {
+    d.className = 'admscan-dot ' + ((idx < n) ? 'dot-accent' : 'dot-gray');
+  });
+  var body = document.getElementById('admScanBody');
+  if (body) body.scrollTop = 0;
+}
+
+// 캡픽 찾기(adm-04): Wi-Fi 단일 선택
+function admPickWifi(el) {
+  var list = el.parentElement.querySelectorAll('.wifi-pick');
+  list.forEach(function(c) {
+    c.classList.remove('wifi-selected');
+    var chk = c.querySelector('.wifi-check');
+    if (chk) chk.style.display = 'none';
+  });
+  el.classList.add('wifi-selected');
+  var chk = el.querySelector('.wifi-check');
+  if (chk) chk.style.display = 'inline';
+}
+
+// 운영자 관리: 멤버 액션 시트 열기
+function admOpenUserSheet(name, role) {
+  var nameEl = document.getElementById('admUserSheetName');
+  if (nameEl) nameEl.textContent = name;
+  // 역할 모달 칩을 현재 역할로 초기화
+  var chips = document.querySelectorAll('#admRoleModal .chip');
+  chips.forEach(function(c) {
+    c.classList.toggle('active', c.textContent.trim() === role);
+  });
+  var sheet = document.getElementById('admUserSheet');
+  if (sheet) sheet.style.display = 'block';
 }
 
 function btnDl(el, popupId) {

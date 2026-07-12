@@ -39,7 +39,7 @@
     .nav-item.active { color: var(--color-accent); font-weight: 600; }
 
     /* Shared */
-    .wifi-banner { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #E8F8F7; font-size: 13px; color: #1E9A96; }
+    .wifi-banner { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #F0F0F0; font-size: 13px; color: #333333; }
     .camera-card { display: flex; align-items: center; gap: 12px; padding: 12px 16px; }
     .camera-card-info { flex: 1; }
     .camera-card-info .name { font-weight: 600; font-size: 15px; }
@@ -202,9 +202,9 @@
     }
     /* Save button pulse */
     @keyframes savePulse {
-      0% { box-shadow: 0 0 0 0 rgba(42, 193, 188, 0.4); }
-      70% { box-shadow: 0 0 0 8px rgba(42, 193, 188, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(42, 193, 188, 0); }
+      0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4); }
+      70% { box-shadow: 0 0 0 8px rgba(0, 0, 0, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
     }
     /* Confetti for milestones */
     @keyframes confetti {
@@ -274,7 +274,7 @@
               <input class="input" type="password" placeholder="비밀번호">
             </div>
             <button class="btn btn-primary btn-full" data-go="adm-01">로그인</button>
-            <div style="text-align:center; margin-top:10px;"><span style="font-size:12px; color:var(--color-accent); cursor:pointer;" data-go="con-pw-reset">비밀번호를 잊으셨나요?</span></div>
+            <div style="text-align:center; margin-top:10px;"><span style="font-size:12px; color:var(--color-accent); cursor:pointer;" data-go="adm-pw-reset">비밀번호를 잊으셨나요?</span></div>
           </div>
           <button class="btn btn-outline btn-full" id="contactBtn" style="font-size:13px; height:40px;">문의하기</button>
           <div id="contactInfo" style="display:none; width:100%; margin-top:12px;">
@@ -292,12 +292,50 @@
         </div>
       </div>
 
+      <!-- ===== ADM-WAIT: 권한 대기 (로그인 O, 관리자 권한 X) ===== -->
+      <div class="screen-content" id="adm-wait" style="background:#FFFFFF;">
+        <div class="status-bar" style="background:#FFFFFF;"><span>9:41</span><span>LTE 100%</span></div>
+        <div style="flex:1; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 32px; text-align:center;">
+          <div style="width:88px; height:88px; border-radius:50%; background:var(--color-accent-light); display:flex; align-items:center; justify-content:center; margin-bottom:24px;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+          </div>
+          <div style="font-size:20px; font-weight:800; color:var(--color-text-primary); margin-bottom:10px;">아직 권한이 없어요</div>
+          <div style="font-size:14px; color:var(--color-text-secondary); line-height:1.6; margin-bottom:28px;">캡픽 본사에서 승인하면<br>관리자 앱을 사용할 수 있어요</div>
+          <button class="btn btn-primary btn-full" onclick="var b=this; b.textContent='확인 중...'; setTimeout(function(){ b.textContent='새로고침'; btnCopyToast('아직 승인 전이에요'); },1200);">새로고침</button>
+          <div style="margin-top:16px;"><span style="font-size:13px; color:var(--color-text-secondary); cursor:pointer;" data-go="adm-login">로그아웃</span></div>
+        </div>
+      </div>
+
+      <!-- ===== ADM-PW-RESET: 비밀번호 찾기 (관리자) ===== -->
+      <div class="screen-content" id="adm-pw-reset">
+        <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
+        <div class="top-bar">
+          <button class="top-bar-back" data-go="adm-login"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
+          <span class="top-bar-title">비밀번호 찾기</span>
+          <div class="top-bar-spacer"></div>
+        </div>
+        <div class="screen-body">
+          <div style="display:flex; flex-direction:column; align-items:center; padding:32px 16px 24px;">
+            <svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+            <div style="font-size:17px; font-weight:700; margin-top:20px;">비밀번호를 재설정해드릴게요</div>
+            <div style="font-size:13px; color:var(--color-text-secondary); margin-top:8px; text-align:center; line-height:1.5;">가입하신 이메일을 입력하면<br>재설정 링크를 보내드려요</div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">이메일</label>
+            <input class="input" type="email" placeholder="admin@cappic.co">
+          </div>
+          <div class="p-4">
+            <button class="btn btn-primary btn-full" onclick="btnCopyToast('재설정 메일을 보냈어요'); setTimeout(()=>go('adm-login'),1500);">재설정 메일 보내기</button>
+          </div>
+        </div>
+      </div>
+
       <!-- ===== ADM-01: Home (Camera List) - Dashboard 통합 ===== -->
       <div class="screen-content" id="adm-01">
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <span class="top-bar-title">캡틴FC 용인점</span>
-          <button style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:var(--color-text-primary); position:relative; z-index:1; display:flex; align-items:center; justify-content:center; margin-left:auto;" data-go="con-09">
+          <button style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:var(--color-text-primary); position:relative; z-index:1; display:flex; align-items:center; justify-content:center; margin-left:auto;" data-go="adm-noti">
             <svg width="22" height="22"><use href="#icon-bell"/></svg>
             <span style="position:absolute; top:4px; right:4px; width:8px; height:8px; border-radius:50%; background:var(--color-error);"></span>
           </button>
@@ -406,7 +444,7 @@
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <span class="top-bar-title">캡틴FC 용인점</span>
-          <button style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:var(--color-text-primary); position:relative; z-index:1; display:flex; align-items:center; justify-content:center; margin-left:auto;" data-go="con-09">
+          <button style="width:44px; height:44px; border:none; background:none; cursor:pointer; color:var(--color-text-primary); position:relative; z-index:1; display:flex; align-items:center; justify-content:center; margin-left:auto;" data-go="adm-noti">
             <svg width="22" height="22"><use href="#icon-bell"/></svg>
             <span style="position:absolute; top:4px; right:4px; width:8px; height:8px; border-radius:50%; background:var(--color-error);"></span>
           </button>
@@ -439,9 +477,39 @@
           <span class="top-bar-title">디바이스 찾기</span>
           <div class="top-bar-spacer"></div>
         </div>
-        <div class="screen-body">
-          <div style="display:flex; flex-direction:column; align-items:center; padding:32px 16px; gap:16px;">
-            <div style="width:120px; height:120px; border-radius:50%; background:var(--color-accent-light); display:flex; align-items:center; justify-content:center; position:relative;">
+        <div class="screen-body" id="admScanBody">
+          <!-- 스텝 인디케이터 -->
+          <div style="display:flex; justify-content:center; gap:8px; padding:16px 24px 4px;">
+            <div class="admscan-dot dot-accent"></div>
+            <div class="admscan-dot dot-gray"></div>
+            <div class="admscan-dot dot-gray"></div>
+          </div>
+
+          <!-- STEP 1: QR 스캔 -->
+          <div id="admScan1">
+            <div style="text-align:center; padding:12px 24px 0;">
+              <div style="font-size:18px; font-weight:800;">캡픽 뒷면의 QR을 찍어주세요</div>
+              <div class="sub-text" style="margin-top:6px;">QR을 찍으면 어떤 캡픽인지 바로 알 수 있어요</div>
+            </div>
+            <div style="display:flex; justify-content:center; padding:24px 16px 12px;">
+              <div style="position:relative; width:220px; height:220px; background:#111; border-radius:16px; overflow:hidden; display:flex; align-items:center; justify-content:center;">
+                <div style="position:absolute; top:14px; left:14px; width:28px; height:28px; border-top:3px solid #fff; border-left:3px solid #fff; border-radius:6px 0 0 0;"></div>
+                <div style="position:absolute; top:14px; right:14px; width:28px; height:28px; border-top:3px solid #fff; border-right:3px solid #fff; border-radius:0 6px 0 0;"></div>
+                <div style="position:absolute; bottom:14px; left:14px; width:28px; height:28px; border-bottom:3px solid #fff; border-left:3px solid #fff; border-radius:0 0 0 6px;"></div>
+                <div style="position:absolute; bottom:14px; right:14px; width:28px; height:28px; border-bottom:3px solid #fff; border-right:3px solid #fff; border-radius:0 0 6px 0;"></div>
+                <svg width="72" height="72" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.35;"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/></svg>
+              </div>
+            </div>
+            <div style="padding:4px 16px 16px;">
+              <button class="btn btn-primary btn-full" onclick="admScanStep(2)">QR 찍었어요</button>
+              <div style="text-align:center; margin-top:12px;"><span class="sub-text" style="cursor:pointer; text-decoration:underline;" onclick="admScanStep(2)">QR 없이 직접 찾기</span></div>
+            </div>
+          </div>
+
+          <!-- STEP 2: 근처 캡픽 검색/연결 (BLE) -->
+          <div id="admScan2" style="display:none;">
+          <div style="display:flex; flex-direction:column; align-items:center; padding:20px 16px 12px; gap:16px;">
+            <div style="width:110px; height:110px; border-radius:50%; background:var(--color-accent-light); display:flex; align-items:center; justify-content:center; position:relative;">
               <div style="position:absolute; width:100%; height:100%; border-radius:50%; border:2px solid var(--color-accent); animation:pulse 2s ease-in-out infinite;"></div>
               <div style="position:absolute; width:140%; height:140%; border-radius:50%; border:1px solid var(--color-accent); opacity:0.3; animation:pulse 2s ease-in-out infinite 0.5s;"></div>
               <svg width="44" height="52" viewBox="0 0 40 50" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="30" height="18" rx="9" fill="#fff"/><circle cx="15" cy="10" r="2.5" fill="#555" stroke="none"/><circle cx="16" cy="9" r="0.8" fill="#fff" stroke="none"/><circle cx="25" cy="10" r="2.5" fill="#555" stroke="none"/><circle cx="26" cy="9" r="0.8" fill="#fff" stroke="none"/><rect x="5" y="23" width="30" height="25" rx="10" fill="#fff"/><rect x="18.5" y="29" width="3" height="7" rx="1.5" fill="none"/><circle cx="20" cy="40" r="1.5" fill="none"/></svg>
@@ -482,7 +550,38 @@
             </div>
           </div>
           <div class="p-4">
-            <button class="btn btn-primary btn-full" data-go="adm-01">완료</button>
+            <button class="btn btn-primary btn-full" onclick="admScanStep(3)">다음</button>
+          </div>
+          </div>
+
+          <!-- STEP 3: Wi-Fi 연결 -->
+          <div id="admScan3" style="display:none;">
+            <div style="text-align:center; padding:12px 24px 0;">
+              <div style="font-size:18px; font-weight:800;">구장 Wi-Fi에 캡픽을 연결해요</div>
+              <div class="sub-text" style="margin-top:6px;">캡픽이 이 Wi-Fi로 영상을 보내요</div>
+            </div>
+            <div class="section-header">Wi-Fi 고르기</div>
+            <div class="card card-mx-plain wifi-pick wifi-selected" onclick="admPickWifi(this)">
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0114 0"/><path d="M8.5 16.11a6 6 0 017 0"/><path d="M2 8.82a15 15 0 0120 0"/><line x1="12" y1="20" x2="12" y2="20"/></svg>
+                <div class="flex-1"><div class="label-text">CappicField_5G</div><div class="sub-text">신호 강함</div></div>
+                <span class="wifi-check" style="color:var(--color-accent); font-size:18px; font-weight:700;">&#10003;</span>
+              </div>
+            </div>
+            <div class="card card-mx-plain wifi-pick" onclick="admPickWifi(this)">
+              <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.55a11 11 0 0114 0"/><path d="M8.5 16.11a6 6 0 017 0"/><path d="M2 8.82a15 15 0 0120 0"/><line x1="12" y1="20" x2="12" y2="20"/></svg>
+                <div class="flex-1"><div class="label-text">CaptainFC_Guest</div><div class="sub-text">신호 보통</div></div>
+                <span class="wifi-check" style="display:none; color:var(--color-accent); font-size:18px; font-weight:700;">&#10003;</span>
+              </div>
+            </div>
+            <div class="form-group" style="margin-top:8px;">
+              <label class="form-label">Wi-Fi 비밀번호</label>
+              <input class="input" type="password" placeholder="비밀번호를 입력하세요">
+            </div>
+            <div class="p-4">
+              <button class="btn btn-primary btn-full" onclick="btnCopyToast('캡픽을 Wi-Fi에 연결했어요'); setTimeout(function(){go('adm-01');},1500);">연결하고 완료</button>
+            </div>
           </div>
         </div>
       </div>
@@ -715,14 +814,14 @@
               <div class="mb-3">
                 <div class="drawer-label">CPU</div>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:32%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:32%; height:100%; background:#fff; border-radius:4px;"></div></div>
                   <span style="color:#fff; font-size:12px;">32%</span>
                 </div>
               </div>
               <div class="mb-3">
                 <div class="drawer-label">GPU</div>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:48%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:48%; height:100%; background:#fff; border-radius:4px;"></div></div>
                   <span style="color:#fff; font-size:12px;">48%</span>
                 </div>
               </div>
@@ -743,14 +842,14 @@
               <div class="mb-3">
                 <div class="drawer-label">저장공간</div>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:45%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:45%; height:100%; background:#fff; border-radius:4px;"></div></div>
                   <span style="color:#fff; font-size:12px;">45%</span>
                 </div>
               </div>
               <div class="mb-3">
                 <div class="drawer-label">RAM</div>
                 <div style="display:flex; align-items:center; gap:8px;">
-                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:41%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                  <div style="flex:1; height:4px; background:rgba(255,255,255,0.2); border-radius:4px;"><div style="width:41%; height:100%; background:#fff; border-radius:4px;"></div></div>
                   <span style="color:#fff; font-size:12px;">41%</span>
                 </div>
               </div>
@@ -795,7 +894,7 @@
             <div style="display:flex; align-items:center; gap:8px; color:#fff; font-size:11px; margin-bottom:6px;">
               <span>3:24</span>
               <div style="flex:1; height:3px; background:rgba(255,255,255,0.2); border-radius:4px; position:relative; cursor:pointer;">
-                <div style="width:35%; height:100%; background:var(--color-accent); border-radius:4px;"></div>
+                <div style="width:35%; height:100%; background:#fff; border-radius:4px;"></div>
                 <div style="position:absolute; top:-4px; left:35%; width:10px; height:10px; border-radius:50%; background:#fff; transform:translateX(-50%);"></div>
               </div>
               <span>10:00</span>
@@ -817,7 +916,7 @@
               <div style="padding:8px 14px; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer; font-size:12px; color:rgba(255,255,255,0.5);" onclick="this.parentElement.style.display='none'; this.parentElement.parentElement.querySelectorAll('.adm-ps-menu-item').forEach(function(el){el.style.display='flex'});">&lsaquo; 뒤로</div>
               <div class="ps-option-row" data-toast="재생 속도: 0.5x">0.5x</div>
               <div class="ps-option-row" data-toast="재생 속도: 0.75x">0.75x</div>
-              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:var(--color-accent); font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1x &#10003;</div>
+              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff; font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1x &#10003;</div>
               <div class="ps-option-row" data-toast="재생 속도: 1.25x">1.25x</div>
               <div class="ps-option-row" data-toast="재생 속도: 1.5x">1.5x</div>
               <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff;" data-toast="재생 속도: 2x">2x</div>
@@ -827,7 +926,7 @@
               <div style="padding:8px 14px; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer; font-size:12px; color:rgba(255,255,255,0.5);" onclick="this.parentElement.style.display='none'; this.parentElement.parentElement.querySelectorAll('.adm-ps-menu-item').forEach(function(el){el.style.display='flex'});">&lsaquo; 뒤로</div>
               <div class="ps-option-row" data-toast="화질: 480p">480p</div>
               <div class="ps-option-row" data-toast="화질: 720p">720p</div>
-              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:var(--color-accent); font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1080p &#10003;</div>
+              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff; font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1080p &#10003;</div>
               <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff;" data-toast="화질: 4K">4K</div>
             </div>
           </div>
@@ -1114,8 +1213,63 @@
           <div class="divider" style="margin:4px 16px;"></div>
 
           <!-- 전체 다운로드 -->
-          <div style="padding:8px 16px 16px;">
+          <div style="padding:8px 16px 8px;">
             <button class="btn btn-primary btn-full" id="bulkDlBtn">전체 다운로드</button>
+          </div>
+
+          <!-- 공유 관리 (D-i) -->
+          <div style="padding:0 16px 8px;">
+            <button class="btn btn-outline btn-full" onclick="document.getElementById('adm08ShareManage').style.display='block'">공유 관리</button>
+          </div>
+
+          <!-- 영상 삭제 (관리자 전용) -->
+          <div style="padding:0 16px 16px;">
+            <button class="btn btn-full" style="height:44px; font-size:15px; color:var(--color-error); background:#fff; border:1px solid var(--color-error); border-radius:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;" onclick="document.getElementById('adm08DeleteModal').style.display='flex'">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              영상 삭제
+            </button>
+            <div style="text-align:center; margin-top:6px; font-size:11px; color:var(--color-text-tertiary); display:flex; align-items:center; justify-content:center; gap:4px;">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+              관리자만 삭제할 수 있어요
+            </div>
+          </div>
+
+          <!-- 영상 삭제 확인 모달 -->
+          <div id="adm08DeleteModal" class="modal-overlay" style="display:none;">
+            <div class="modal-box">
+              <div class="modal-title">영상을 지울까요?</div>
+              <div class="modal-desc">지우면 되돌릴 수 없어요</div>
+              <div class="flex gap-2">
+                <button class="btn btn-secondary flex-1" onclick="document.getElementById('adm08DeleteModal').style.display='none';">취소</button>
+                <button class="btn btn-danger flex-1" onclick="document.getElementById('adm08DeleteModal').style.display='none'; btnCopyToast('영상을 지웠어요'); setTimeout(function(){go('adm-07');},1200);">삭제</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 공유 관리 시트 (만든 링크 목록 + 끄기 토글) -->
+          <div id="adm08ShareManage" style="display:none; position:absolute; bottom:0; left:0; right:0; top:0; z-index:100;">
+            <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);" onclick="document.getElementById('adm08ShareManage').style.display='none'"></div>
+            <div class="slide-up" style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                <span style="font-size:15px;font-weight:700;">공유 관리</span>
+                <button style="border:none;background:none;font-size:20px;cursor:pointer;color:#757575;" onclick="document.getElementById('adm08ShareManage').style.display='none'">&times;</button>
+              </div>
+              <div class="sub-text" style="margin-bottom:12px;">내가 만든 공유 링크예요. 끄면 받은 사람이 더 이상 볼 수 없어요.</div>
+              <div style="display:flex; align-items:center; gap:10px; padding:12px 4px; border-top:1px solid var(--color-divider);">
+                <div class="flex-1" style="min-width:0;">
+                  <div class="label-text">1분 하이라이트</div>
+                  <div class="sub-text">cappic.co/s/AB12CD · 3일 동안 볼 수 있어요</div>
+                </div>
+                <div class="toggle-switch on" onclick="this.classList.toggle('on'); btnCopyToast(this.classList.contains('on')?'공유를 켰어요':'공유를 껐어요')"></div>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; padding:12px 4px; border-top:1px solid var(--color-divider);">
+                <div class="flex-1" style="min-width:0;">
+                  <div class="label-text">전체 경기 영상</div>
+                  <div class="sub-text">cappic.co/s/9KLM3P · 어제 만듦</div>
+                </div>
+                <div class="toggle-switch on" onclick="this.classList.toggle('on'); btnCopyToast(this.classList.contains('on')?'공유를 켰어요':'공유를 껐어요')"></div>
+              </div>
+            </div>
           </div>
 
           <!-- 화질 선택 팝업 -->
@@ -1523,7 +1677,7 @@
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <button class="top-bar-back" data-go="adm-settings"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
-          <span class="top-bar-title" style="font-size:14px;">AI 하이라이트 만들기</span>
+          <span class="top-bar-title" style="font-size:14px;">간편 하이라이트 만들기</span>
           <div class="top-bar-spacer"></div>
         </div>
         <div class="screen-body">
@@ -1563,7 +1717,7 @@
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <button class="top-bar-back" data-go="adm-09"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
-          <span class="top-bar-title" style="font-size:14px;">AI 하이라이트 만들기</span>
+          <span class="top-bar-title" style="font-size:14px;">간편 하이라이트 만들기</span>
           <div class="top-bar-spacer"></div>
         </div>
         <div class="screen-body">
@@ -1584,12 +1738,12 @@
             </div>
           </div>
           <div style="margin:0 16px 8px; background:#212121; border-radius:12px; aspect-ratio:16/9; position:relative; display:flex; align-items:center; justify-content:center;">
-            <span style="color:#fff; opacity:0.3; font-size:14px;">프레임 캔버스 + 인물 감지</span>
+            <span style="color:#fff; opacity:0.3; font-size:14px;">경기 영상 프레임</span>
             <div style="position:absolute; border:2px solid var(--color-accent); width:30px; height:60px; top:30%; left:25%;"></div>
             <div style="position:absolute; border:2px solid var(--color-warning); width:28px; height:56px; top:32%; left:45%;"></div>
             <div style="position:absolute; border:2px solid var(--color-error); width:32px; height:58px; top:28%; left:65%;"></div>
           </div>
-          <div style="padding:8px 16px 2px;"><div class="title-sm">감지된 인물</div><div style="font-size:11px; color:#757575; margin-top:1px;">하이라이트를 만들 인물을 선택하세요</div></div>
+          <div style="padding:8px 16px 2px;"><div class="title-sm">선수 선택</div><div style="font-size:11px; color:#757575; margin-top:1px;">등록된 선수 중에서 하이라이트를 만들 선수를 골라주세요</div></div>
           <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:4px; padding:8px 16px 12px;">
             <div style="aspect-ratio:4/5; background:#ddd; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#1</div><div style="position:absolute; top:4px; right:4px; width:44px; height:44px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;" class="clip-circle" data-checked="1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
             <div style="aspect-ratio:4/5; background:#ccc; border-radius:6px; position:relative; cursor:pointer;"><div class="thumb-overlay-badge">#2</div><div style="position:absolute; top:4px; right:4px; width:44px; height:44px; border-radius:50%; border:2px solid rgba(255,255,255,0.8); background:var(--color-accent); display:flex; align-items:center; justify-content:center;" class="clip-circle" data-checked="1"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3"><path d="M20 6L9 17l-5-5"/></svg></div></div>
@@ -1607,7 +1761,7 @@
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="top-bar">
           <button class="top-bar-back" data-go="adm-10"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
-          <span class="top-bar-title" style="font-size:14px;">AI 하이라이트 만들기</span>
+          <span class="top-bar-title" style="font-size:14px;">간편 하이라이트 만들기</span>
           <div class="top-bar-spacer"></div>
         </div>
         <div class="screen-body">
@@ -1627,13 +1781,13 @@
               <span style="font-size:10px; color:var(--color-accent); font-weight:600; margin-top:4px;">설정</span>
             </div>
           </div>
-          <div class="form-group"><label class="form-label">점수 정확도</label></div>
-          <div class="slider-row"><div class="slider-track"><div class="slider-fill" style="width:60%;"><div class="slider-thumb" style="right:-8px;"></div></div></div><span class="slider-label">0.6</span></div>
-          <div class="form-group"><label class="form-label">매칭 정확도</label></div>
-          <div class="slider-row"><div class="slider-track"><div class="slider-fill" style="width:50%;"><div class="slider-thumb" style="right:-8px;"></div></div></div><span class="slider-label">0.5</span></div>
-          <div class="form-group"><label class="form-label">출력 FPS</label><input class="input" type="number" value="30"></div>
-          <div class="form-group"><label class="form-label">비트레이트 (kbps)</label><input class="input" type="number" value="4000"></div>
-          <div class="info-row"><span class="label">디버그 모드</span><div class="toggle-switch"></div></div>
+          <div class="form-group"><label class="form-label">화질</label></div>
+          <div style="display:flex; gap:6px; padding:0 16px 4px;">
+            <button class="chip" style="flex:1; justify-content:center;" onclick="this.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); this.classList.add('active');">저</button>
+            <button class="chip active" style="flex:1; justify-content:center;" onclick="this.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); this.classList.add('active');">중</button>
+            <button class="chip" style="flex:1; justify-content:center;" onclick="this.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); this.classList.add('active');">고</button>
+          </div>
+          <div style="padding:0 16px 8px; font-size:11px; color:#757575;">화질이 높을수록 파일이 커져요</div>
           <div class="form-group"><label class="form-label">영상 비율</label></div>
           <div style="display:flex; gap:6px; padding:0 16px 12px; flex-wrap:wrap;">
             <button class="chip active" style="flex:1; justify-content:center; min-width:0;" onclick="this.parentElement.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); this.classList.add('active');">16:9</button>
@@ -1652,7 +1806,7 @@
         <div style="flex:1; position:relative; background:var(--color-background);">
           <div class="msg-center">
             <div style="width:64px; height:64px; border:4px solid var(--color-gray-200); border-top-color:var(--color-accent); border-radius:50%; animation:spin 1s linear infinite;"></div>
-            <div class="heading-msg">AI 하이라이트를 만들고 있어요</div>
+            <div class="heading-msg">간편 하이라이트를 만들고 있어요</div>
             <div class="desc-msg">조금만 기다려주세요</div>
             <div style="font-size:13px; color:#757575; margin-top:8px;">1단계: 선수 찾는 중...</div><div style="width:80%; margin:8px auto 0;"><div class="progress"><div class="progress-fill" style="width:30%"></div></div></div>
           </div>
@@ -1660,7 +1814,7 @@
         </div>
       </div>
 
-      <!-- ===== ADM-14: AI 하이라이트 완성 ===== -->
+      <!-- ===== ADM-14: 간편 하이라이트 완성 ===== -->
       <div class="screen-content" id="adm-14">
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
         <div class="screen-body relative" id="aiCompleteBody">
@@ -1668,7 +1822,7 @@
           <div id="aiPhase1" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; background:var(--color-background);">
             <div class="msg-center">
               <div style="width:64px; height:64px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
-              <div class="heading-msg">AI 하이라이트가 완성되었어요!</div>
+              <div class="heading-msg">간편 하이라이트가 완성되었어요!</div>
               <div class="desc-msg">2명 &middot; 16:9</div>
             </div>
           </div>
@@ -1682,8 +1836,15 @@
                 <div style="position:absolute; bottom:6px; right:6px; background:rgba(0,0,0,0.5); color:#fff; font-size:9px; padding:2px 6px; border-radius:4px;">2:34</div>
               </div>
             </div>
-            <div style="display:flex; justify-content:center; gap:24px; padding:0 24px; margin-top:24px;">
-              <div class="action-icon-col" onclick="btnShare(this, 'https://cappic.co/highlight/ai')">
+            <!-- 세션별 공유 링크 + TTL 안내 -->
+            <div style="display:flex; align-items:center; gap:8px; margin-top:16px; padding:8px 14px; background:var(--color-gray-50); border-radius:10px; cursor:pointer;" onclick="navigator.clipboard.writeText('cappic.co/s/AB12CD'); btnCopyToast('공유 링크를 복사했어요')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-secondary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+              <span style="font-size:13px; font-weight:600; color:var(--color-text-primary);">cappic.co/s/AB12CD</span>
+              <span style="font-size:11px; color:var(--color-accent);">복사</span>
+            </div>
+            <div style="font-size:11px; color:var(--color-text-tertiary); margin-top:6px;">이 링크는 3일 동안 볼 수 있어요</div>
+            <div style="display:flex; justify-content:center; gap:24px; padding:0 24px; margin-top:20px;">
+              <div class="action-icon-col" onclick="btnShare(this, 'cappic.co/s/AB12CD')">
                 <div class="circle-icon-48"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></div>
                 <span class="micro-text">공유</span>
               </div>
@@ -1896,6 +2057,26 @@
           <div class="top-bar-spacer"></div>
         </div>
         <div class="screen-body">
+          <div class="section-header">연결된 캡픽</div>
+          <div class="card card-mx-plain">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+              <div style="width:36px; height:36px; border-radius:50%; background:var(--color-accent-light); display:flex; align-items:center; justify-content:center;"><svg width="20" height="24" viewBox="0 0 40 50" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="30" height="18" rx="9" fill="#fff"/><circle cx="15" cy="10" r="2.2" fill="#555" stroke="none"/><circle cx="25" cy="10" r="2.2" fill="#555" stroke="none"/><rect x="5" y="23" width="30" height="25" rx="10" fill="#fff"/><rect x="18.5" y="29" width="3" height="7" rx="1.5" fill="none"/><circle cx="20" cy="40" r="1.5" fill="none"/></svg></div>
+              <div class="flex-1"><div class="label-text">A구장 1번 캡픽</div><div class="sub-text">192.168.0.11 · 정상</div></div>
+              <button style="width:36px; height:36px; border:none; background:none; cursor:pointer; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:center;" onclick="admOpenDeviceSheet('A구장 1번 캡픽')" aria-label="기기 관리">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="card card-mx-plain">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+              <div style="width:36px; height:36px; border-radius:50%; background:var(--color-accent-light); display:flex; align-items:center; justify-content:center;"><svg width="20" height="24" viewBox="0 0 40 50" fill="none" stroke="#555" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="30" height="18" rx="9" fill="#fff"/><circle cx="15" cy="10" r="2.2" fill="#555" stroke="none"/><circle cx="25" cy="10" r="2.2" fill="#555" stroke="none"/><rect x="5" y="23" width="30" height="25" rx="10" fill="#fff"/><rect x="18.5" y="29" width="3" height="7" rx="1.5" fill="none"/><circle cx="20" cy="40" r="1.5" fill="none"/></svg></div>
+              <div class="flex-1"><div class="label-text">B구장 1번 캡픽</div><div class="sub-text">192.168.0.13 · 저장공간 부족</div></div>
+              <button style="width:36px; height:36px; border:none; background:none; cursor:pointer; color:var(--color-text-secondary); display:flex; align-items:center; justify-content:center;" onclick="admOpenDeviceSheet('B구장 1번 캡픽')" aria-label="기기 관리">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="5" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="12" cy="19" r="1.6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="divider"></div>
           <div class="section-header">네트워크 인터페이스</div>
           <div class="card card-mx-plain"><div class="network-item"><div class="avatar" style="width:32px; height:34px; font-size:14px;">W</div><div class="flex-1"><div class="iface">wlan0</div><div class="ip">192.168.0.100 / 255.255.255.0</div></div><span class="badge badge-success">활성</span></div></div>
           <div class="card card-mx-plain"><div class="network-item"><div class="avatar" style="width:32px; height:34px; font-size:14px;">E</div><div class="flex-1"><div class="iface">eth0</div><div class="ip">10.0.0.5 / 255.255.0.0</div></div><span class="badge" style="background:#F5F5F5; color:#757575;">비활성</span></div></div>
@@ -1912,6 +2093,134 @@
         </div>
       </div>
 
+      <!-- ===== ADM-VENUE-MANAGE: 구장 관리 ===== -->
+      <div class="screen-content" id="adm-venue-manage">
+        <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
+        <div class="top-bar">
+          <button class="top-bar-back" data-go="adm-settings"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
+          <span class="top-bar-title">구장 관리</span>
+          <div class="top-bar-spacer"></div>
+        </div>
+        <div class="screen-body">
+          <!-- 캡틴FC 용인점 -->
+          <div class="card" style="margin:12px 16px 8px; padding:0; overflow:hidden;">
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-divider);">
+              <div style="font-size:15px; font-weight:700;">캡틴FC 용인점</div>
+              <span style="font-size:13px; color:var(--color-accent); cursor:pointer; font-weight:600;" onclick="admRename('구장 이름 바꾸기','캡틴FC 용인점')">이름 수정</span>
+            </div>
+            <div style="display:flex; align-items:center; padding:12px 16px; gap:8px;">
+              <div class="flex-1"><div class="label-text">A코트</div><div class="sub-text">캡픽 2대</div></div>
+              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','A코트')">이름 수정</span>
+            </div>
+            <div style="display:flex; align-items:center; padding:12px 16px; gap:8px; border-top:1px solid var(--color-divider);">
+              <div class="flex-1"><div class="label-text">B코트</div><div class="sub-text">캡픽 1대</div></div>
+              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','B코트')">이름 수정</span>
+            </div>
+            <div style="padding:10px 16px 14px; border-top:1px solid var(--color-divider);">
+              <button class="btn btn-outline btn-full" style="height:40px; font-size:13px;" onclick="btnCopyToast('새 코트를 추가했어요')">+ 코트 추가</button>
+            </div>
+          </div>
+          <!-- 풋살파크 강남 -->
+          <div class="card" style="margin:0 16px 8px; padding:0; overflow:hidden;">
+            <div style="display:flex; align-items:center; justify-content:space-between; padding:14px 16px; border-bottom:1px solid var(--color-divider);">
+              <div style="font-size:15px; font-weight:700;">풋살파크 강남</div>
+              <span style="font-size:13px; color:var(--color-accent); cursor:pointer; font-weight:600;" onclick="admRename('구장 이름 바꾸기','풋살파크 강남')">이름 수정</span>
+            </div>
+            <div style="display:flex; align-items:center; padding:12px 16px; gap:8px;">
+              <div class="flex-1"><div class="label-text">1코트</div><div class="sub-text">캡픽 1대</div></div>
+              <span style="font-size:12px; color:var(--color-accent); cursor:pointer;" onclick="admRename('코트 이름 바꾸기','1코트')">이름 수정</span>
+            </div>
+            <div style="padding:10px 16px 14px; border-top:1px solid var(--color-divider);">
+              <button class="btn btn-outline btn-full" style="height:40px; font-size:13px;" onclick="btnCopyToast('새 코트를 추가했어요')">+ 코트 추가</button>
+            </div>
+          </div>
+          <div class="p-4">
+            <button class="btn btn-primary btn-full" onclick="btnCopyToast('새 구장을 추가했어요')">구장 추가하기</button>
+          </div>
+
+          <!-- 이름 수정 모달 -->
+          <div id="admRenameModal" class="modal-overlay" style="display:none;">
+            <div class="modal-box" style="text-align:left;">
+              <div class="modal-title" id="admRenameTitle" style="text-align:center;">이름 바꾸기</div>
+              <div class="form-group" style="padding:0; margin-bottom:20px;">
+                <input class="input" id="admRenameInput" placeholder="새 이름을 입력하세요">
+              </div>
+              <div class="flex gap-2">
+                <button class="btn btn-secondary flex-1" onclick="document.getElementById('admRenameModal').style.display='none';">취소</button>
+                <button class="btn btn-primary flex-1" onclick="document.getElementById('admRenameModal').style.display='none'; btnCopyToast('이름을 바꿨어요');">저장</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== ADM-NOTI: 관리자 알림 (시스템) ===== -->
+      <div class="screen-content" id="adm-noti">
+        <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
+        <div class="top-bar">
+          <button class="top-bar-back" data-go="adm-01"><svg width="24" height="24"><use href="#icon-back"/></svg></button>
+          <span class="top-bar-title">알림</span>
+          <div class="top-bar-spacer"></div>
+        </div>
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:8px 16px;">
+          <div style="font-size:13px; color:#757575;">새 소식</div>
+          <button style="border:none; background:none; font-size:12px; color:var(--color-accent); cursor:pointer; font-family:var(--font-family); font-weight:600;" onclick="this.closest('.screen-content').querySelectorAll('.notification-item.unread').forEach(function(el){el.classList.remove('unread');}); this.textContent='완료!';">모두 읽음</button>
+        </div>
+        <div class="screen-body stagger">
+          <!-- 하이라이트 완성 -->
+          <div class="notification-item unread cursor-pointer" data-go="adm-08">
+            <div style="font-size:24px; flex-shrink:0;">&#x1F3AC;</div>
+            <div class="noti-body">
+              <div class="noti-title">하이라이트가 완성됐어요</div>
+              <div class="noti-desc">A구장 7세반 수업 · 1분 하이라이트</div>
+              <div class="noti-time">방금 전</div>
+            </div>
+          </div>
+          <!-- 기기 경고: 저장공간 -->
+          <div class="notification-item unread cursor-pointer" data-go="adm-16">
+            <div style="font-size:24px; flex-shrink:0;">&#x26A0;&#xFE0F;</div>
+            <div class="noti-body">
+              <div class="noti-title">저장공간이 부족해요</div>
+              <div class="noti-desc">B구장 1번 캡픽 · 1.3GB 남음</div>
+              <div class="noti-time">10분 전</div>
+            </div>
+          </div>
+          <!-- 기기 경고: 오프라인 -->
+          <div class="notification-item unread cursor-pointer" data-go="adm-16">
+            <div style="font-size:24px; flex-shrink:0;">&#x1F50C;</div>
+            <div class="noti-body">
+              <div class="noti-title">캡픽 연결이 끊어졌어요</div>
+              <div class="noti-desc">B구장 2번 캡픽 · 전원과 Wi-Fi를 확인해주세요</div>
+              <div class="noti-time">1시간 전</div>
+            </div>
+          </div>
+          <!-- 일정 담당 배정 -->
+          <div class="notification-item cursor-pointer" data-go="adm-15">
+            <div style="font-size:24px; flex-shrink:0;">&#x1F4C5;</div>
+            <div class="noti-body">
+              <div class="noti-title">촬영 담당으로 배정됐어요</div>
+              <div class="noti-desc">오늘 17:00 · A구장 대관 경기</div>
+              <div class="noti-time">3시간 전</div>
+            </div>
+          </div>
+          <!-- 하이라이트 완성 2 -->
+          <div class="notification-item cursor-pointer" data-go="adm-08">
+            <div style="font-size:24px; flex-shrink:0;">&#x2705;</div>
+            <div class="noti-body">
+              <div class="noti-title">하이라이트가 완성됐어요</div>
+              <div class="noti-desc">A구장 대관 경기 · 10분 하이라이트</div>
+              <div class="noti-time">어제</div>
+            </div>
+          </div>
+        </div>
+        <div class="bottom-nav">
+          <button class="nav-item active" data-go="adm-01"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12l9-8 9 8"/><path d="M5 10v9a1 1 0 001 1h3.5v-5a1 1 0 011-1h3a1 1 0 011 1v5H18a1 1 0 001-1v-9"/></svg><span>홈</span></button>
+          <button class="nav-item" data-go="adm-07"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/></svg><span>아카이브</span></button>
+          <button class="nav-item" data-go="adm-15"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M8 2v4M16 2v4M3 9h18"/></svg><span>일정</span></button>
+          <button class="nav-item" data-go="adm-settings"><svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 11-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 11-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 11-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 110-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 112.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 114 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 112.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 110 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg><span>설정</span></button>
+        </div>
+      </div>
+
       <!-- ===== ADM-SETTINGS: 설정 통합 ===== -->
       <div class="screen-content" id="adm-settings">
         <div class="status-bar"><span>9:41</span><span>LTE 100%</span></div>
@@ -1925,7 +2234,17 @@
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
               <div class="flex-1">
                 <div class="title-sm-600">운영자 관리</div>
-                <div class="sub-text">코치, 스태프 계정 관리</div>
+                <div class="sub-text">운영자, 직원 계정 관리</div>
+              </div>
+              <span class="icon-muted">&rsaquo;</span>
+            </div>
+          </div>
+          <div class="card card-click-mx" data-go="adm-venue-manage">
+            <div class="list-item" style="padding:14px 16px; gap:12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/></svg>
+              <div class="flex-1">
+                <div class="title-sm-600">구장 관리</div>
+                <div class="sub-text">구장과 코트 이름 관리</div>
               </div>
               <span class="icon-muted">&rsaquo;</span>
             </div>
@@ -1949,14 +2268,14 @@
           <div class="section-header">계정</div>
           <div class="card card-mx-plain">
             <div class="info-row"><span class="label">이메일</span><span class="value">admin@cappic.co</span></div>
-            <div class="info-row" style="border-top:1px solid var(--color-divider);"><span class="label">역할</span><span class="value"><span class="badge badge-accent">admin</span></span></div>
+            <div class="info-row" style="border-top:1px solid var(--color-divider);"><span class="label">역할</span><span class="value"><span class="badge badge-accent">관리자</span></span></div>
           </div>
           <div class="section-header">고급 기능</div>
           <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-go="adm-09">
             <div class="list-item" style="padding:14px 16px; gap:12px;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="3"/><path d="M16 10l5-3v10l-5-3"/></svg>
               <div class="flex-1">
-                <div class="title-sm-600">AI 하이라이트 만들기</div>
+                <div class="title-sm-600">간편 하이라이트 만들기</div>
                 <div class="sub-text">수동으로 영상을 선택하여 하이라이트 생성</div>
               </div>
               <span class="icon-muted">&rsaquo;</span>
@@ -2006,14 +2325,14 @@
         </div>
         <div class="screen-body">
           <!-- 김대표 -->
-          <div class="card" style="margin:12px 16px; cursor:pointer;" data-toast="운영자 상세 정보에요">
-            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+          <div class="card" style="margin:12px 16px;">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer;" onclick="btnCopyToast('내 계정이에요')">
               <div class="avatar">KD</div>
               <div class="flex-1">
                 <div style="font-weight:600;">김대표</div>
-                
+
               </div>
-              <span class="badge badge-accent" style="min-width:48px; text-align:center;">admin</span>
+              <span class="badge badge-accent" style="min-width:48px; text-align:center;">대표</span>
             </div>
             <div style="padding:0 16px 12px; display:flex; gap:6px;">
               <div class="contact-row" style="flex:1; margin:0;" onclick="navigator.clipboard.writeText('010-1234-5678'); btnCopyToast('전화번호 복사 완료')">
@@ -2027,14 +2346,14 @@
             </div>
           </div>
           <!-- 박코치 -->
-          <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-toast="운영자 상세 정보에요">
-            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+          <div class="card" style="margin:0 16px 12px;">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer;" onclick="admOpenUserSheet('박코치','운영자')">
               <div class="avatar">PC</div>
               <div class="flex-1">
                 <div style="font-weight:600;">박코치</div>
-                
+
               </div>
-              <span class="badge badge-success" style="min-width:48px; text-align:center;">coach</span>
+              <span class="badge badge-success" style="min-width:48px; text-align:center;">운영자</span>
             </div>
             <div style="padding:0 16px 12px; display:flex; gap:6px;">
               <div class="contact-row" style="flex:1; margin:0;" onclick="navigator.clipboard.writeText('010-2345-6789'); btnCopyToast('전화번호 복사 완료')">
@@ -2048,14 +2367,14 @@
             </div>
           </div>
           <!-- 이스탭 -->
-          <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-toast="운영자 상세 정보에요">
-            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px;">
+          <div class="card" style="margin:0 16px 12px;">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px 16px; cursor:pointer;" onclick="admOpenUserSheet('이스탭','직원')">
               <div class="avatar">LS</div>
               <div class="flex-1">
                 <div style="font-weight:600;">이스탭</div>
-                
+
               </div>
-              <span class="badge" style="background:#F5F5F5; color:#757575; min-width:48px; text-align:center;">staff</span>
+              <span class="badge" style="background:#F5F5F5; color:#757575; min-width:48px; text-align:center;">직원</span>
             </div>
             <div style="padding:0 16px 12px; display:flex; gap:6px;">
               <div class="contact-row" style="flex:1; margin:0;" onclick="navigator.clipboard.writeText('010-3456-7890'); btnCopyToast('전화번호 복사 완료')">
@@ -2096,10 +2415,10 @@
           <div class="form-group">
             <label class="form-label">역할</label>
             <div class="flex gap-2">
-              <span class="chip" onclick="this.classList.toggle('active')">admin</span>
-              <span class="chip active" onclick="this.classList.toggle('active')">coach</span>
-              <span class="chip" onclick="this.classList.toggle('active')">staff</span>
+              <span class="chip active" onclick="this.parentElement.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');}); this.classList.add('active');">운영자</span>
+              <span class="chip" onclick="this.parentElement.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');}); this.classList.add('active');">직원</span>
             </div>
+            <div class="sub-text" style="margin-top:8px;">운영자는 촬영과 영상을 모두 관리할 수 있어요. 직원은 촬영만 할 수 있어요.</div>
           </div>
           <div style="padding:12px 16px 16px;">
             <button class="btn btn-primary btn-full" id="inviteBtn">초대하기</button>
@@ -2477,7 +2796,7 @@
             <div class="card" style="cursor:pointer; padding:14px 16px; display:flex; align-items:center; gap:12px; margin-top:8px;" data-go="adm-09">
               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
               <div class="flex-1">
-                <div class="title-sm-600">AI 하이라이트 만들기</div>
+                <div class="title-sm-600">간편 하이라이트 만들기</div>
                 <div class="sub-text">경기 영상에서 자동으로 하이라이트를 만들어요</div>
               </div>
               <span class="icon-muted">&rsaquo;</span>
@@ -2707,7 +3026,7 @@
             <div style="font-size:24px; flex-shrink:0;">&#x2705;</div>
             <div class="noti-body">
               <div class="noti-title">하이라이트 생성 완료</div>
-              <div class="noti-desc">슛타트업 vs FC축신 경기의 AI 하이라이트가 완성됐어요</div>
+              <div class="noti-desc">슛타트업 vs FC축신 경기의 간편 하이라이트가 완성됐어요</div>
               <div class="noti-time">1시간 전</div>
             </div>
           </div>
@@ -3273,7 +3592,7 @@
             <div style="display:flex; align-items:center; gap:8px; color:#fff; font-size:11px; margin-bottom:6px;">
               <span>3:24</span>
               <div style="flex:1; height:3px; background:rgba(255,255,255,0.2); border-radius:4px; position:relative; cursor:pointer;">
-                <div style="width:35%; height:100%; background:var(--color-accent); border-radius:4px;"></div>
+                <div style="width:35%; height:100%; background:#fff; border-radius:4px;"></div>
                 <div style="position:absolute; top:-4px; left:35%; width:10px; height:10px; border-radius:50%; background:#fff; transform:translateX(-50%);"></div>
               </div>
               <span>10:00</span>
@@ -3295,7 +3614,7 @@
               <div style="padding:8px 14px; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer; font-size:12px; color:rgba(255,255,255,0.5);" onclick="this.parentElement.style.display='none'; this.parentElement.parentElement.querySelectorAll('.ps-menu-item').forEach(function(el){el.style.display='flex'});">&lsaquo; 뒤로</div>
               <div class="ps-option-row" data-toast="재생 속도: 0.5x">0.5x</div>
               <div class="ps-option-row" data-toast="재생 속도: 0.75x">0.75x</div>
-              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:var(--color-accent); font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1x &#10003;</div>
+              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff; font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1x &#10003;</div>
               <div class="ps-option-row" data-toast="재생 속도: 1.25x">1.25x</div>
               <div class="ps-option-row" data-toast="재생 속도: 1.5x">1.5x</div>
               <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff;" data-toast="재생 속도: 2x">2x</div>
@@ -3305,7 +3624,7 @@
               <div style="padding:8px 14px; border-bottom:1px solid rgba(255,255,255,0.1); cursor:pointer; font-size:12px; color:rgba(255,255,255,0.5);" onclick="this.parentElement.style.display='none'; this.parentElement.parentElement.querySelectorAll('.ps-menu-item').forEach(function(el){el.style.display='flex'});">&lsaquo; 뒤로</div>
               <div class="ps-option-row" data-toast="화질: 480p">480p</div>
               <div class="ps-option-row" data-toast="화질: 720p">720p</div>
-              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:var(--color-accent); font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1080p &#10003;</div>
+              <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff; font-weight:600; border-bottom:1px solid rgba(255,255,255,0.05);">1080p &#10003;</div>
               <div style="padding:8px 14px; cursor:pointer; font-size:13px; color:#fff;" data-toast="화질: 4K">4K</div>
             </div>
           </div>
@@ -3395,7 +3714,7 @@
               </div>
               <div class="card" style="cursor:pointer; padding:12px 16px; display:flex; align-items:center; gap:12px;" data-go="adm-09">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M8 12l3 3 5-5"/></svg>
-                <div class="flex-1"><div class="label-text">AI 하이라이트 만들기</div><div class="sub-text">경기 영상에서 자동으로 하이라이트를 만들어요</div></div>
+                <div class="flex-1"><div class="label-text">간편 하이라이트 만들기</div><div class="sub-text">경기 영상에서 자동으로 하이라이트를 만들어요</div></div>
                 <span class="icon-muted">&rsaquo;</span>
               </div>
             </div>
@@ -4077,6 +4396,11 @@
             <div class="detail-sub">MP4, MOV &middot; 최대 2GB</div>
             <button class="btn btn-primary" style="margin-top:8px;" data-go="comm-upload-loading">파일 선택하기</button>
           </div>
+          <div class="form-group"><label class="form-label">저장할 아카이브</label></div>
+          <div style="margin:0 16px 12px; border:1px solid var(--color-border); border-radius:12px; padding:12px 14px; display:flex; justify-content:space-between; align-items:center; cursor:pointer;" data-toast="아카이브를 골라보세요">
+            <span style="font-size:14px; font-weight:500;">내가 올린 영상 <span style="font-size:11px; color:#757575;">(기본)</span></span>
+            <svg width="16" height="16" style="color:#9E9E9E;"><use href="#icon-chevron-right"/></svg>
+          </div>
           <div class="card card-mx-plain">
             <div class="card-body" style="padding:12px;">
               <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
@@ -4277,8 +4601,11 @@
         <div class="web-header" style="padding:12px 16px;"><div class="web-title" style="font-size:16px;">강남 풋살 아레나</div><div class="web-sub">오늘의 경기 &middot; CAPP!C</div></div>
         <div class="screen-body">
           <div class="section-header">2026년 5월 17일 (오늘)</div>
-          <div class="card card-click-mx" data-go="web-02"><div class="card-body"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div class="title-sm">7세반 수업</div><span class="badge badge-error" style="font-size:10px;">REC</span></div><div class="detail-sub">14:00 ~ 15:00 &middot; A구장</div><div style="font-size:10px; color:var(--color-accent); margin-top:2px;">학부모 전용</div></div></div>
-          <div class="card card-click-mx" data-go="web-02a"><div class="card-body"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div class="title-sm">슛타트업 vs FC축신</div><span class="badge badge-success" style="font-size:10px;">경기 종료</span></div><div class="detail-sub">17:00 ~ 18:00 &middot; A구장</div><div style="font-size:10px; color:#757575; margin-top:2px;">일반 경기</div></div></div>
+          <div class="card card-click-mx" data-go="web-02"><div class="card-body"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div class="title-sm">7세반 수업</div><span class="badge badge-error" style="font-size:10px;">REC</span></div><div class="detail-sub">14:00 ~ 15:00 &middot; A구장</div><div style="display:flex; align-items:center; gap:3px; font-size:10px; color:var(--color-accent); margin-top:3px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V6a5 5 0 019.9-1"/></svg>공유받은 경기 · 학부모 전용</div></div></div>
+          <div class="card card-click-mx" data-go="web-02a"><div class="card-body"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div class="title-sm">슛타트업 vs FC축신</div><span class="badge badge-success" style="font-size:10px;">경기 종료</span></div><div class="detail-sub">17:00 ~ 18:00 &middot; A구장</div><div style="display:flex; align-items:center; gap:3px; font-size:10px; color:var(--color-accent); margin-top:3px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V6a5 5 0 019.9-1"/></svg>공유받은 경기 · 일반 경기</div></div></div>
+          <!-- 잠긴 경기 (공유받지 않음) -->
+          <div class="card" style="margin:0 16px 8px; opacity:0.6; cursor:not-allowed;" onclick="btnCopyToast('공유받은 경기만 볼 수 있어요')"><div class="card-body"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div class="title-sm" style="color:var(--color-text-secondary);">5세반 수업</div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-tertiary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div class="detail-sub">10:00 ~ 11:00 &middot; B구장</div><div style="font-size:10px; color:var(--color-text-tertiary); margin-top:3px;">공유받은 경기만 볼 수 있어요</div></div></div>
+          <div class="card" style="margin:0 16px 8px; opacity:0.6; cursor:not-allowed;" onclick="btnCopyToast('공유받은 경기만 볼 수 있어요')"><div class="card-body"><div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:4px;"><div class="title-sm" style="color:var(--color-text-secondary);">직장인 리그 A조</div><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-tertiary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div class="detail-sub">20:00 ~ 21:00 &middot; A구장</div><div style="font-size:10px; color:var(--color-text-tertiary); margin-top:3px;">공유받은 경기만 볼 수 있어요</div></div></div>
           <div style="text-align:center; padding:16px; font-size:12px; color:#757575;">QR 스캔 또는 공유 링크 &middot; 앱 설치 불필요</div>
         </div>
       </div>
@@ -4705,7 +5032,7 @@
           <div class="p-4">
             <div style="display:flex; align-items:center; gap:8px; padding:8px 0;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
-              <span style="font-size:13px;">AI 자동 하이라이트 생성</span>
+              <span style="font-size:13px;">간편 하이라이트 만들기</span>
             </div>
             <div style="display:flex; align-items:center; gap:8px; padding:8px 0;">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--color-accent)" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg>
@@ -4777,6 +5104,108 @@
         <div style="display:flex;gap:8px;">
           <button class="btn btn-outline" style="flex:1;height:40px;font-size:13px;" onclick="btnCopyToast('다운로드를 시작합니다'); document.getElementById('globalShareSheet').style.display='none'">내려받기</button>
           <button class="btn btn-primary" style="flex:1;height:40px;font-size:13px;" onclick="btnCopyToast('링크가 복사됐어요'); document.getElementById('globalShareSheet').style.display='none'">링크 복사</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 운영자 액션 시트 (adm-users) ===== -->
+    <div id="admUserSheet" style="display:none; position:absolute; bottom:0; left:0; right:0; top:0; z-index:100;">
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);" onclick="document.getElementById('admUserSheet').style.display='none'"></div>
+      <div class="slide-up" style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:15px;font-weight:700;"><span id="admUserSheetName">운영자</span>님</span>
+          <button style="border:none;background:none;font-size:20px;cursor:pointer;color:#757575;" onclick="document.getElementById('admUserSheet').style.display='none'">&times;</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:14px 4px; cursor:pointer; border-top:1px solid var(--color-divider);" onclick="document.getElementById('admUserSheet').style.display='none'; document.getElementById('admRoleModal').style.display='flex';">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/></svg>
+          <div class="flex-1">
+            <div style="font-size:14px; font-weight:600;">역할 바꾸기</div>
+            <div class="sub-text">운영자 또는 직원으로 바꿔요</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:14px 4px; cursor:pointer; border-top:1px solid var(--color-divider);" onclick="document.getElementById('admUserSheet').style.display='none'; document.getElementById('admRemoveModal').style.display='flex';">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+          <div class="flex-1">
+            <div style="font-size:14px; font-weight:600; color:var(--color-error);">내보내기</div>
+            <div class="sub-text">이 사람은 더 이상 앱을 쓸 수 없어요</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 역할 바꾸기 모달 -->
+    <div id="admRoleModal" class="modal-overlay" style="display:none;">
+      <div class="modal-box" style="width:280px; text-align:left;">
+        <div class="modal-title" style="text-align:center;">역할 바꾸기</div>
+        <div class="modal-desc" style="text-align:center;">바꿀 역할을 골라주세요</div>
+        <div class="flex gap-2" style="justify-content:center; margin-bottom:20px;">
+          <span class="chip active" onclick="this.parentElement.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');}); this.classList.add('active');">운영자</span>
+          <span class="chip" onclick="this.parentElement.querySelectorAll('.chip').forEach(function(c){c.classList.remove('active');}); this.classList.add('active');">직원</span>
+        </div>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary flex-1" onclick="document.getElementById('admRoleModal').style.display='none';">취소</button>
+          <button class="btn btn-primary flex-1" onclick="document.getElementById('admRoleModal').style.display='none'; btnCopyToast('역할을 바꿨어요');">저장</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 내보내기 확인 모달 -->
+    <div id="admRemoveModal" class="modal-overlay" style="display:none;">
+      <div class="modal-box">
+        <div class="modal-title">정말 내보낼까요?</div>
+        <div class="modal-desc">내보내면 이 사람은 더 이상<br>이 구장 앱을 쓸 수 없어요</div>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary flex-1" onclick="document.getElementById('admRemoveModal').style.display='none';">취소</button>
+          <button class="btn btn-danger flex-1" onclick="document.getElementById('admRemoveModal').style.display='none'; btnCopyToast('내보냈어요');">내보내기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 기기 관리 액션 시트 (adm-16) ===== -->
+    <div id="admDeviceSheet" style="display:none; position:absolute; bottom:0; left:0; right:0; top:0; z-index:100;">
+      <div style="position:absolute;inset:0;background:rgba(0,0,0,0.5);" onclick="document.getElementById('admDeviceSheet').style.display='none'"></div>
+      <div class="slide-up" style="position:absolute;bottom:0;left:0;right:0;background:#fff;border-radius:16px 16px 0 0;padding:20px 16px 24px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <span style="font-size:15px;font-weight:700;"><span id="admDeviceSheetName">캡픽</span> 관리</span>
+          <button style="border:none;background:none;font-size:20px;cursor:pointer;color:#757575;" onclick="document.getElementById('admDeviceSheet').style.display='none'">&times;</button>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:14px 4px; cursor:pointer; border-top:1px solid var(--color-divider);" onclick="document.getElementById('admDeviceSheet').style.display='none'; document.getElementById('admMoveModal').style.display='flex';">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-text-primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l-3 3 3 3"/><path d="M2 12h13"/><path d="M19 15l3-3-3-3"/><path d="M22 12H9"/></svg>
+          <div class="flex-1">
+            <div style="font-size:14px; font-weight:600;">다른 구장으로 옮기기</div>
+            <div class="sub-text">이 캡픽을 다른 구장에서 쓰게 해요</div>
+          </div>
+        </div>
+        <div style="display:flex; align-items:center; gap:12px; padding:14px 4px; cursor:pointer; border-top:1px solid var(--color-divider);" onclick="document.getElementById('admDeviceSheet').style.display='none'; document.getElementById('admRecallModal').style.display='flex';">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--color-error)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9 9 0 00-6.36 2.64L3 8"/><path d="M3 4v4h4"/></svg>
+          <div class="flex-1">
+            <div style="font-size:14px; font-weight:600; color:var(--color-error);">회수하기</div>
+            <div class="sub-text">이 구장에서 캡픽을 떼어내요</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 다른 구장으로 옮기기 확인 모달 -->
+    <div id="admMoveModal" class="modal-overlay" style="display:none;">
+      <div class="modal-box">
+        <div class="modal-title">다른 구장으로 옮길까요?</div>
+        <div class="modal-desc">옮기면 지금 구장에서는<br>이 캡픽으로 촬영할 수 없어요</div>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary flex-1" onclick="document.getElementById('admMoveModal').style.display='none';">취소</button>
+          <button class="btn btn-primary flex-1" onclick="document.getElementById('admMoveModal').style.display='none'; btnCopyToast('옮길 구장을 골라주세요');">옮기기</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 회수하기 확인 모달 -->
+    <div id="admRecallModal" class="modal-overlay" style="display:none;">
+      <div class="modal-box">
+        <div class="modal-title">캡픽을 회수할까요?</div>
+        <div class="modal-desc">회수하면 이 구장에서 더 이상<br>촬영할 수 없어요</div>
+        <div class="flex gap-2">
+          <button class="btn btn-secondary flex-1" onclick="document.getElementById('admRecallModal').style.display='none';">취소</button>
+          <button class="btn btn-danger flex-1" onclick="document.getElementById('admRecallModal').style.display='none'; btnCopyToast('캡픽을 회수했어요');">회수하기</button>
         </div>
       </div>
     </div>
@@ -4934,7 +5363,7 @@ const descriptions = {
     ['네트워크 상태', '탭하면 ADM-10c 네트워크 상태로 이동해요'],
     ['시설 정보', '시설명, 캡픽 수, 구장 수 확인이에요'],
     ['계정 정보', '이메일과 역할(admin) 배지에요'],
-    ['AI 하이라이트', '탭하면 COMM-05 하이라이트: 영상 선택으로 이동해요'],
+    ['간편 하이라이트', '탭하면 COMM-05 하이라이트: 영상 선택으로 이동해요'],
     ['나만의 하이라이트', '탭하면 COMM-01 편집: 구간 선택으로 이동해요'],
     ['로그아웃', '빨간 버튼을 탭하면 ADM-01 로그인으로 이동해요'],
     ['하단 네비게이션', '홈 / 아카이브 / 일정 / 설정(활성) 4개 탭'],
@@ -4991,7 +5420,7 @@ const descriptions = {
     ['홈으로', '탭하면 CON-05 홈으로 이동해요'],
   ]},
   'adm-09': { title: 'COMM-05 하이라이트: 영상 선택 안내', items: [
-    ['페이지 설명', 'AI 하이라이트용 영상 소스를 선택해요'],
+    ['페이지 설명', '간편 하이라이트용 영상 소스를 선택해요'],
     ['뒤로가기', '탭하면 ADM-10 설정으로 돌아가요'],
     ['아카이브에서 선택', '기존 영상에서 고를 수 있어요. COMM-06 하이라이트: 선수 선택으로 이동해요'],
     ['기기에서 선택', '내 기기 영상을 올릴 수 있어요. COMM-06 하이라이트: 선수 선택으로 이동해요'],
@@ -4999,26 +5428,26 @@ const descriptions = {
   'adm-10': { title: 'COMM-06 하이라이트: 선수 선택 안내', items: [
     ['페이지 설명', 'AI가 감지한 인물 중 대상을 선택해요'],
     ['뒤로가기', '탭하면 COMM-05 하이라이트: 영상 선택으로 돌아가요'],
-    ['프레임 캔버스', '감지된 인물에 색깔 테두리가 표시돼요'],
-    ['감지된 인물 그리드', '동그라미를 탭해서 선택/해제해요'],
+    ['프레임 캔버스', '선택한 선수에게 색깔 테두리가 표시돼요'],
+    ['등록된 선수 그리드', '동그라미를 탭해서 선택/해제해요. 선수는 미리 등록해둘 수 있어요'],
     ['다음 버튼', '탭하면 COMM-07 하이라이트: 설정으로 이동해요'],
   ]},
   'adm-11': { title: 'COMM-07 하이라이트: 설정 안내', items: [
-    ['페이지 설명', 'AI 하이라이트 출력 옵션을 설정해요'],
+    ['페이지 설명', '간편 하이라이트 출력 옵션을 설정해요'],
     ['뒤로가기', '탭하면 COMM-06 하이라이트: 선수 선택으로 돌아가요'],
     ['점수/매칭 정확도', '슬라이더로 AI 정확도를 조절해요'],
-    ['FPS/비트레이트', '초당 프레임 수와 영상 품질을 입력해요'],
+    ['화질', '고/중/저 중에서 골라요. 높을수록 파일이 커져요'],
     ['디버그 모드', '토글로 켜거나 꺼요'],
     ['영상 비율', '16:9/4:3/1:1/9:16/3:4 칩을 선택해요'],
     ['영상 만들기', '탭하면 COMM-08 하이라이트: 만들기 중으로 이동해요'],
   ]},
   'adm-13': { title: 'COMM-08 하이라이트: 만들기 중 안내', items: [
-    ['페이지 설명', 'AI가 하이라이트를 만들고 있어요'],
+    ['페이지 설명', '하이라이트를 만들고 있어요'],
     ['자동 전환', '약 2초 후 COMM-09 하이라이트: 완성으로 이동해요'],
   ]},
   'adm-14': { title: 'COMM-09 하이라이트: 완성 안내', items: [
-    ['페이지 설명', 'AI 하이라이트가 완성된 화면이에요'],
-    ['1단계 (체크)', '"AI 하이라이트가 완성되었어요!" 1.5초간 표시돼요'],
+    ['페이지 설명', '간편 하이라이트가 완성된 화면이에요'],
+    ['1단계 (체크)', '"간편 하이라이트가 완성되었어요!" 1.5초간 표시돼요'],
     ['2단계 (미리보기)', '"Its Your Highlights!" + 16:9 미리보기가 나타나요'],
     ['공유/다운로드', '영상 공유, 내려받기 가능해요'],
     ['피드 올리기', '탭하면 CON-22 새 게시물로 이동해요'],
@@ -5127,7 +5556,7 @@ const descriptions = {
     ['내 캡픽', '캡픽 연결 상태에요. 탭하면 CON-16 캡픽 관리로 이동해요'],
     ['핫한 하이라이트', '인기 쇼츠 가로 스크롤이에요. 탭하면 CON-11 피드 (쇼츠)로 이동해요'],
     ['나만의 하이라이트', '탭하면 COMM-01 편집: 구간 선택으로 이동해요'],
-    ['AI 하이라이트', '탭하면 COMM-05 하이라이트: 영상 선택으로 이동해요'],
+    ['간편 하이라이트', '탭하면 COMM-05 하이라이트: 영상 선택으로 이동해요'],
     ['하단 네비게이션', '홈(활성) / 탐색(CON-19) / 피드(CON-11 피드) / 아카이브(CON-12 내 아카이브) / 마이(CON-14 마이페이지) 5개 탭'],
   ]},
   'con-04-empty': { title: 'CON-05e 홈 (빈 상태) 안내', items: [
@@ -5221,7 +5650,7 @@ const descriptions = {
   'con-archive': { title: 'CON-12 내 아카이브 안내', items: [
     ['페이지 설명', '내 경기 영상과 하이라이트를 모아 봐요'],
     ['탭: 경기 영상', '영상 카드 + 공유/전체보기 버튼이에요'],
-    ['탭: 하이라이트', '에디터/AI 하이라이트 만들기 + 쇼츠 그리드에요'],
+    ['탭: 하이라이트', '에디터/간편 하이라이트 만들기 + 쇼츠 그리드에요'],
     ['탭: 찜한 영상', '영상 상세에서 저장하기를 누른 영상만 모아서 보여줘요. 선수 썸네일, 이름, 경기명이 표시돼요'],
     ['영상 올리기/합치기', '각각 COMM-10 영상 올리기, COMM-11 영상 합치기로 이동해요'],
     ['하단 네비게이션', '홈/탐색/피드/아카이브(활성)/마이 5개 탭'],
@@ -5423,7 +5852,7 @@ const descriptions = {
     ['뒤로가기', '탭하면 CON-05 홈으로 돌아가요'],
     ['제품 이미지', '캡픽 일러스트가 16:9 영역에 표시돼요'],
     ['제품 정보', 'CAPP!C 스마트 캠, 490,000원이에요'],
-    ['기능 목록', 'AI 하이라이트, 4K 녹화, WiFi 연결, 방수/방진 4가지에요'],
+    ['기능 목록', '간편 하이라이트, 4K 녹화, WiFi 연결, 방수/방진 4가지에요'],
     ['구매하기', '탭하면 구매 페이지 이동 토스트가 나와요'],
     ['문의하기', '탭하면 전화번호와 이메일이 토스트로 나와요'],
   ]},
