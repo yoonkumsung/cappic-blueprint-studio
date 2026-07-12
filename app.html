@@ -640,14 +640,14 @@
                 <div>
                   <div class="micro-caption">CPU</div>
                   <div style="display:flex; align-items:center; gap:6px;">
-                    <div style="flex:1; height:3px; background:var(--color-gray-200); border-radius:4px;"><div style="width:32%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                    <div style="flex:1; height:3px; background:linear-gradient(180deg,#E8E8E8,#F6F6F6); box-shadow:inset 0 1px 2px rgba(0,0,0,.12); border-radius:9999px;"><div class="gloss-fill" style="width:32%; height:100%; border-radius:9999px;"></div></div>
                     <span style="font-size:12px; font-weight:600;">32%</span>
                   </div>
                 </div>
                 <div>
                   <div class="micro-caption">GPU</div>
                   <div style="display:flex; align-items:center; gap:6px;">
-                    <div style="flex:1; height:3px; background:var(--color-gray-200); border-radius:4px;"><div style="width:48%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                    <div style="flex:1; height:3px; background:linear-gradient(180deg,#E8E8E8,#F6F6F6); box-shadow:inset 0 1px 2px rgba(0,0,0,.12); border-radius:9999px;"><div class="gloss-fill" style="width:48%; height:100%; border-radius:9999px;"></div></div>
                     <span style="font-size:12px; font-weight:600;">48%</span>
                   </div>
                 </div>
@@ -661,7 +661,7 @@
                 <div>
                   <div class="micro-caption">RAM</div>
                   <div style="display:flex; align-items:center; gap:6px;">
-                    <div style="flex:1; height:3px; background:var(--color-gray-200); border-radius:4px;"><div style="width:41%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                    <div style="flex:1; height:3px; background:linear-gradient(180deg,#E8E8E8,#F6F6F6); box-shadow:inset 0 1px 2px rgba(0,0,0,.12); border-radius:9999px;"><div class="gloss-fill" style="width:41%; height:100%; border-radius:9999px;"></div></div>
                     <span style="font-size:12px; font-weight:600;">41%</span>
                   </div>
                 </div>
@@ -675,7 +675,7 @@
                 <div>
                   <div class="micro-caption">저장공간</div>
                   <div style="display:flex; align-items:center; gap:6px;">
-                    <div style="flex:1; height:3px; background:var(--color-gray-200); border-radius:4px;"><div style="width:45%; height:100%; background:var(--color-accent); border-radius:4px;"></div></div>
+                    <div style="flex:1; height:3px; background:linear-gradient(180deg,#E8E8E8,#F6F6F6); box-shadow:inset 0 1px 2px rgba(0,0,0,.12); border-radius:9999px;"><div class="gloss-fill" style="width:45%; height:100%; border-radius:9999px;"></div></div>
                     <span style="font-size:12px; font-weight:600;">45%</span>
                   </div>
                 </div>
@@ -741,7 +741,7 @@
                 </div>
               </div>
               <div id="reportDone" class="hidden">
-                <div style="width:48px; height:48px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+                <div class="gloss-check" style="width:48px; height:48px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
                 <div style="font-size:15px; font-weight:700; margin-bottom:6px;">전송을 완료했어요</div>
                 <div style="font-size:13px; color:#757575; line-height:1.5; margin-bottom:16px;">빠르게 확인 후<br>연락드리겠습니다</div>
                 <button class="btn btn-primary btn-full" onclick="document.getElementById('reportPopup').style.display='none'; document.getElementById('reportContent').style.display='block'; document.getElementById('reportDone').style.display='none';">확인</button>
@@ -906,7 +906,7 @@
             <div style="display:flex; align-items:center; gap:8px; color:#fff; font-size:11px; margin-bottom:6px;">
               <span>3:24</span>
               <div style="flex:1; height:3px; background:rgba(255,255,255,0.2); border-radius:4px; position:relative; cursor:pointer;">
-                <div style="width:35%; height:100%; background:#fff; border-radius:4px;"></div>
+                <div class="gloss-fill-white" style="width:35%; height:100%; background:#fff; border-radius:4px;"></div>
                 <div style="position:absolute; top:-4px; left:35%; width:10px; height:10px; border-radius:50%; background:#fff; transform:translateX(-50%);"></div>
               </div>
               <span>10:00</span>
@@ -966,7 +966,7 @@
           <!-- Phase 1: 체크 + 메시지 -->
           <div id="adm06Phase1" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; background:var(--color-background);">
             <div class="msg-center">
-              <div style="width:64px; height:64px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+              <div class="gloss-check" style="width:64px; height:64px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
               <div class="heading-msg">영상이 저장되었어요!</div>
               <div class="desc-msg">rec_20260517_143022.mp4 &middot; 2.4GB</div>
             </div>
@@ -1518,9 +1518,9 @@
           </div>
           <div style="padding:10px 40px 4px; display:flex; align-items:center; gap:6px; font-size:10px; color:#757575;">
             <span>0:00</span>
-            <div style="flex:1; height:3px; background:var(--color-gray-200); border-radius:4px; position:relative;">
-              <div style="width:30%; height:100%; background:var(--color-accent); border-radius:4px;"></div>
-              <div style="position:absolute; top:-3px; left:30%; width:8px; height:8px; border-radius:50%; background:var(--color-accent); transform:translateX(-50%);"></div>
+            <div style="flex:1; height:3px; background:linear-gradient(180deg,#E8E8E8,#F6F6F6); box-shadow:inset 0 1px 2px rgba(0,0,0,.12); border-radius:9999px; position:relative;">
+              <div class="gloss-fill" style="width:30%; height:100%; border-radius:9999px;"></div>
+              <div style="position:absolute; top:-3px; left:30%; width:8px; height:8px; border-radius:50%; background:radial-gradient(circle at 35% 30%,#4a4a4a,#000 70%); box-shadow:0 1px 3px rgba(0,0,0,.4); transform:translateX(-50%);"></div>
             </div>
             <span>0:36</span>
           </div>
@@ -1642,7 +1642,7 @@
           <!-- Phase 1: 체크 + 메시지 (생성 중과 동일 위치, 먼저 뜨고 사라짐) -->
           <div id="editor3Phase1" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; background:var(--color-background);">
             <div class="msg-center">
-            <div style="width:64px; height:64px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+            <div class="gloss-check" style="width:64px; height:64px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
             <div class="heading-msg">영상이 완성되었어요!</div>
             <div class="desc-msg">4개 클립 &middot; 0:36</div>
             </div>
@@ -1835,7 +1835,7 @@
           <!-- Phase 1: 체크 애니메이션 -->
           <div id="aiPhase1" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; background:var(--color-background);">
             <div class="msg-center">
-              <div style="width:64px; height:64px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+              <div class="gloss-check" style="width:64px; height:64px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
               <div class="heading-msg">간편 하이라이트가 완성되었어요!</div>
               <div class="desc-msg">2명 &middot; 16:9</div>
             </div>
@@ -2442,7 +2442,7 @@
           <div id="invitePopup" style="display:none; position:absolute; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.4); z-index:40; align-items:center; justify-content:center;">
             <div style="background:#fff; border-radius:16px; padding:24px; width:280px; text-align:center;">
               <div id="inviteContent">
-                <div style="width:48px; height:48px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+                <div class="gloss-check" style="width:48px; height:48px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; margin:0 auto 12px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
                 <div style="font-size:15px; font-weight:700; margin-bottom:4px;">초대 링크가 생성되었어요</div>
                 <div style="font-size:12px; color:#757575; margin-bottom:16px;">링크를 공유해서 초대해보세요</div>
                 <div class="flex gap-2">
@@ -4510,7 +4510,7 @@
           <!-- Phase 1: 체크 -->
           <div id="uploadPhase1" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; background:var(--color-background);">
             <div class="msg-center">
-              <div style="width:64px; height:64px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+              <div class="gloss-check" style="width:64px; height:64px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
               <div class="heading-msg">영상 올리기가 완료되었어요!</div>
               <div class="desc-msg">7세반_경기.mp4 &middot; 1.28GB</div>
             </div>
@@ -4572,7 +4572,7 @@
           <!-- Phase 1: 체크 -->
           <div id="mergePhase1" style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; background:var(--color-background);">
             <div class="msg-center">
-              <div style="width:64px; height:64px; border-radius:50%; background:var(--color-accent); color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
+              <div class="gloss-check" style="width:64px; height:64px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:32px; animation:bounceIn 0.6s cubic-bezier(0.0,0,0.2,1);">&#10003;</div>
               <div class="heading-msg">영상 합치기가 완료되었어요!</div>
               <div class="desc-msg">3개 영상 &middot; 60:00</div>
             </div>
