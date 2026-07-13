@@ -418,6 +418,7 @@
             </div>
           </div>
           <div style="padding:12px 16px;">
+            <button class="btn btn-outline btn-full" style="margin-bottom:8px;" data-go="adm-04">캡픽 찾기</button>
             <button class="btn btn-primary btn-full" onclick="this.textContent='업데이트 완료!'; this.style.background='var(--color-success)'; setTimeout(()=>{this.textContent='업데이트 하기'; this.style.background='';}, 1500);">업데이트 하기</button>
           </div>
         </div>
@@ -2006,11 +2007,11 @@
           <div style="display:flex; gap:8px; padding:0 16px;">
             <div class="form-group" style="flex:1; padding:0;">
               <label class="form-label">시작 시간</label>
-              <input class="input" type="time" value="14:00">
+              <div class="input" style="display:flex; align-items:center;">14:00</div><!-- 24시제 고정 (UX 게이트 결정 1) -->
             </div>
             <div class="form-group" style="flex:1; padding:0;">
               <label class="form-label">종료 시간</label>
-              <input class="input" type="time" value="15:00">
+              <div class="input" style="display:flex; align-items:center;">15:00</div>
             </div>
           </div>
           <div class="form-group">
@@ -2285,22 +2286,43 @@
             <div class="info-row" style="border-top:1px solid var(--color-divider);"><span class="label">역할</span><span class="value"><span class="badge badge-accent">관리자</span></span></div>
           </div>
           <div class="section-header">고급 기능</div>
-          <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-go="adm-09">
-            <div class="list-item" style="padding:14px 16px; gap:12px;">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="14" height="14" rx="3"/><path d="M16 10l5-3v10l-5-3"/></svg>
-              <div class="flex-1">
-                <div class="title-sm-600">간편 하이라이트 만들기</div>
-                <div class="sub-text">수동으로 영상을 선택하여 하이라이트 생성</div>
-              </div>
-              <span class="icon-muted">&rsaquo;</span>
-            </div>
-          </div>
           <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-go="editor-1">
             <div class="list-item" style="padding:14px 16px; gap:12px;">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="2"/><path d="M16 2v20"/><path d="M2 12h20"/></svg>
               <div class="flex-1">
                 <div class="title-sm-600">나만의 하이라이트 만들기</div>
                 <div class="sub-text">쇼츠 클립을 골라서 나만의 영상 만들기</div>
+              </div>
+              <span class="icon-muted">&rsaquo;</span>
+            </div>
+          </div>
+          <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-go="comm-upload-vid">
+            <div class="list-item" style="padding:14px 16px; gap:12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+              <div class="flex-1">
+                <div class="title-sm-600">영상 올리기</div>
+                <div class="sub-text">내 영상을 올려서 아카이브에 담기</div>
+              </div>
+              <span class="icon-muted">&rsaquo;</span>
+            </div>
+          </div>
+          <div class="card" style="margin:0 16px 12px; cursor:pointer;" data-go="comm-merge">
+            <div class="list-item" style="padding:14px 16px; gap:12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></svg>
+              <div class="flex-1">
+                <div class="title-sm-600">영상 합치기</div>
+                <div class="sub-text">여러 영상을 하나로 이어 붙이기</div>
+              </div>
+              <span class="icon-muted">&rsaquo;</span>
+            </div>
+          </div>
+          <div class="section-header">고객지원</div>
+          <div class="card" style="margin:0 16px 12px; cursor:pointer;">
+            <div class="list-item" style="padding:14px 16px; gap:12px;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+              <div class="flex-1">
+                <div class="title-sm-600">문의하기</div>
+                <div class="sub-text">문제가 생겼거나 궁금한 게 있어요</div>
               </div>
               <span class="icon-muted">&rsaquo;</span>
             </div>
@@ -4407,7 +4429,7 @@
           <div style="margin:16px; border:2px dashed var(--color-gray-300); border-radius:16px; padding:40px 20px; display:flex; flex-direction:column; align-items:center; gap:12px; cursor:pointer;">
             <div style="color:var(--color-gray-300);"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div>
             <div style="font-size:15px; font-weight:600;">영상 파일을 선택해주세요</div>
-            <div class="detail-sub">MP4, MOV &middot; 최대 2GB</div>
+            <div class="detail-sub">MP4 &middot; 최대 100MB</div>
             <button class="btn btn-primary" style="margin-top:8px;" data-go="comm-upload-loading">파일 선택하기</button>
           </div>
           <div class="form-group"><label class="form-label">저장할 아카이브</label></div>

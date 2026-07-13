@@ -4,7 +4,9 @@ const path = require('path');
 
 // Import screen data from single source
 const data = require('./screens-data.js');
-const screens = data.screens.map(s => s.id);
+// CLI 인자로 특정 화면만 재생성: node generate-thumbs.js adm-01 adm-15a
+const only = process.argv.slice(2);
+const screens = data.screens.map(s => s.id).filter((id) => only.length === 0 || only.includes(id));
 
 const BASE = 'http://localhost:3030';
 const DIR = path.join(__dirname, 'thumbs');

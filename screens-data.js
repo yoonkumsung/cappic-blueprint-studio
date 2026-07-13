@@ -901,7 +901,7 @@ screens.forEach(s => {
 });
 
 // Card heights based on actual content length
-const cardHeights = {"adm-login":346,"adm-pw-reset":350,"adm-wait":346,"adm-01":346,"adm-noti":346,"adm-01-empty":346,"adm-04":350,"adm-02":346,"adm-03":280,"adm-05":346,"adm-06":370,"adm-07":346,"adm-07-empty":346,"adm-08":691,"adm-08p":731,"adm-10l":280,"adm-15":346,"adm-15-empty":346,"adm-15a":403,"adm-settings":409,"adm-users":350,"adm-users-add":350,"adm-16":350,"adm-venue-manage":350,"editor-1":350,"editor":350,"editor-loading":346,"editor-3":370,"adm-09":350,"adm-10":350,"adm-11":350,"adm-13":346,"adm-14":370,"comm-upload-vid":350,"comm-upload-loading":346,"comm-upload-done":370,"comm-merge":350,"comm-merge-loading":346,"comm-merge-done":370,"con-02":346,"con-01":346,"con-03":350,"con-ob1":346,"con-ob2":346,"con-ob-register":346,"con-ob3":346,"con-ob-test":346,"con-ob4":346,"con-04":346,"con-04-empty":346,"con-05":350,"con-06":346,"con-06-empty":346,"con-07":620,"con-07b":620,"con-player":731,"con-10l":280,"con-feed":346,"con-publish":357,"con-archive":362,"con-archive-empty":346,"con-09":444,"con-my":393,"con-settings":532,"con-18":350,"con-18-empty":350,"con-18-register":350,"con-08":350,"con-upload":350,"con-explore":603,"con-profile-other":346,"con-followers":346,"con-pw-reset":350,"con-signup":350,"con-profile-edit":350,"con-pw-change":350,"con-subscribe":350,"con-venue-manage":350,"con-terms":350,"con-privacy":350,"con-badges":350,"con-purchase":350,"web-01":359,"web-02":584,"web-02a":641};
+const cardHeights = {"adm-01":346,"adm-15a":403,"adm-settings":495,"comm-upload-vid":350};
 
 // Node.js compatibility
 if (typeof module !== "undefined" && module.exports) {
